@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Không tìm thấy trang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --surface: #f4f3f0;
+      --border: #e4e2dc;
+      --text: #1a1916;
+      --muted: #6b6960;
+      --accent: #2d2d2a;
+      --highlight: #c8a96e;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Be Vietnam Pro', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      font-weight: 300;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background animated grid lines */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-grid::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridDrift 20s linear infinite;
+      opacity: 0.5;
+    }
+    @keyframes gridDrift {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(60px); }
+    }
+
+    /* Center card */
+    .card {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 520px;
+      width: 100%;
+      animation: fadeUp 0.7s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Big 404 */
+    .big-404 {
+      font-family: var(--serif);
+      font-size: clamp(7rem, 20vw, 11rem);
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--border);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.2em;
+      position: relative;
+      user-select: none;
+    }
+    .big-404 .fill {
+      position: absolute;
+      inset: 0;
+      font-family: var(--serif);
+      font-size: inherit;
+      line-height: inherit;
+      letter-spacing: inherit;
+      color: var(--text);
+      clip-path: inset(0 100% 0 0);
+      animation: revealText 1.2s cubic-bezier(.4,0,.2,1) 0.3s forwards;
+    }
+    @keyframes revealText {
+      to { clip-path: inset(0 0% 0 0); }
+    }
+
+    .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      font-weight: 500;
+      margin-bottom: 0.9rem;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 3vw, 1.7rem);
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+
+    p.desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Progress ring + countdown */
+    .countdown-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.2rem;
+    }
+
+    .ring-container {
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+    .ring-svg {
+      transform: rotate(-90deg);
+      width: 80px;
+      height: 80px;
+    }
+    .ring-track {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 2.5;
+    }
+    .ring-progress {
+      fill: none;
+      stroke: var(--highlight);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 220;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 1s linear;
+    }
+    .ring-number {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      color: var(--text);
+    }
+
+    .countdown-text {
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Buttons */
+    .btn-row {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.5rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #111; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.5rem;
+      background: transparent;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 400;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
+
+    /* Divider */
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--border);
+      margin: 2rem auto;
+    }
+
+    /* Redirect message */
+    #redirect-msg {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+    #redirect-msg a {
+      color: var(--highlight);
+      text-decoration: none;
+    }
+    #redirect-msg a:hover { text-decoration: underline; }
+
+    /* Paused state */
+    .btn-secondary.paused { border-color: var(--highlight); color: var(--highlight); }
+
+    @media (max-width: 480px) {
+      .btn-row { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <div class="card">
+    <div class="big-404">
+      404
+      <span class="fill">404</span>
+    </div>
+
+    <p class="label">Trang không tồn tại</p>
+    <h1>Oops — đường này chưa được xây</h1>
+    <p class="desc">
+      Trang bạn tìm kiếm đã bị di chuyển, xóa hoặc chưa tồn tại.<br/>
+      Đừng lo — chúng tôi sẽ đưa bạn về trang chủ ngay.
+    </p>
+
+    <div class="countdown-wrap">
+      <div class="ring-container">
+        <svg class="ring-svg" viewBox="0 0 80 80">
+          <circle class="ring-track" cx="40" cy="40" r="35"/>
+          <circle class="ring-progress" id="ring" cx="40" cy="40" r="35"/>
+        </svg>
+        <div class="ring-number" id="count">10</div>
+      </div>
+      <span class="countdown-text" id="countdown-label">Tự động chuyển hướng sau</span>
+    </div>
+
+    <div class="btn-row">
+      <a href="/" class="btn-primary">← Về trang chủ</a>
+      <button class="btn-secondary" id="pauseBtn" onclick="togglePause()">Tạm dừng</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <p id="redirect-msg">
+      Không tự động chuyển? <a href="/">Nhấn vào đây</a>
+    </p>
+  </div>
+
+  <script>
+    const TOTAL  = 10;
+    const CIRC   = 2 * Math.PI * 35; // ~219.9
+
+    let remaining = TOTAL;
+    let paused    = false;
+    let timer;
+
+    const ring      = document.getElementById('ring');
+    const countEl   = document.getElementById('count');
+    const pauseBtn  = document.getElementById('pauseBtn');
+    const label     = document.getElementById('countdown-label');
+
+    ring.style.strokeDasharray  = CIRC;
+    ring.style.strokeDashoffset = 0;
+
+    function setRing(n) {
+      const progress = n / TOTAL;
+      ring.style.strokeDashoffset = CIRC * (1 - progress);
+    }
+
+    function tick() {
+      if (paused) return;
+      remaining--;
+      countEl.textContent = remaining;
+      setRing(remaining);
+
+      if (remaining <= 0) {
+        clearInterval(timer);
+        label.textContent = 'Đang chuyển hướng…';
+        countEl.textContent = '→';
+        window.location.href = '/';
+      }
+    }
+
+    function togglePause() {
+      paused = !paused;
+      pauseBtn.textContent = paused ? 'Tiếp tục' : 'Tạm dừng';
+      pauseBtn.classList.toggle('paused', paused);
+      label.textContent = paused ? 'Đã tạm dừng' : 'Tự động chuyển hướng sau';
+    }
+
+    setRing(TOTAL);
+    timer = setInterval(tick, 1000);
+  </script>
+
+</body>
+</html>
