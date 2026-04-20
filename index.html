@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trần Văn Duẩn — Kỹ Sư Xây Dựng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f8f7f4;
+      --surface: #ffffff;
+      --border: #e4e2dc;
+      --text: #1a1916;
+      --muted: #6b6960;
+      --accent: #2d2d2a;
+      --highlight: #c8a96e;
+      --tag-bg: #f0ede6;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem;
+      height: 60px;
+      background: rgba(248,247,244,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-name {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      letter-spacing: 0.01em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── LAYOUT ── */
+    main { padding-top: 60px; }
+    .section { padding: 6rem 3rem; max-width: 1000px; margin: 0 auto; }
+    .section + .section { border-top: 1px solid var(--border); }
+
+    /* ── HERO ── */
+    #hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      min-height: calc(100vh - 60px);
+      padding: 5rem 3rem 5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .hero-text {}
+    .hero-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 5vw, 4rem);
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.35rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .hero-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      max-width: 400px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-radius: 2px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .hero-cta:hover { background: #111; transform: translateY(-1px); }
+    .hero-image-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .avatar {
+      width: 280px; height: 340px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .avatar-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--muted);
+    }
+    .avatar-placeholder svg { opacity: 0.25; }
+    .avatar-placeholder span { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.5; }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      width: 100%;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .stat-number {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .stat-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; }
+
+    /* ── SECTION HEADINGS ── */
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-text p { color: var(--muted); line-height: 1.9; margin-bottom: 1.2rem; font-size: 0.95rem; }
+    .about-quote {
+      border-left: 2px solid var(--highlight);
+      padding: 1.2rem 1.5rem;
+      background: var(--surface);
+      border-radius: 0 4px 4px 0;
+      margin-top: 1.5rem;
+    }
+    .about-quote blockquote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .about-quote cite { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.05em; }
+    .vision-items { display: flex; flex-direction: column; gap: 1.2rem; }
+    .vision-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.2rem 1.4rem;
+    }
+    .vision-item-title {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+    }
+    .vision-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+    .skill-group-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .skill-bars { display: flex; flex-direction: column; gap: 0.9rem; }
+    .skill-row { display: flex; flex-direction: column; gap: 0.35rem; }
+    .skill-meta { display: flex; justify-content: space-between; align-items: center; }
+    .skill-name { font-size: 0.88rem; color: var(--text); font-weight: 400; }
+    .skill-pct { font-size: 0.75rem; color: var(--muted); }
+    .skill-bar-track {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      width: 0;
+      transition: width 1s cubic-bezier(.4,0,.2,1);
+    }
+    .soft-skills { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .tag {
+      display: inline-block;
+      padding: 0.35rem 0.9rem;
+      background: var(--tag-bg);
+      color: var(--text);
+      font-size: 0.8rem;
+      border-radius: 2px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── EXPERIENCE ── */
+    .timeline { position: relative; padding-left: 1.8rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px; bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .timeline-item { position: relative; padding-bottom: 3rem; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.8rem; top: 8px;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--highlight);
+      border: 2px solid var(--bg);
+    }
+    .timeline-period {
+      font-size: 0.75rem;
+      color: var(--highlight);
+      letter-spacing: 0.08em;
+      font-weight: 500;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .timeline-company {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .timeline-role {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .timeline-projects { display: flex; flex-direction: column; gap: 0.8rem; }
+    .project-chip {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.9rem 1.1rem;
+    }
+    .project-chip-dot {
+      width: 6px; height: 6px;
+      background: var(--highlight);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+    .project-chip-text { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+    .project-chip-text strong { color: var(--text); font-weight: 500; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .project-card:hover { border-color: var(--highlight); transform: translateY(-2px); }
+    .project-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.8rem;
+    }
+    .project-card-title { font-family: var(--serif); font-size: 1.05rem; color: var(--text); line-height: 1.3; }
+    .project-card-year { font-size: 0.75rem; color: var(--muted); font-weight: 400; white-space: nowrap; margin-left: 1rem; }
+    .project-card-role {
+      font-size: 0.72rem;
+      color: var(--highlight);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 0.8rem;
+    }
+    .project-card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+    .project-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+    .project-card-tags .tag { font-size: 0.72rem; padding: 0.2rem 0.6rem; }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-intro { color: var(--muted); font-size: 0.95rem; line-height: 1.9; margin-bottom: 2rem; }
+    .contact-items { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .contact-icon {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--tag-bg);
+      border-radius: 2px;
+      flex-shrink: 0;
+      color: var(--muted);
+    }
+    .contact-detail {}
+    .contact-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+    .contact-value { font-size: 0.9rem; color: var(--text); font-weight: 400; }
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.8rem;
+    }
+    .edu-period { font-size: 0.75rem; color: var(--highlight); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; margin-bottom: 0.4rem; }
+    .edu-school { font-family: var(--serif); font-size: 1.2rem; color: var(--text); margin-bottom: 0.4rem; }
+    .edu-major { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.2rem; }
+    .edu-degree { font-size: 0.88rem; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── FADE-IN ── */
+    .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; min-height: auto; padding: 3rem 1.5rem; gap: 3rem; }
+      .hero-image-wrap { order: -1; }
+      .avatar { width: 180px; height: 220px; }
+      .hero-stats { grid-template-columns: repeat(3, 1fr); }
+      .section { padding: 4rem 1.5rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-name">Trần Văn Duẩn</a>
+    <ul class="nav-links">
+      <li><a href="#about">Về tôi</a></li>
+      <li><a href="#skills">Kỹ năng</a></li>
+      <li><a href="#experience">Kinh nghiệm</a></li>
+      <li><a href="#projects">Dự án</a></li>
+      <li><a href="#contact">Liên hệ</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-text fade-in">
+        <p class="hero-label">Kỹ Sư Xây Dựng & QA/QC</p>
+        <h1 class="hero-name">Trần<br/>Văn Duẩn</h1>
+        <p class="hero-title">Phụ trách Phòng Kỹ thuật</p>
+        <p class="hero-desc">
+          Hơn 6 năm kinh nghiệm trong lĩnh vực xây dựng hạ tầng giao thông, 
+          quản lý chất lượng thi công và đấu thầu dự án. Từng tham gia các công 
+          trình trọng điểm quốc gia tại Việt Nam.
+        </p>
+        <a href="#contact" class="hero-cta">Liên hệ ngay →</a>
+      </div>
+
+      <div class="hero-image-wrap fade-in" style="transition-delay:0.15s">
+        <div class="avatar">
+          <!-- Thay src bằng đường dẫn ảnh của bạn, ví dụ: src="anh-cua-toi.jpg" -->
+          <img src="avatar.jpg" alt="Trần Văn Duẩn" id="avatar-img" />
+          <div class="avatar-placeholder" id="avatar-placeholder">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="24" r="12" stroke="#6b6960" stroke-width="1.5"/>
+              <path d="M8 56c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#6b6960" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>Thêm ảnh của bạn</span>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="stat-number">6+</div>
+            <div class="stat-label">Năm kinh nghiệm</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Dự án</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Công ty</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="about-grid">
+        <div class="fade-in">
+          <p class="section-label">Giới thiệu</p>
+          <h2 class="section-title">Về tôi</h2>
+          <div class="about-text">
+            <p>
+              Tôi là kỹ sư xây dựng chuyên ngành hạ tầng giao thông, tốt nghiệp 
+              Đại học Hàng hải Việt Nam năm 2018. Hiện đang công tác tại Công ty CP 
+              Tổng công ty ĐTXD 194 với vai trò Phụ trách Phòng Kỹ thuật.
+            </p>
+            <p>
+              Tôi có kinh nghiệm toàn diện trong công tác QA/QC, lập hồ sơ kỹ thuật,
+              đấu thầu và quản lý thi công. Từng tham gia các dự án cao tốc lớn như 
+              Phan Thiết – Dầu Giây, Cam Lâm – Vĩnh Hảo, Hồ Chí Minh – Mộc Bài.
+            </p>
+            <div class="about-quote">
+              <blockquote>"To be yourself in a world that is constantly trying to change you is the greatest accomplishment."</blockquote>
+              <cite>— Ralph Waldo Emerson</cite>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-in" style="transition-delay:0.15s">
+          <p class="section-label" style="opacity:0;pointer-events:none">‌</p>
+          <h2 class="section-title">Tầm nhìn</h2>
+          <div class="vision-items">
+            <div class="vision-item">
+              <div class="vision-item-title">Mục tiêu ngắn hạn</div>
+              <p>Nâng cao năng lực quản lý dự án, phát triển kỹ năng đấu thầu và mở rộng mạng lưới đối tác trong lĩnh vực hạ tầng.</p>
+            </div>
+            <div class="vision-item">
+              <div class="vision-item-title">Mục tiêu dài hạn</div>
+              <p>Trở thành Giám đốc Kỹ thuật hoặc Trưởng ban Quản lý dự án, đóng góp vào các công trình hạ tầng trọng điểm của đất nước.</p>
+            </div>
+            <div class="vision-item">
+              <div class="vision-item-title">Giá trị cốt lõi</div>
+              <p>Trung thực, chuyên nghiệp và luôn đặt chất lượng công trình lên hàng đầu trong mọi quyết định kỹ thuật.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <p class="section-label fade-in">Năng lực</p>
+      <h2 class="section-title fade-in">Kỹ năng</h2>
+      <div class="skills-grid">
+        <div class="fade-in">
+          <p class="skill-group-title">Kỹ năng công nghệ</p>
+          <div class="skill-bars">
+            <div class="skill-row">
+              <div class="skill-meta"><span class="skill-name">AutoCAD</span><span class="skill-pct">85%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span class="skill-name">MS Excel</span><span class="skill-pct">80%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span class="skill-name">MS Project</span><span class="skill-pct">75%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span class="skill-name">MS Word / PowerPoint</span><span class="skill-pct">90%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-in" style="transition-delay:0.1s">
+          <p class="skill-group-title">Chuyên môn kỹ thuật</p>
+          <div class="skill-bars">
+            <div class="skill-row">
+              <div class="skill-meta"><span class="skill-name">Quản lý chất lượng (QA/QC)</span><span class="skill-pct">90%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span class="skill-name">Lập hồ sơ đấu thầu</span><span class="skill-pct">85%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span class="skill-name">Quản lý thi công hiện trường</span><span class="skill-pct">88%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span class="skill-name">Thiết kế kỹ thuật (TKTC)</span><span class="skill-pct">78%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="78"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-in" style="transition-delay:0.15s">
+          <p class="skill-group-title">Kỹ năng mềm</p>
+          <div class="soft-skills">
+            <span class="tag">Lãnh đạo nhóm</span>
+            <span class="tag">Làm việc nhóm</span>
+            <span class="tag">Tư duy phân tích</span>
+            <span class="tag">Thương lượng</span>
+            <span class="tag">Quản lý thời gian</span>
+            <span class="tag">Giải quyết vấn đề</span>
+            <span class="tag">Tiếng Anh (cơ bản)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section">
+      <p class="section-label fade-in">Lịch sử</p>
+      <h2 class="section-title fade-in">Kinh nghiệm làm việc</h2>
+      <div class="timeline fade-in">
+
+        <div class="timeline-item">
+          <p class="timeline-period">05/2020 — Hiện tại</p>
+          <h3 class="timeline-company">Công ty CP Tổng công ty ĐTXD 194</h3>
+          <p class="timeline-role">Phụ trách Phòng Kỹ thuật</p>
+          <div class="timeline-projects">
+            <div class="project-chip">
+              <div class="project-chip-dot"></div>
+              <p class="project-chip-text">Quản lý công tác thiết kế, phê duyệt & điều chỉnh thiết kế thi công. Làm việc với cơ quan nhà nước, kiểm toán, thanh tra BGTVT và Cục đường bộ.</p>
+            </div>
+            <div class="project-chip">
+              <div class="project-chip-dot"></div>
+              <p class="project-chip-text">Lập hồ sơ quan tâm, đấu thầu các dự án: Vành đai 4, QL13, QL1, Đường trục Bắc Nam, QL22.</p>
+            </div>
+            <div class="project-chip">
+              <div class="project-chip-dot"></div>
+              <p class="project-chip-text">Phụ trách trưởng ban giám sát của CĐT trong giai đoạn lập TKKT dự án Cam Lâm – Vĩnh Hảo.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-period">06/2018 — 05/2020</p>
+          <h3 class="timeline-company">AHCV – IDICO CONAC</h3>
+          <p class="timeline-role">Chuyên viên Phòng KHKT / Kỹ sư QA-QC</p>
+          <div class="timeline-projects">
+            <div class="project-chip">
+              <div class="project-chip-dot"></div>
+              <p class="project-chip-text">Quản lý, theo dõi thi công tại công trường. Lập hồ sơ BPTC, tiến độ, KCS và thanh toán với chủ đầu tư.</p>
+            </div>
+            <div class="project-chip">
+              <div class="project-chip-dot"></div>
+              <p class="project-chip-text">Tham gia đấu thầu dự án, lập hồ sơ dự thầu và theo dõi hợp đồng. Báo cáo sản lượng tuần, tháng, quý.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-period">03/2018 — 06/2018</p>
+          <h3 class="timeline-company">Xí nghiệp DV & Thi công cơ giới Miền Nam</h3>
+          <p class="timeline-role">Kỹ thuật hiện trường / Kỹ sư QC</p>
+          <div class="timeline-projects">
+            <div class="project-chip">
+              <div class="project-chip-dot"></div>
+              <p class="project-chip-text">Nạo vét cảng biển, lập hồ sơ khảo sát chất lượng, báo cáo công việc và tiến độ thực hiện hàng tuần.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <p class="section-label fade-in">Portfolio</p>
+      <h2 class="section-title fade-in">Các dự án tiêu biểu</h2>
+      <div class="projects-grid fade-in">
+
+        <div class="project-card">
+          <div class="project-card-header">
+            <h3 class="project-card-title">Cao tốc Cam Lâm – Vĩnh Hảo</h3>
+            <span class="project-card-year">2020–nay</span>
+          </div>
+          <p class="project-card-role">Phụ trách Phòng Kỹ thuật</p>
+          <p class="project-card-desc">Quản lý lập thiết kế, phê duyệt TKTC. Làm việc với CQNN, kiểm toán, HĐKTNN, Thanh tra BGTVT. Đề xuất phương án thiết kế tiết kiệm chi phí.</p>
+          <div class="project-card-tags">
+            <span class="tag">Cao tốc</span>
+            <span class="tag">TKTC</span>
+            <span class="tag">QA/QC</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-card-header">
+            <h3 class="project-card-title">Cao tốc Phan Thiết – Dầu Giây</h3>
+            <span class="project-card-year">2020–nay</span>
+          </div>
+          <p class="project-card-role">Kỹ sư hiện trường</p>
+          <p class="project-card-desc">Quản lý đội thi công cống, lập hồ sơ KCS, BPTC và hoàn công. Đảm bảo tiến độ và chất lượng theo yêu cầu chủ đầu tư.</p>
+          <div class="project-card-tags">
+            <span class="tag">Cao tốc</span>
+            <span class="tag">Hiện trường</span>
+            <span class="tag">KCS</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-card-header">
+            <h3 class="project-card-title">Cao tốc HCM – Mộc Bài</h3>
+            <span class="project-card-year">2020–nay</span>
+          </div>
+          <p class="project-card-role">Phụ trách PKT</p>
+          <p class="project-card-desc">Lập hồ sơ quan tâm và đấu thầu dự án. Phụ trách trưởng ban giám sát CĐT giai đoạn TKKT. Rà soát thiết kế, đề xuất giải pháp tiết kiệm.</p>
+          <div class="project-card-tags">
+            <span class="tag">Đấu thầu</span>
+            <span class="tag">TKKT</span>
+            <span class="tag">Giám sát</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-card-header">
+            <h3 class="project-card-title">Đường Nguyễn Ảnh Thủ nối dài</h3>
+            <span class="project-card-year">2018–2020</span>
+          </div>
+          <p class="project-card-role">Kỹ sư QA-QC</p>
+          <p class="project-card-desc">Quản lý toàn diện thi công tại công trường. Lập hồ sơ BPTC, tiến độ, KCS. Đăng ký sản lượng và làm hồ sơ thanh toán với chủ đầu tư.</p>
+          <div class="project-card-tags">
+            <span class="tag">Đường đô thị</span>
+            <span class="tag">QA/QC</span>
+            <span class="tag">Thanh toán</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-card-header">
+            <h3 class="project-card-title">KCN Thủ Thừa – Hạ tầng</h3>
+            <span class="project-card-year">2018–2020</span>
+          </div>
+          <p class="project-card-role">Kỹ sư QA-QC</p>
+          <p class="project-card-desc">Lập hồ sơ BPTC và quản lý chất lượng (KCS). Làm hồ sơ thanh toán với chủ đầu tư. Đảm bảo tiêu chuẩn hạ tầng khu công nghiệp.</p>
+          <div class="project-card-tags">
+            <span class="tag">KCN</span>
+            <span class="tag">Hạ tầng</span>
+            <span class="tag">BPTC</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-card-header">
+            <h3 class="project-card-title">Nạo vét cảng Phú Mỹ</h3>
+            <span class="project-card-year">2018</span>
+          </div>
+          <p class="project-card-role">Kỹ sư QC</p>
+          <p class="project-card-desc">Lập hồ sơ quản lý chất lượng (KCS), báo cáo công việc hàng tuần và theo dõi tiến độ thi công nạo vét cảng biển.</p>
+          <div class="project-card-tags">
+            <span class="tag">Cảng biển</span>
+            <span class="tag">Nạo vét</span>
+            <span class="tag">QC</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="contact-grid">
+        <div class="fade-in">
+          <p class="section-label">Kết nối</p>
+          <h2 class="section-title">Liên hệ</h2>
+          <p class="contact-intro">
+            Tôi luôn sẵn sàng thảo luận về các cơ hội hợp tác, dự án mới 
+            hoặc bất kỳ vấn đề kỹ thuật nào trong lĩnh vực xây dựng hạ tầng.
+          </p>
+          <div class="contact-items">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 .17h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              </div>
+              <div class="contact-detail">
+                <div class="contact-label">Điện thoại</div>
+                <div class="contact-value">(+84) 342.973.333</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div class="contact-detail">
+                <div class="contact-label">Email</div>
+                <div class="contact-value">Duantran.w@gmail.com</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div class="contact-detail">
+                <div class="contact-label">Địa chỉ</div>
+                <div class="contact-value">P. Cát Lái, Tp. Hồ Chí Minh</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-in" style="transition-delay:0.15s">
+          <p class="section-label">Học vấn</p>
+          <h2 class="section-title">Giáo dục</h2>
+          <div class="edu-card">
+            <p class="edu-period">09/2013 — 01/2018</p>
+            <h3 class="edu-school">Đại học Hàng hải Việt Nam</h3>
+            <p class="edu-major">Kỹ thuật xây dựng công trình giao thông</p>
+            <p class="edu-degree">Bằng Kỹ sư — Loại Khá</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Trần Văn Duẩn — Kỹ Sư Xây Dựng &amp; QA/QC</p>
+  </footer>
+
+  <script>
+    // Fade-in on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Animate skill bars when visible
+    const barObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width + '%';
+          });
+          barObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.skills-grid').forEach(el => barObserver.observe(el));
+
+    // Avatar fallback
+    const img = document.getElementById('avatar-img');
+    img.addEventListener('load', () => {
+      document.getElementById('avatar-placeholder').style.display = 'none';
+      img.style.display = 'block';
+    });
+    img.addEventListener('error', () => { img.style.display = 'none'; });
+  </script>
+
+</body>
+</html>
