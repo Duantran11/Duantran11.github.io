@@ -11,14 +11,14 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f8f7f4;
-      --surface: #ffffff;
+      --bg: #ffffff;
+      --surface: #f4f3f0;
       --border: #e4e2dc;
       --text: #1a1916;
       --muted: #6b6960;
       --accent: #2d2d2a;
       --highlight: #c8a96e;
-      --tag-bg: #f0ede6;
+      --tag-bg: #ebebeb;
       --serif: 'Playfair Display', Georgia, serif;
       --sans: 'Be Vietnam Pro', sans-serif;
     }
@@ -38,7 +38,7 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 3rem; height: 60px;
-      background: rgba(248,247,244,0.92);
+      background: rgba(255,255,255,0.94);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
@@ -92,7 +92,7 @@
       background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
       padding: 2rem 2.2rem; display: flex; gap: 2.5rem; align-items: flex-start;
     }
-    .edu-year-badge { background: var(--tag-bg); border: 1px solid var(--border); border-radius: 4px; padding: 0.5rem 1rem; text-align: center; flex-shrink: 0; }
+    .edu-year-badge { background: #e8e7e3; border: 1px solid var(--border); border-radius: 4px; padding: 0.5rem 1rem; text-align: center; flex-shrink: 0; }
     .edu-year-badge span { display: block; font-size: 0.69rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
     .edu-year-badge strong { display: block; font-family: var(--serif); font-size: 1.3rem; color: var(--text); font-weight: 400; }
     .edu-period { font-size: 0.72rem; color: var(--highlight); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; margin-bottom: 0.4rem; }
@@ -115,14 +115,26 @@
     .task-dot { width: 5px; height: 5px; background: var(--highlight); border-radius: 50%; flex-shrink: 0; margin-top: 8px; }
 
     /* PROJECTS */
-    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
-    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem 1.6rem; transition: border-color 0.2s, transform 0.2s; }
-    .project-card:hover { border-color: var(--highlight); transform: translateY(-2px); }
-    .project-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
-    .project-card-title { font-family: var(--serif); font-size: 1rem; color: var(--text); line-height: 1.3; }
+    .company-block { margin-bottom: 2.5rem; }
+    .company-block:last-child { margin-bottom: 0; }
+    .company-header {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px 6px 0 0; padding: 0.8rem 1.4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0;
+    }
+    .company-header-name { font-family: var(--serif); font-size: 1rem; color: var(--text); }
+    .company-header-period { font-size: 0.72rem; color: var(--highlight); letter-spacing: 0.07em; font-weight: 500; }
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; overflow: hidden; }
+    .project-card { background: #ffffff; padding: 1.4rem 1.5rem; transition: background 0.2s; }
+    .project-card:hover { background: #fafaf8; }
+    .project-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem; }
+    .project-card-title { font-family: var(--serif); font-size: 0.97rem; color: var(--text); line-height: 1.3; }
     .project-card-year { font-size: 0.71rem; color: var(--muted); white-space: nowrap; margin-left: 0.8rem; padding-top: 2px; }
     .project-card-role { font-size: 0.69rem; color: var(--highlight); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; margin-bottom: 0.7rem; }
-    .project-card-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.7; }
+    .project-tasks { display: flex; flex-direction: column; gap: 0.35rem; }
+    .project-task { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+    .project-task::before { content: '—'; color: var(--highlight); flex-shrink: 0; font-size: 0.8rem; margin-top: 1px; }
     .project-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
     .tag { display: inline-block; padding: 0.25rem 0.75rem; background: var(--tag-bg); color: var(--text); font-size: 0.74rem; border-radius: 2px; }
 
@@ -154,7 +166,7 @@
     .contact-intro { color: var(--muted); font-size: 0.92rem; line-height: 1.9; margin-bottom: 1.8rem; }
     .contact-items { display: flex; flex-direction: column; gap: 0.8rem; }
     .contact-item { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; }
-    .contact-icon { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--tag-bg); border-radius: 2px; flex-shrink: 0; color: var(--muted); }
+    .contact-icon { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #e8e7e3; border-radius: 2px; flex-shrink: 0; color: var(--muted); }
     .contact-label { font-size: 0.69rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
     .contact-value { font-size: 0.87rem; color: var(--text); }
     .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 2rem; }
@@ -207,9 +219,9 @@
         <p class="hero-title">Phụ trách Phòng Kỹ thuật</p>
         <p class="hero-desc">
           Hơn 8 năm kinh nghiệm trong lĩnh vực xây dựng Công trình giao thông,
-          quản lý chất lượng Dự án và đấu thầu các dự án mới. Từng tham gia nhiều 
+          quản lý chất lượng Dự án và đấu thầu các dự án mới. Từng tham gia nhiều
           công trình trọng điểm cấp quốc gia như: Cao tốc Phan Thiết–Dầu Giây (~12.500 tỷ),
-         Cao tốc Cam Lâm–Vĩnh Hảo (~8.000 tỷ), và hiện nay là cao tốc Hồ Chí Minh – Mộc Bài (~10.000 tỷ).
+          Cao tốc Cam Lâm–Vĩnh Hảo (~8.000 tỷ), và hiện nay là cao tốc Hồ Chí Minh – Mộc Bài (~10.000 tỷ).
         </p>
         <a href="#contact" class="hero-cta">Liên hệ ngay →</a>
       </div>
@@ -231,6 +243,7 @@
         </div>
       </div>
     </section>
+
     <!-- EDUCATION -->
     <section id="education" class="section">
       <p class="section-label fade-in">Học vấn</p>
@@ -248,6 +261,7 @@
         </div>
       </div>
     </section>
+
     <!-- EXPERIENCE -->
     <section id="experience" class="section">
       <p class="section-label fade-in">Lịch sử công tác</p>
@@ -265,13 +279,14 @@
             <div class="timeline-tasks">
               <div class="task-item"><span class="task-dot"></span><span>Quản lý công tác thiết kế, phê duyệt & điều chỉnh thiết kế thi công (TKKT, TKTC);</span></div>
               <div class="task-item"><span class="task-dot"></span><span>Bóc tách, duyệt đề xuất khối lượng vật tư, kiểm tra khối lượng thanh toán của Nhà thầu;</span></div>
-              <div class="task-item"><span class="task-dot"></span><span>Làm việc, giải trình với cơ quan nhà nước, kiểm toán, HĐKTNN, Thanh tra BGTVT và Cục đường bộ... để giải trình các vấn đề kỹ thuật của dự án;</span></div>
+              <div class="task-item"><span class="task-dot"></span><span>Làm việc, giải trình với cơ quan nhà nước, kiểm toán, HĐKTNN, Thanh tra BGTVT và Cục đường bộ để giải trình các vấn đề kỹ thuật của dự án;</span></div>
               <div class="task-item"><span class="task-dot"></span><span>Quản lý và lập hồ sơ quản lý chất lượng (KCS), Biện pháp thi công, hoàn công dự án;</span></div>
               <div class="task-item"><span class="task-dot"></span><span>Lập hồ sơ điều chỉnh bổ sung khối lượng - hạng mục cho dự án, đề xuất các phương án thiết kế đảm bảo tiết kiệm - hiệu quả - an toàn cho Chủ đầu tư;</span></div>
               <div class="task-item"><span class="task-dot"></span><span>Lập hồ sơ quan tâm, theo dõi và chuẩn bị đấu thầu các dự án mới.</span></div>
             </div>
           </div>
         </div>
+
         <div class="timeline-item">
           <div class="timeline-left">
             <div class="timeline-dot"></div>
@@ -306,46 +321,141 @@
 
       </div>
     </section>
+
     <!-- PROJECTS -->
     <section id="projects" class="section">
       <p class="section-label fade-in">Portfolio</p>
-      <h2 class="section-title fade-in">Các dự án tiêu biểu</h2>
-      <div class="projects-grid fade-in">
-        <div class="project-card">
-          <div class="project-card-header"><h3 class="project-card-title">Cao tốc Cam Lâm – Vĩnh Hảo</h3><span class="project-card-year">2020 – nay</span></div>
-          <p class="project-card-role">Phụ trách Phòng Kỹ thuật</p>
-          <p class="project-card-desc">Quản lý lập thiết kế, phê duyệt TKTC. Làm việc với cơ quan nhà nước, kiểm toán, thanh tra BGTVT. Đề xuất phương án thiết kế tiết kiệm chi phí cho CĐT.</p>
-          <div class="project-card-tags"><span class="tag">Cao tốc</span><span class="tag">TKTC</span><span class="tag">QA/QC</span></div>
+      <h2 class="section-title fade-in">Các dự án đã thực hiện</h2>
+
+      <!-- Công ty 1 -->
+      <div class="company-block fade-in">
+        <div class="company-header">
+          <span class="company-header-name">Xí nghiệp DV & Thi công cơ giới Miền Nam</span>
+          <span class="company-header-period">03 — 06/2018</span>
         </div>
-        <div class="project-card">
-          <div class="project-card-header"><h3 class="project-card-title">Cao tốc Phan Thiết – Dầu Giây</h3><span class="project-card-year">2020 – nay</span></div>
-          <p class="project-card-role">Kỹ sư hiện trường</p>
-          <p class="project-card-desc">Quản lý đội thi công cống, lập hồ sơ KCS, BPTC và hoàn công. Điều chỉnh phương án đảm bảo an toàn giao thông trong quá trình khai thác.</p>
-          <div class="project-card-tags"><span class="tag">Cao tốc</span><span class="tag">Hiện trường</span><span class="tag">KCS</span></div>
+        <div class="projects-grid" style="grid-template-columns: 1fr;">
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">Nạo vét cảng Phú Mỹ</h3>
+            </div>
+            <p class="project-card-role">Kỹ sư QC</p>
+            <div class="project-tasks">
+              <div class="project-task">Lập hồ sơ quản lý chất lượng (KCS);</div>
+              <div class="project-task">Báo cáo công việc hàng tuần;</div>
+              <div class="project-task">Làm và theo dõi tiến độ thi công.</div>
+            </div>
+            <div class="project-card-tags"><span class="tag">Cảng biển</span><span class="tag">Nạo vét</span><span class="tag">QC</span></div>
+          </div>
         </div>
-        <div class="project-card">
-          <div class="project-card-header"><h3 class="project-card-title">Cao tốc HCM – Mộc Bài</h3><span class="project-card-year">2020 – nay</span></div>
-          <p class="project-card-role">Phụ trách Phòng Kỹ thuật</p>
-          <p class="project-card-desc">Lập hồ sơ quan tâm & đấu thầu. Phụ trách trưởng ban giám sát CĐT giai đoạn TKKT. Rà soát thiết kế, đề xuất giải pháp tiết kiệm chi phí.</p>
-          <div class="project-card-tags"><span class="tag">Đấu thầu</span><span class="tag">TKKT</span><span class="tag">Giám sát</span></div>
+      </div>
+
+      <!-- Công ty 2 -->
+      <div class="company-block fade-in">
+        <div class="company-header">
+          <span class="company-header-name">AHCV – IDICO CONAC</span>
+          <span class="company-header-period">06/2018 — 05/2020</span>
         </div>
-        <div class="project-card">
-          <div class="project-card-header"><h3 class="project-card-title">Đường Nguyễn Ảnh Thủ nối dài</h3><span class="project-card-year">2018 – 2020</span></div>
-          <p class="project-card-role">Kỹ sư QA-QC</p>
-          <p class="project-card-desc">Quản lý toàn diện thi công tại công trường. Lập hồ sơ BPTC, tiến độ, KCS. Đăng ký sản lượng và thanh toán với chủ đầu tư.</p>
-          <div class="project-card-tags"><span class="tag">Đường đô thị</span><span class="tag">QA/QC</span><span class="tag">Thanh toán</span></div>
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">Xây dựng đường Nguyễn Ảnh Thủ nối dài</h3>
+            </div>
+            <p class="project-card-role">Kỹ sư QA-QC</p>
+            <div class="project-tasks">
+              <div class="project-task">Quản lý – theo dõi thi công tại công trường;</div>
+              <div class="project-task">Lập hồ sơ BPTC, tiến độ thi công;</div>
+              <div class="project-task">Lập hồ sơ quản lý chất lượng (KCS);</div>
+              <div class="project-task">Báo cáo sản lượng tuần, tháng, quý;</div>
+              <div class="project-task">Đăng ký sản lượng, làm hồ sơ thanh toán với Chủ đầu tư.</div>
+            </div>
+            <div class="project-card-tags"><span class="tag">Đường đô thị</span><span class="tag">QA/QC</span><span class="tag">Thanh toán</span></div>
+          </div>
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">Nâng cấp, mở rộng đường Lã Xuân Oai</h3>
+            </div>
+            <p class="project-card-role">Kỹ sư QA-QC</p>
+            <div class="project-tasks">
+              <div class="project-task">Tham gia đấu thầu dự án;</div>
+              <div class="project-task">Lập hồ sơ BPTC, tiến độ thi công;</div>
+              <div class="project-task">Lập hồ sơ quản lý chất lượng (KCS).</div>
+            </div>
+            <div class="project-card-tags"><span class="tag">Đường đô thị</span><span class="tag">Đấu thầu</span><span class="tag">KCS</span></div>
+          </div>
+          <div class="project-card" style="grid-column: 1 / -1;">
+            <div class="project-card-header">
+              <h3 class="project-card-title">Đầu tư Hạ tầng Khu công nghiệp Thủ Thừa</h3>
+            </div>
+            <p class="project-card-role">Kỹ sư QA-QC</p>
+            <div class="project-tasks">
+              <div class="project-task">Lập hồ sơ BPTC, tiến độ thi công;</div>
+              <div class="project-task">Lập hồ sơ quản lý chất lượng (KCS);</div>
+              <div class="project-task">Làm hồ sơ thanh toán với Chủ đầu tư.</div>
+            </div>
+            <div class="project-card-tags"><span class="tag">KCN</span><span class="tag">Hạ tầng</span><span class="tag">BPTC</span></div>
+          </div>
         </div>
-        <div class="project-card">
-          <div class="project-card-header"><h3 class="project-card-title">Hạ tầng KCN Thủ Thừa</h3><span class="project-card-year">2018 – 2020</span></div>
-          <p class="project-card-role">Kỹ sư QA-QC</p>
-          <p class="project-card-desc">Lập hồ sơ BPTC và quản lý chất lượng (KCS). Làm hồ sơ thanh toán với chủ đầu tư. Đảm bảo tiêu chuẩn hạ tầng khu công nghiệp.</p>
-          <div class="project-card-tags"><span class="tag">KCN</span><span class="tag">Hạ tầng</span><span class="tag">BPTC</span></div>
+      </div>
+
+      <!-- Công ty 3 -->
+      <div class="company-block fade-in">
+        <div class="company-header">
+          <span class="company-header-name">Công ty CP Tổng công ty ĐTXD 194</span>
+          <span class="company-header-period">05/2020 — Nay</span>
         </div>
-        <div class="project-card">
-          <div class="project-card-header"><h3 class="project-card-title">Nạo vét cảng Phú Mỹ</h3><span class="project-card-year">2018</span></div>
-          <p class="project-card-role">Kỹ sư QC</p>
-          <p class="project-card-desc">Lập hồ sơ quản lý chất lượng (KCS), báo cáo công việc hàng tuần và theo dõi tiến độ thi công nạo vét cảng biển.</p>
-          <div class="project-card-tags"><span class="tag">Cảng biển</span><span class="tag">Nạo vét</span><span class="tag">QC</span></div>
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">Cao tốc Phan Thiết – Dầu Giây</h3>
+            </div>
+            <p class="project-card-role">Kỹ sư hiện trường</p>
+            <div class="project-tasks">
+              <div class="project-task">Quản lý đội thi công cống;</div>
+              <div class="project-task">Lập hồ sơ quản lý chất lượng (KCS);</div>
+              <div class="project-task">Các công việc khác theo chỉ đạo của CHT.</div>
+            </div>
+            <div class="project-card-tags"><span class="tag">Cao tốc</span><span class="tag">Hiện trường</span><span class="tag">KCS</span></div>
+          </div>
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">Cao tốc Cam Lâm – Vĩnh Hảo</h3>
+            </div>
+            <p class="project-card-role">Phụ trách Phòng Kỹ thuật</p>
+            <div class="project-tasks">
+              <div class="project-task">Quản lý công tác lập thiết kế, phê duyệt TKTC, điều chỉnh TKTC;</div>
+              <div class="project-task">Làm việc với CQNNCTQ, Kiểm toán, HĐKTNN, Thanh tra BGTVT và Cục đường bộ để giải trình các vấn đề kỹ thuật;</div>
+              <div class="project-task">Bóc tách, duyệt đề xuất khối lượng vật tư;</div>
+              <div class="project-task">Quản lý và lập hồ sơ KCS, BPTC, Hoàn công;</div>
+              <div class="project-task">Đề xuất phương án thiết kế tiết kiệm, đảm bảo kỹ thuật và an toàn;</div>
+              <div class="project-task">Điều chỉnh các phương án đảm bảo ATGT trong quá trình khai thác.</div>
+            </div>
+            <div class="project-card-tags"><span class="tag">Cao tốc</span><span class="tag">TKTC</span><span class="tag">QA/QC</span></div>
+          </div>
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">Cao tốc Hồ Chí Minh – Mộc Bài</h3>
+            </div>
+            <p class="project-card-role">Phụ trách Phòng Kỹ thuật</p>
+            <div class="project-tasks">
+              <div class="project-task">Lập hồ sơ quan tâm, hồ sơ đấu thầu dự án;</div>
+              <div class="project-task">Phụ trách trưởng ban giám sát CĐT trong giai đoạn lập TKKT;</div>
+              <div class="project-task">Rà soát thiết kế, đề xuất các giải pháp tiết kiệm chi phí cho CĐT tại bước TKKT;</div>
+              <div class="project-task">Lập, chuẩn bị thủ tục khởi công dự án.</div>
+            </div>
+            <div class="project-card-tags"><span class="tag">Đấu thầu</span><span class="tag">TKKT</span><span class="tag">Giám sát</span></div>
+          </div>
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">Các dự án khác theo chỉ đạo BLĐ</h3>
+            </div>
+            <p class="project-card-role">Phụ trách Phòng Kỹ thuật</p>
+            <div class="project-tasks">
+              <div class="project-task">Tuyến đường sắt Metro số 5 – Khảo sát, đề xuất hướng tuyến, thuyết trình với Ban đường sắt, Sở Tài Chính;</div>
+              <div class="project-task">Dự án khu dịch vụ dầu khí, logistic Cần Giờ – lập HSĐX, làm việc với Sở ban ngành liên quan;</div>
+              <div class="project-task">Lập hồ sơ quan tâm và chuẩn bị đấu thầu: Vành đai 4 (5 dự án TP), Nâng cấp QL13, QL1, Đường trục Bắc Nam, Cải tạo QL22.</div>
+            </div>
+            <div class="project-card-tags"><span class="tag">Metro</span><span class="tag">Dầu khí</span><span class="tag">Vành đai 4</span></div>
+          </div>
         </div>
       </div>
     </section>
@@ -429,45 +539,38 @@
           <h2 class="section-title">Liên hệ</h2>
           <p class="contact-intro">Tôi luôn sẵn sàng thảo luận về các cơ hội hợp tác, dự án mới hoặc bất kỳ vấn đề kỹ thuật nào trong lĩnh vực xây dựng hạ tầng.</p>
           <div class="contact-items">
-
             <div class="contact-item">
               <div class="contact-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 .17h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
               </div>
               <div><div class="contact-label">Điện thoại 1</div><div class="contact-value">(+84) 342.973.333</div></div>
             </div>
-
             <div class="contact-item">
               <div class="contact-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 .17h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
               </div>
               <div><div class="contact-label">Điện thoại 2</div><div class="contact-value">(+84) 909.827.195</div></div>
             </div>
-
             <div class="contact-item">
               <div class="contact-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
               </div>
               <div><div class="contact-label">Zalo</div><div class="contact-value">034.297.3333</div></div>
             </div>
-
             <div class="contact-item">
               <div class="contact-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               </div>
               <div><div class="contact-label">Email</div><div class="contact-value">Duantran.w@gmail.com</div></div>
             </div>
-
             <div class="contact-item">
               <div class="contact-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
               </div>
               <div><div class="contact-label">Địa chỉ</div><div class="contact-value">Phường Cát Lái, TP. Hồ Chí Minh</div></div>
             </div>
-
           </div>
         </div>
-
         <div class="fade-in" style="transition-delay:.15s">
           <p class="section-label" style="opacity:0">x</p>
           <h2 class="section-title" style="opacity:0; pointer-events:none">x</h2>
@@ -480,7 +583,6 @@
             <div class="info-row"><span style="color:var(--muted);">Chuyên môn</span><span>Hạ tầng giao thông</span></div>
           </div>
         </div>
-
       </div>
     </section>
 
