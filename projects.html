@@ -181,7 +181,7 @@
       overflow: hidden;
     }
     .card-img-wrap img {
-      width: 100%; height: 100%; object-fit: contain;
+      width: 100%; height: 100%; object-fit: cover;
       background: #111;
       display: none;
       transition: transform 0.6s ease;
@@ -217,20 +217,22 @@
     }
 
     .card-content {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 20px 22px;
-    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
-    transform: translateY(60%);
-    transition: transform 0.4s ease;
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 20px 22px;
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+      transform: translateY(60%);
+      transition: transform 0.4s ease;
     }
+    .project-card:hover .card-content { transform: translateY(0); }
 
-    .project-card:hover .card-content {
-    transform: translateY(0);
-    }
-    .card-tag { 
-    opacity: 0; 
-    transform: translateY(8px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    .card-tag {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.68rem; color: rgba(255,255,255,0.6);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 6px;
     }
     .card-tag-dot {
       width: 5px; height: 5px; border-radius: 50%;
@@ -241,43 +243,28 @@
       font-size: 1.25rem; color: #fff;
       line-height: 1.25; margin-bottom: 6px;
     }
-   .card-role {
-    opacity: 0;
-    transition: opacity 0.3s ease 0.05s;
+    .card-role {
+      font-size: 0.74rem; color: rgba(255,255,255,0.5);
+      letter-spacing: 0.04em; margin-bottom: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease 0.05s;
     }
     .project-card:hover .card-tag,
-    .project-card:hover .card-role {
-    opacity: 1;
-    transform: translateY(0);
-    }
+    .project-card:hover .card-role { opacity: 1; transform: translateY(0); }
+
     .card-tasks {
       display: flex; flex-direction: column; gap: 5px;
       max-height: 0; overflow: hidden;
       transition: max-height 0.4s ease, opacity 0.4s ease;
       opacity: 0;
     }
-    .project-card:hover .card-tasks {
-      max-height: 200px; opacity: 1;
-    }
+    .project-card:hover .card-tasks { max-height: 200px; opacity: 1; }
     .card-task {
       display: flex; align-items: flex-start; gap: 8px;
       font-size: 0.78rem; color: rgba(255,255,255,0.6);
       line-height: 1.5;
     }
-    .card-task::before {
-      content: '—'; color: var(--accent); flex-shrink: 0; font-size: 0.72rem;
-    }
-
-    .card-value {
-      position: absolute; top: 20px; right: 20px;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 0.68rem; color: rgba(255,255,255,0.7);
-      letter-spacing: 0.04em;
-    }
+    .card-task::before { content: '—'; color: var(--accent); flex-shrink: 0; font-size: 0.72rem; }
 
     .card-number {
       position: absolute; top: 20px; left: 20px;
@@ -286,65 +273,153 @@
       letter-spacing: 0.06em;
     }
 
-    /* ── LIGHTBOX ── */
+    /* ── LIGHTBOX — FULL SCREEN ── */
     .lightbox {
       display: none; position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(20px);
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(24px);
       align-items: center; justify-content: center;
     }
     .lightbox.open { display: flex; }
+
     .lb-inner {
-      max-width: 720px; width: 90%;
-      background: var(--surface);
+      width: 92vw;
+      max-width: 1100px;
+      height: 88vh;
+      max-height: 800px;
+      background: #0a0a08;
       border: 1px solid var(--border2);
       border-radius: 16px;
       overflow: hidden;
       position: relative;
+      display: flex;
+      flex-direction: column;
       animation: lbIn 0.3s ease;
     }
-    @keyframes lbIn { from { opacity:0; transform:scale(0.95) translateY(10px); } to { opacity:1; transform:none; } }
-    .lb-img-area {
-      height: 280px; background: var(--surface2);
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
+    @keyframes lbIn {
+      from { opacity:0; transform:scale(0.96) translateY(12px); }
+      to { opacity:1; transform:none; }
     }
-    .lb-img-area img { width:100%;height:100%;object-fit:contain;background:#111;display:none; }
+
+    /* Image area takes most of the space */
+    .lb-img-area {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      background: #050505;
+      overflow: hidden;
+    }
+    .lb-img-area img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: none;
+      transition: opacity 0.3s ease;
+    }
     .lb-img-placeholder {
-      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
     }
     .lb-img-placeholder span {
-      font-size: 0.7rem; color: var(--muted2); letter-spacing: 0.06em; text-transform: uppercase;
+      font-size: 0.7rem; color: var(--muted2);
+      letter-spacing: 0.06em; text-transform: uppercase;
     }
-    .lb-body { padding: 28px 32px 32px; }
+
+    /* Info overlay on the image — bottom gradient */
+    .lb-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 60px 40px 32px;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.92) 0%,
+        rgba(0,0,0,0.7) 50%,
+        transparent 100%
+      );
+      pointer-events: none;
+    }
     .lb-eyebrow {
-      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 8px; font-weight: 500;
+      font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45); margin-bottom: 6px; font-weight: 500;
     }
     .lb-title {
-      font-family: var(--serif); font-size: 1.6rem;
-      color: var(--text); margin-bottom: 4px;
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 4px;
     }
     .lb-role {
-      font-size: 0.75rem; color: var(--muted);
-      letter-spacing: 0.06em; text-transform: uppercase;
-      margin-bottom: 20px;
+      font-size: 0.72rem; color: rgba(255,255,255,0.45);
+      letter-spacing: 0.08em; text-transform: uppercase;
     }
-    .lb-tasks { display: flex; flex-direction: column; gap: 8px; }
+
+    /* Tasks panel — slides up from bottom on hover / always visible */
+    .lb-tasks-panel {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 18px 40px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 32px;
+      flex-shrink: 0;
+    }
     .lb-task {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 0.86rem; color: var(--muted); line-height: 1.65;
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 0.82rem; color: var(--muted);
+      line-height: 1.55;
+      width: calc(50% - 16px);
     }
     .lb-task::before { content: '—'; color: var(--accent); flex-shrink: 0; }
+
+    /* Nav arrows */
+    .lb-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 10;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+      font-size: 1.1rem;
+    }
+    .lb-arrow:hover { background: rgba(0,0,0,0.8); border-color: rgba(255,255,255,0.35); }
+    .lb-arrow.prev { left: 16px; }
+    .lb-arrow.next { right: 16px; }
+
+    /* Dots */
+    .lb-dots {
+      position: absolute; bottom: 110px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 6px; z-index: 10;
+    }
+    .lb-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      transition: background 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .lb-dot.active { background: #fff; transform: scale(1.2); }
+
+    /* Counter */
+    .lb-counter {
+      position: absolute; top: 16px; left: 20px; z-index: 10;
+      font-size: 0.68rem; color: rgba(255,255,255,0.4);
+      letter-spacing: 0.06em;
+      background: rgba(0,0,0,0.4);
+      padding: 3px 10px; border-radius: 10px;
+    }
+
     .lb-close {
-      position: absolute; top: 14px; right: 14px;
-      width: 32px; height: 32px; border-radius: 50%;
-      background: rgba(255,255,255,0.08); border: 1px solid var(--border2);
-      color: var(--muted); cursor: pointer;
+      position: absolute; top: 14px; right: 14px; z-index: 20;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7); cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       transition: all 0.2s;
     }
-    .lb-close:hover { background: rgba(255,255,255,0.15); color: var(--text); }
+    .lb-close:hover { background: rgba(0,0,0,0.9); color: #fff; border-color: rgba(255,255,255,0.4); }
 
     /* ── FOOTER ── */
     footer {
@@ -376,6 +451,11 @@
       .carousel-track-wrap { padding: 0 1.25rem; }
       :root { --card-w: 300px; --card-h: 440px; }
       footer { padding: 2rem 1.25rem; }
+      .lb-inner { width: 98vw; height: 92vh; border-radius: 10px; }
+      .lb-overlay { padding: 40px 20px 24px; }
+      .lb-tasks-panel { padding: 14px 20px 16px; gap: 6px 16px; }
+      .lb-task { width: 100%; font-size: 0.78rem; }
+      .lb-dots { bottom: 90px; }
     }
   </style>
 </head>
@@ -408,13 +488,8 @@
       </div>
       <div class="hero-divider"></div>
       <div class="hero-stat">
-        <div class="hero-stat-num">30K+</div>
-        <div class="hero-stat-label">Tỷ VNĐ</div>
-      </div>
-      <div class="hero-divider"></div>
-      <div class="hero-stat">
         <div class="hero-stat-num">8+</div>
-        <div class="hero-stat-label">Năm</div>
+        <div class="hero-stat-label">Năm KN</div>
       </div>
     </div>
   </section>
@@ -435,7 +510,12 @@
     <div class="carousel-track-wrap">
       <div class="carousel-track" id="c1">
 
-        <div class="project-card" data-category="caotoc" data-index="1" data-title="Cao tốc Phan Thiết – Dầu Giây" data-role="Kỹ sư hiện trường" data-period="2020–2022" data-value="~12.500 tỷ VNĐ" data-company="194 C.I.C Corp" data-tasks="Quản lý đội thi công cống|Lập hồ sơ quản lý chất lượng (KCS)|Các công việc khác theo chỉ đạo của CHT" data-imgs="images/cao-toc-phan-thiet-dau-giay-1.jpg|images/cao-toc-phan-thiet-dau-giay-2.jpg|images/cao-toc-phan-thiet-dau-giay-3.jpg|images/cao-toc-phan-thiet-dau-giay-4.jpg|images/cao-toc-phan-thiet-dau-giay-5.jpg|images/cao-toc-phan-thiet-dau-giay-6.jpg">
+        <div class="project-card" data-category="caotoc" data-index="1"
+          data-title="Cao tốc Phan Thiết – Dầu Giây"
+          data-role="Kỹ sư hiện trường" data-period="2020–2022"
+          data-company="194 C.I.C Corp"
+          data-tasks="Quản lý đội thi công cống|Lập hồ sơ quản lý chất lượng (KCS)|Các công việc khác theo chỉ đạo của CHT"
+          data-imgs="images/cao-toc-phan-thiet-dau-giay-1.jpg|images/cao-toc-phan-thiet-dau-giay-2.jpg|images/cao-toc-phan-thiet-dau-giay-3.jpg|images/cao-toc-phan-thiet-dau-giay-4.jpg|images/cao-toc-phan-thiet-dau-giay-5.jpg|images/cao-toc-phan-thiet-dau-giay-6.jpg">
           <div class="card-img-wrap">
             <img alt="Cao tốc Phan Thiết – Dầu Giây" />
             <div class="card-placeholder">
@@ -447,7 +527,6 @@
           </div>
           <div class="card-gradient"></div>
           <span class="card-number">01</span>
-          <span class="card-value">~12.500 tỷ</span>
           <div class="card-content">
             <div class="card-tag"><span class="card-tag-dot"></span>Cao tốc</div>
             <div class="card-title">Cao tốc Phan Thiết – Dầu Giây</div>
@@ -459,7 +538,12 @@
           </div>
         </div>
 
-        <div class="project-card" data-category="caotoc" data-index="2" data-title="Cao tốc Cam Lâm – Vĩnh Hảo" data-role="Phụ trách Phòng Kỹ thuật" data-period="2022–2024" data-value="~8.000 tỷ VNĐ" data-company="194 C.I.C Corp" data-tasks="Quản lý công tác lập thiết kế, phê duyệt TKTC, điều chỉnh TKTC|Làm việc với CQNNCTQ, Kiểm toán, HĐKTNN, Thanh tra BGTVT và Cục đường bộ|Bóc tách, duyệt đề xuất khối lượng vật tư|Quản lý và lập hồ sơ KCS, BPTC, Hoàn công|Đề xuất phương án thiết kế tiết kiệm, đảm bảo kỹ thuật và an toàn|Điều chỉnh các phương án đảm bảo ATGT trong quá trình khai thác" data-imgs="images/cao-toc-cam-lam-vinh-hao-1.jpg|images/cao-toc-cam-lam-vinh-hao-2.jpg|images/cao-toc-cam-lam-vinh-hao-3.jpg|images/cao-toc-cam-lam-vinh-hao-4.jpg|images/cao-toc-cam-lam-vinh-hao-5.jpg|images/cao-toc-cam-lam-vinh-hao-6.jpg">
+        <div class="project-card" data-category="caotoc" data-index="2"
+          data-title="Cao tốc Cam Lâm – Vĩnh Hảo"
+          data-role="Phụ trách Phòng Kỹ thuật" data-period="2022–2024"
+          data-company="194 C.I.C Corp"
+          data-tasks="Quản lý công tác lập thiết kế, phê duyệt TKTC, điều chỉnh TKTC|Làm việc với CQNNCTQ, Kiểm toán, HĐKTNN, Thanh tra BGTVT và Cục đường bộ|Bóc tách, duyệt đề xuất khối lượng vật tư|Quản lý và lập hồ sơ KCS, BPTC, Hoàn công|Đề xuất phương án thiết kế tiết kiệm, đảm bảo kỹ thuật và an toàn|Điều chỉnh các phương án đảm bảo ATGT trong quá trình khai thác"
+          data-imgs="images/cao-toc-cam-lam-vinh-hao-1.jpg|images/cao-toc-cam-lam-vinh-hao-2.jpg|images/cao-toc-cam-lam-vinh-hao-3.jpg|images/cao-toc-cam-lam-vinh-hao-4.jpg|images/cao-toc-cam-lam-vinh-hao-5.jpg|images/cao-toc-cam-lam-vinh-hao-6.jpg">
           <div class="card-img-wrap">
             <img alt="Cao tốc Cam Lâm – Vĩnh Hảo" />
             <div class="card-placeholder">
@@ -471,7 +555,6 @@
           </div>
           <div class="card-gradient"></div>
           <span class="card-number">02</span>
-          <span class="card-value">~8.000 tỷ</span>
           <div class="card-content">
             <div class="card-tag"><span class="card-tag-dot"></span>Cao tốc</div>
             <div class="card-title">Cao tốc Cam Lâm – Vĩnh Hảo</div>
@@ -484,7 +567,12 @@
           </div>
         </div>
 
-        <div class="project-card" data-category="caotoc" data-index="3" data-title="Cao tốc Hồ Chí Minh – Mộc Bài" data-role="Phụ trách Phòng Kỹ thuật" data-period="2024–Nay" data-value="~10.000 tỷ VNĐ" data-company="194 C.I.C Corp" data-tasks="Lập hồ sơ quan tâm, hồ sơ đấu thầu dự án|Phụ trách trưởng ban giám sát CĐT trong giai đoạn lập TKKT|Rà soát thiết kế, đề xuất các giải pháp tiết kiệm chi phí tại bước TKKT|Lập, chuẩn bị thủ tục khởi công dự án" data-img="images/cao-toc-hcm-moc-bai-1.jpg">
+        <div class="project-card" data-category="caotoc" data-index="3"
+          data-title="Cao tốc Hồ Chí Minh – Mộc Bài"
+          data-role="Phụ trách Phòng Kỹ thuật" data-period="2024–Nay"
+          data-company="194 C.I.C Corp"
+          data-tasks="Lập hồ sơ quan tâm, hồ sơ đấu thầu dự án|Phụ trách trưởng ban giám sát CĐT trong giai đoạn lập TKKT|Rà soát thiết kế, đề xuất các giải pháp tiết kiệm chi phí tại bước TKKT|Lập, chuẩn bị thủ tục khởi công dự án"
+          data-imgs="images/cao-toc-hcm-moc-bai-1.jpg|images/cao-toc-hcm-moc-bai-2.jpg|images/cao-toc-hcm-moc-bai-3.jpg|images/cao-toc-hcm-moc-bai-4.jpg|images/cao-toc-hcm-moc-bai-5.jpg|images/cao-toc-hcm-moc-bai-6.jpg">
           <div class="card-img-wrap">
             <img alt="Cao tốc HCM – Mộc Bài" />
             <div class="card-placeholder">
@@ -496,7 +584,6 @@
           </div>
           <div class="card-gradient"></div>
           <span class="card-number">03</span>
-          <span class="card-value">~10.000 tỷ</span>
           <div class="card-content">
             <div class="card-tag"><span class="card-tag-dot"></span>Cao tốc</div>
             <div class="card-title">Cao tốc Hồ Chí Minh – Mộc Bài</div>
@@ -509,14 +596,19 @@
           </div>
         </div>
 
-        <div class="project-card" data-category="caotoc" data-index="4" data-title="Các dự án đấu thầu khác" data-role="Phụ trách Phòng Kỹ thuật" data-period="2020–Nay" data-value="" data-company="194 C.I.C Corp" data-tasks="Metro số 5 – Khảo sát, đề xuất hướng tuyến, thuyết trình với Ban đường sắt|Khu DV dầu khí & logistic Cần Giờ – lập HSĐX, làm việc với Sở Tài chính|Vành đai 4 (5 dự án TP), QL13, QL1, Đường trục Bắc Nam, QL22" data-img="images/du-an-khac.jpg">
+        <div class="project-card" data-category="caotoc" data-index="4"
+          data-title="Các dự án chuẩn bị đấu thầu"
+          data-role="Phụ trách Phòng Kỹ thuật" data-period="2020–Nay"
+          data-company="194 C.I.C Corp"
+          data-tasks="Metro số 5 – Khảo sát, đề xuất hướng tuyến, thuyết trình với Ban đường sắt|Khu DV dầu khí & logistic Cần Giờ – lập HSĐX, làm việc với Sở Tài chính|Vành đai 4 (5 dự án TP), QL13, QL1, Đường trục Bắc Nam, QL22"
+          data-imgs="images/du-an-khac-1.jpg|images/du-an-khac-2.jpg|images/du-an-khac-3.jpg|images/du-an-khac-4.jpg|images/du-an-khac-5.jpg|images/du-an-khac-6.jpg">
           <div class="card-img-wrap">
             <img alt="Các dự án khác" />
             <div class="card-placeholder">
               <div class="card-placeholder-icon">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
               </div>
-              <span class="card-placeholder-hint">du-an-khac.jpg</span>
+              <span class="card-placeholder-hint">du-an-khac-1.jpg</span>
             </div>
           </div>
           <div class="card-gradient"></div>
@@ -553,7 +645,12 @@
     <div class="carousel-track-wrap">
       <div class="carousel-track" id="c2">
 
-        <div class="project-card" data-category="duongdo" data-index="5" data-title="Đường Nguyễn Ảnh Thủ nối dài" data-role="Kỹ sư QA-QC" data-period="2018–2019" data-value="" data-company="AHCV – IDICO CONAC" data-tasks="Quản lý – theo dõi thi công tại công trường|Lập hồ sơ BPTC, tiến độ thi công|Lập hồ sơ quản lý chất lượng (KCS)|Báo cáo sản lượng tuần, tháng, quý|Đăng ký sản lượng, làm hồ sơ thanh toán với Chủ đầu tư" data-img="images/nguyen-anh-thu-1.jpg">
+        <div class="project-card" data-category="duongdo" data-index="5"
+          data-title="Đường Nguyễn Ảnh Thủ nối dài"
+          data-role="Kỹ sư QA-QC" data-period="2018–2019"
+          data-company="AHCV – IDICO CONAC"
+          data-tasks="Quản lý – theo dõi thi công tại công trường|Lập hồ sơ BPTC, tiến độ thi công|Lập hồ sơ quản lý chất lượng (KCS)|Báo cáo sản lượng tuần, tháng, quý|Đăng ký sản lượng, làm hồ sơ thanh toán với Chủ đầu tư"
+          data-imgs="images/nguyen-anh-thu-1.jpg|images/nguyen-anh-thu-2.jpg|images/nguyen-anh-thu-3.jpg|images/nguyen-anh-thu-4.jpg|images/nguyen-anh-thu-5.jpg|images/nguyen-anh-thu-6.jpg">
           <div class="card-img-wrap">
             <img alt="Đường Nguyễn Ảnh Thủ nối dài" />
             <div class="card-placeholder">
@@ -577,7 +674,12 @@
           </div>
         </div>
 
-        <div class="project-card" data-category="duongdo" data-index="6" data-title="Nâng cấp, mở rộng đường Lã Xuân Oai" data-role="Kỹ sư QA-QC" data-period="2019" data-value="" data-company="AHCV – IDICO CONAC" data-tasks="Tham gia đấu thầu dự án|Lập hồ sơ BPTC, tiến độ thi công|Lập hồ sơ quản lý chất lượng (KCS)" data-img="images/la-xuan-oai-1.jpg">
+        <div class="project-card" data-category="duongdo" data-index="6"
+          data-title="Nâng cấp, mở rộng đường Lã Xuân Oai"
+          data-role="Kỹ sư QA-QC" data-period="2019"
+          data-company="AHCV – IDICO CONAC"
+          data-tasks="Tham gia đấu thầu dự án|Lập hồ sơ BPTC, tiến độ thi công|Lập hồ sơ quản lý chất lượng (KCS)"
+          data-imgs="images/la-xuan-oai-1.jpg|images/la-xuan-oai-2.jpg|images/la-xuan-oai-3.jpg|images/la-xuan-oai-4.jpg|images/la-xuan-oai-5.jpg|images/la-xuan-oai-6.jpg">
           <div class="card-img-wrap">
             <img alt="Đường Lã Xuân Oai" />
             <div class="card-placeholder">
@@ -601,7 +703,12 @@
           </div>
         </div>
 
-        <div class="project-card" data-category="hatang" data-index="7" data-title="Hạ tầng KCN Thủ Thừa" data-role="Kỹ sư QA-QC" data-period="2019–2020" data-value="" data-company="AHCV – IDICO CONAC" data-tasks="Lập hồ sơ BPTC, tiến độ thi công|Lập hồ sơ quản lý chất lượng (KCS)|Làm hồ sơ thanh toán với Chủ đầu tư" data-img="images/khu-cn-thu-thua-1.jpg">
+        <div class="project-card" data-category="hatang" data-index="7"
+          data-title="Hạ tầng KCN Thủ Thừa"
+          data-role="Kỹ sư QA-QC" data-period="2019–2020"
+          data-company="AHCV – IDICO CONAC"
+          data-tasks="Lập hồ sơ BPTC, tiến độ thi công|Lập hồ sơ quản lý chất lượng (KCS)|Làm hồ sơ thanh toán với Chủ đầu tư"
+          data-imgs="images/khu-cn-thu-thua-1.jpg|images/khu-cn-thu-thua-2.jpg|images/khu-cn-thu-thua-3.jpg|images/khu-cn-thu-thua-4.jpg|images/khu-cn-thu-thua-5.jpg|images/khu-cn-thu-thua-6.jpg">
           <div class="card-img-wrap">
             <img alt="KCN Thủ Thừa" />
             <div class="card-placeholder">
@@ -645,7 +752,12 @@
     <div class="carousel-track-wrap">
       <div class="carousel-track" id="c3">
 
-        <div class="project-card" data-category="cang" data-index="8" data-title="Nạo vét cảng Phú Mỹ" data-role="Kỹ sư QC" data-period="03–06/2018" data-value="" data-company="Xí nghiệp cơ giới Miền Nam" data-tasks="Lập hồ sơ quản lý chất lượng (KCS)|Báo cáo công việc hàng tuần|Làm và theo dõi tiến độ thi công" data-img="images/cang-phu-my-1.jpg">
+        <div class="project-card" data-category="cang" data-index="8"
+          data-title="Nạo vét cảng Phú Mỹ"
+          data-role="Kỹ sư QC" data-period="03–06/2018"
+          data-company="Xí nghiệp cơ giới Miền Nam"
+          data-tasks="Lập hồ sơ quản lý chất lượng (KCS)|Báo cáo công việc hàng tuần|Làm và theo dõi tiến độ thi công"
+          data-imgs="images/cang-phu-my-1.jpg|images/cang-phu-my-2.jpg|images/cang-phu-my-3.jpg|images/cang-phu-my-4.jpg|images/cang-phu-my-5.jpg|images/cang-phu-my-6.jpg">
           <div class="card-img-wrap">
             <img alt="Cảng Phú Mỹ" />
             <div class="card-placeholder">
@@ -673,24 +785,33 @@
     </div>
   </div>
 
-  <!-- LIGHTBOX -->
+  <!-- LIGHTBOX — FULL SCREEN -->
   <div class="lightbox" id="lightbox">
     <div class="lb-inner" id="lbInner">
+      <!-- Image area -->
       <div class="lb-img-area" id="lbImgArea">
         <img id="lbImg" alt="" />
         <div class="lb-img-placeholder" id="lbImgPh">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
           <span id="lbImgHint">Chưa có ảnh</span>
         </div>
+
+        <!-- Info overlay on image -->
+        <div class="lb-overlay">
+          <p class="lb-eyebrow" id="lbEyebrow"></p>
+          <h2 class="lb-title" id="lbTitle"></h2>
+          <p class="lb-role" id="lbRole"></p>
+        </div>
+
+        <!-- Counter top-left -->
+        <div class="lb-counter" id="lbCounter">1 / 1</div>
       </div>
-      <div class="lb-body">
-        <p class="lb-eyebrow" id="lbEyebrow"></p>
-        <h2 class="lb-title" id="lbTitle"></h2>
-        <p class="lb-role" id="lbRole"></p>
-        <div class="lb-tasks" id="lbTasks"></div>
-      </div>
+
+      <!-- Tasks panel below image -->
+      <div class="lb-tasks-panel" id="lbTasks"></div>
+
       <button class="lb-close" id="lbClose">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
   </div>
@@ -726,7 +847,6 @@
     loadImg(srcs[0]);
 
     if (srcs.length > 1) {
-      // Thêm dots chỉ số ảnh
       const dotsWrap = document.createElement('div');
       dotsWrap.style.cssText = 'position:absolute;bottom:8px;right:10px;z-index:10;display:flex;gap:4px;';
       srcs.forEach((_, i) => {
@@ -742,7 +862,6 @@
         });
       }
 
-      // Tự động chạy ảnh khi hover
       let timer;
       card.addEventListener('mouseenter', () => {
         timer = setInterval(() => {
@@ -758,15 +877,12 @@
         updateDots();
       });
 
-      // Vuốt trái/phải trên mobile
       let tx = 0;
       card.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
       card.addEventListener('touchend', e => {
         const dx = e.changedTouches[0].clientX - tx;
         if (Math.abs(dx) < 30) return;
-        cur = dx < 0
-          ? (cur + 1) % srcs.length
-          : (cur - 1 + srcs.length) % srcs.length;
+        cur = dx < 0 ? (cur + 1) % srcs.length : (cur - 1 + srcs.length) % srcs.length;
         loadImg(srcs[cur]);
         updateDots();
       }, {passive:true});
@@ -775,7 +891,7 @@
 
   // ── Carousel ──
   const carouselStates = {};
-  const CARD_W = () => window.innerWidth <= 720 ? 320 : 400;
+  const CARD_W = () => window.innerWidth <= 720 ? 320 : 440;
 
   function initCarousel(id) {
     const track = document.getElementById(id);
@@ -783,13 +899,11 @@
     carouselStates[id] = { pos: 0 };
     updateNavBtns(id);
   }
-
   function getMaxPos(id) {
     const track = document.getElementById(id);
     const wrap = track.parentElement;
     return Math.max(0, track.scrollWidth - wrap.clientWidth);
   }
-
   function updateNavBtns(id) {
     const state = carouselStates[id];
     const max = getMaxPos(id);
@@ -799,7 +913,6 @@
       if (dir === 1) btn.disabled = state.pos >= max;
     });
   }
-
   document.querySelectorAll('.cnav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.dataset.target;
@@ -812,7 +925,6 @@
       updateNavBtns(id);
     });
   });
-
   document.querySelectorAll('.carousel-track-wrap').forEach(wrap => {
     const track = wrap.querySelector('.carousel-track');
     const id = track.id;
@@ -828,17 +940,49 @@
       updateNavBtns(id);
     }, {passive:true});
   });
-
   ['c1','c2','c3'].forEach(initCarousel);
 
   // ── Lightbox ──
   const lb = document.getElementById('lightbox');
+  let lbSrcs = [], lbCur = 0;
+
+  function lbSetImg(src, idx, total) {
+    const lbImg = document.getElementById('lbImg');
+    const lbPh = document.getElementById('lbImgPh');
+    const counter = document.getElementById('lbCounter');
+
+    // Fade transition
+    lbImg.style.opacity = '0';
+    counter.textContent = `${idx + 1} / ${total}`;
+
+    // Update dots
+    document.querySelectorAll('.lb-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+    });
+
+    const loader = new Image();
+    loader.onload = () => {
+      lbImg.src = src;
+      lbImg.style.display = 'block';
+      lbImg.style.opacity = '1';
+      lbPh.style.display = 'none';
+    };
+    loader.onerror = () => {
+      lbImg.style.display = 'none';
+      lbImg.style.opacity = '1';
+      lbPh.style.display = 'flex';
+      document.getElementById('lbImgHint').textContent = src.split('/').pop() || 'Chưa có ảnh';
+    };
+    loader.src = src;
+  }
+
   document.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('click', () => {
       const d = card.dataset;
-      document.getElementById('lbEyebrow').textContent = `${d.company} · ${d.period}${d.value ? ' · ' + d.value : ''}`;
+      document.getElementById('lbEyebrow').textContent = `${d.company} · ${d.period}`;
       document.getElementById('lbTitle').textContent = d.title;
-      document.getElementById('lbRole').textContent = d.role;
+      document.getElementById('lbRole').textContent = d.role.toUpperCase();
+
       const tasksEl = document.getElementById('lbTasks');
       tasksEl.innerHTML = '';
       d.tasks.split('|').forEach(t => {
@@ -848,63 +992,95 @@
         tasksEl.appendChild(div);
       });
 
-      // Lightbox cũng hiện nhiều ảnh
-      const lbImg = document.getElementById('lbImg');
-      const lbPh = document.getElementById('lbImgPh');
-      const srcs = (d.imgs || d.img || '').split('|').map(s => s.trim()).filter(Boolean);
-      let lbCur = 0;
+      lbSrcs = (d.imgs || d.img || '').split('|').map(s => s.trim()).filter(Boolean);
+      lbCur = 0;
 
-      function lbLoad(src) {
-        const loader = new Image();
-        loader.onload = () => { lbImg.src = src; lbImg.style.display = 'block'; lbPh.style.display = 'none'; };
-        loader.onerror = () => { lbImg.style.display = 'none'; lbPh.style.display = 'flex'; };
-        loader.src = src;
-      }
-
-      lbImg.style.display = 'none';
-      lbPh.style.display = 'flex';
-      document.getElementById('lbImgHint').textContent = srcs[0] || 'Chưa có ảnh';
-
-      if (srcs.length) lbLoad(srcs[0]);
-
-      // Nút prev/next trong lightbox nếu có nhiều ảnh
+      // Build arrows + dots if multiple images
       const lbArea = document.getElementById('lbImgArea');
-      lbArea.querySelectorAll('.lb-nav').forEach(e => e.remove());
-      if (srcs.length > 1) {
-        ['prev','next'].forEach(dir => {
-          const btn = document.createElement('button');
-          btn.className = 'lb-nav';
-          btn.innerHTML = dir === 'prev' ? '&#8249;' : '&#8250;';
-          btn.style.cssText = `position:absolute;top:50%;transform:translateY(-50%);${dir==='prev'?'left:10px':'right:10px'};z-index:10;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;font-size:1.2rem;line-height:1;display:flex;align-items:center;justify-content:center;`;
-          btn.addEventListener('click', e => {
-            e.stopPropagation();
-            lbCur = dir === 'next' ? (lbCur+1)%srcs.length : (lbCur-1+srcs.length)%srcs.length;
-            lbLoad(srcs[lbCur]);
-          });
-          lbArea.appendChild(btn);
+      lbArea.querySelectorAll('.lb-arrow, .lb-dots').forEach(e => e.remove());
+
+      if (lbSrcs.length > 1) {
+        // Prev arrow
+        const prev = document.createElement('button');
+        prev.className = 'lb-arrow prev';
+        prev.innerHTML = '&#8249;';
+        prev.addEventListener('click', e => {
+          e.stopPropagation();
+          lbCur = (lbCur - 1 + lbSrcs.length) % lbSrcs.length;
+          lbSetImg(lbSrcs[lbCur], lbCur, lbSrcs.length);
         });
 
-        // Dots trong lightbox
-        lbArea.querySelectorAll('.lb-dots').forEach(e => e.remove());
-        const lbDots = document.createElement('div');
-        lbDots.className = 'lb-dots';
-        lbDots.style.cssText = 'position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:10;';
-        srcs.forEach((_, i) => {
-          const d2 = document.createElement('span');
-          d2.style.cssText = `width:6px;height:6px;border-radius:50%;background:${i===0?'#fff':'rgba(255,255,255,0.4)'};`;
-          lbDots.appendChild(d2);
+        // Next arrow
+        const next = document.createElement('button');
+        next.className = 'lb-arrow next';
+        next.innerHTML = '&#8250;';
+        next.addEventListener('click', e => {
+          e.stopPropagation();
+          lbCur = (lbCur + 1) % lbSrcs.length;
+          lbSetImg(lbSrcs[lbCur], lbCur, lbSrcs.length);
         });
-        lbArea.appendChild(lbDots);
+
+        // Dots
+        const dotsWrap = document.createElement('div');
+        dotsWrap.className = 'lb-dots';
+        lbSrcs.forEach((_, i) => {
+          const dot = document.createElement('span');
+          dot.className = 'lb-dot' + (i === 0 ? ' active' : '');
+          dot.addEventListener('click', e => {
+            e.stopPropagation();
+            lbCur = i;
+            lbSetImg(lbSrcs[lbCur], lbCur, lbSrcs.length);
+          });
+          dotsWrap.appendChild(dot);
+        });
+
+        lbArea.appendChild(prev);
+        lbArea.appendChild(next);
+        lbArea.appendChild(dotsWrap);
       }
+
+      // Reset & load
+      const lbImg = document.getElementById('lbImg');
+      lbImg.style.display = 'none';
+      lbImg.style.opacity = '1';
+      document.getElementById('lbImgPh').style.display = 'flex';
+      document.getElementById('lbCounter').textContent = `1 / ${lbSrcs.length || 1}`;
+
+      if (lbSrcs.length) lbSetImg(lbSrcs[0], 0, lbSrcs.length);
 
       lb.classList.add('open');
       document.body.style.overflow = 'hidden';
     });
   });
 
+  // Keyboard navigation in lightbox
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowRight' && lbSrcs.length > 1) {
+      lbCur = (lbCur + 1) % lbSrcs.length;
+      lbSetImg(lbSrcs[lbCur], lbCur, lbSrcs.length);
+    }
+    if (e.key === 'ArrowLeft' && lbSrcs.length > 1) {
+      lbCur = (lbCur - 1 + lbSrcs.length) % lbSrcs.length;
+      lbSetImg(lbSrcs[lbCur], lbCur, lbSrcs.length);
+    }
+  });
+
+  // Touch swipe in lightbox
+  let lbTx = 0;
+  document.getElementById('lbImgArea').addEventListener('touchstart', e => {
+    lbTx = e.touches[0].clientX;
+  }, {passive:true});
+  document.getElementById('lbImgArea').addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - lbTx;
+    if (Math.abs(dx) < 40 || lbSrcs.length <= 1) return;
+    lbCur = dx < 0 ? (lbCur + 1) % lbSrcs.length : (lbCur - 1 + lbSrcs.length) % lbSrcs.length;
+    lbSetImg(lbSrcs[lbCur], lbCur, lbSrcs.length);
+  }, {passive:true});
+
   document.getElementById('lbClose').addEventListener('click', closeLb);
   lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
   function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
 
   // ── Filter ──
@@ -930,6 +1106,6 @@
       });
     });
   });
-</script>
+  </script>
 </body>
 </html>
