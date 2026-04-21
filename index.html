@@ -151,7 +151,10 @@
     }
     .stat-number { font-family: var(--serif); font-size: 1.8rem; color: var(--text); line-height: 1; margin-bottom: 0.25rem; }
     .stat-label { font-size: 0.69rem; color: var(--muted); letter-spacing: 0.04em; }
-
+    img {
+    -webkit-user-drag: none;
+    pointer-events: none;
+    }
     /* ── HEADINGS ── */
     .section-label {
       font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
@@ -372,7 +375,7 @@
       </div>
       <div class="hero-image-wrap fade-in" style="transition-delay:.15s">
         <div class="avatar">
-          <img src="avatar.jpg" alt="Trần Văn Duẩn" id="avatar-img" />
+          <img src="avatar.jpg" alt="Trần Văn Duẩn" id="avatar-img" oncontextmenu="return false;" draggable="false" />
           <div class="avatar-placeholder" id="avatar-placeholder">
             <svg width="56" height="56" viewBox="0 0 64 64" fill="none" opacity=".3">
               <circle cx="32" cy="24" r="12" stroke="#6b6960" stroke-width="1.5"/>
