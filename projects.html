@@ -24,8 +24,8 @@
       --accent: #888888;
       --serif: 'Playfair Display', Georgia, serif;
       --sans: 'Be Vietnam Pro', sans-serif;
-      --card-w: 380px;
-      --card-h: 520px;
+      --card-w: 420px;
+      --card-h: 580px;
     }
 
     html { scroll-behavior: smooth; }
@@ -217,16 +217,20 @@
     }
 
     .card-content {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 28px 26px;
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 20px 22px;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+    transform: translateY(60%);
+    transition: transform 0.4s ease;
     }
-    .card-tag {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 3px 10px; border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.2);
-      font-size: 0.65rem; color: rgba(255,255,255,0.65);
-      letter-spacing: 0.08em; text-transform: uppercase;
-      margin-bottom: 10px;
+
+    .project-card:hover .card-content {
+    transform: translateY(0);
+    }
+    .card-tag { 
+    opacity: 0; 
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
     }
     .card-tag-dot {
       width: 5px; height: 5px; border-radius: 50%;
@@ -237,10 +241,14 @@
       font-size: 1.25rem; color: #fff;
       line-height: 1.25; margin-bottom: 6px;
     }
-    .card-role {
-      font-size: 0.72rem; color: rgba(255,255,255,0.5);
-      letter-spacing: 0.06em; text-transform: uppercase;
-      margin-bottom: 14px;
+   .card-role {
+    opacity: 0;
+    transition: opacity 0.3s ease 0.05s;
+    }
+    .project-card:hover .card-tag,
+    .project-card:hover .card-role {
+    opacity: 1;
+    transform: translateY(0);
     }
     .card-tasks {
       display: flex; flex-direction: column; gap: 5px;
