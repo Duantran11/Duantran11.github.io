@@ -76,18 +76,22 @@
     /* Mobile nav drawer */
     .mobile-menu {
       display: none; position: fixed; top: 60px; left: 0; right: 0; z-index: 99;
-      background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.98); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 1.2rem 1.5rem 1.5rem;
       flex-direction: column; gap: 0;
     }
     .mobile-menu.open { display: flex; }
     .mobile-menu a {
-    color: #ffffff;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
+      text-decoration: none; color: var(--text);
+      font-size: 0.85rem; letter-spacing: 0.07em;
+      text-transform: uppercase; font-weight: 400;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
     }
     .mobile-menu a:last-child { border-bottom: none; }
-    .mobile-menu a:hover { color: var(--highlight); }
+    .mobile-menu a:hover { color: var(--text); }
 
     /* ── LAYOUT ── */
     main { padding-top: 60px; }
