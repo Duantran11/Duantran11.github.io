@@ -410,14 +410,6 @@
     </div>
   </section>
 
-  <div class="filter-bar">
-    <button class="filter-btn active" data-filter="all">Tất cả</button>
-    <button class="filter-btn" data-filter="caotoc">Cao tốc</button>
-    <button class="filter-btn" data-filter="duongdo">Đường đô thị</button>
-    <button class="filter-btn" data-filter="hatang">Hạ tầng KCN</button>
-    <button class="filter-btn" data-filter="cang">Cảng biển</button>
-  </div>
-
   <!-- Carousel 1: 194 CIC -->
   <div class="carousel-section" data-company="194cic">
     <div class="carousel-header">
@@ -701,12 +693,18 @@
   </footer>
 
   <script>
-    // ── Load ảnh ──
-    document.querySelectorAll('.project-card').forEach(card => {
-      const src = card.dataset.img;
-      if (!src) return;
-      const imgEl = card.querySelector('.card-img-wrap img');
-      const ph = card.querySelector('.card-placeholder');
+  // ── Load ảnh với mini slideshow trong card ──
+  document.querySelectorAll('.project-card').forEach(card => {
+    const raw = card.dataset.imgs || card.dataset.img || '';
+    if (!raw) return;
+    const srcs = raw.split('|').map(s => s.trim()).filter(Boolean);
+    if (!srcs.length) return;
+
+    const imgEl = card.querySelector('.card-img-wrap img');
+    const ph = card.querySelector('.card-placeholder');
+    let cur = 0;
+
+    function loadImg(src) {
       const loader = new Image();
       loader.onload = () => {
         imgEl.src = src;
@@ -715,128 +713,215 @@
       };
       loader.onerror = () => {};
       loader.src = src;
-    });
-
-    // ── Carousel ──
-    const carouselStates = {};
-    const CARD_W = () => window.innerWidth <= 720 ? 320 : 400;
-
-    function initCarousel(id) {
-      const track = document.getElementById(id);
-      if (!track) return;
-      carouselStates[id] = { pos: 0 };
-      updateNavBtns(id);
     }
 
-    function getMaxPos(id) {
-      const track = document.getElementById(id);
-      const wrap = track.parentElement;
-      const total = track.scrollWidth;
-      const visible = wrap.clientWidth;
-      return Math.max(0, total - visible);
-    }
+    loadImg(srcs[0]);
 
-    function updateNavBtns(id) {
-      const state = carouselStates[id];
-      const max = getMaxPos(id);
-      document.querySelectorAll(`[data-target="${id}"]`).forEach(btn => {
-        const dir = +btn.dataset.dir;
-        if (dir === -1) btn.disabled = state.pos <= 0;
-        if (dir === 1) btn.disabled = state.pos >= max;
+    if (srcs.length > 1) {
+      // Thêm dots chỉ số ảnh
+      const dotsWrap = document.createElement('div');
+      dotsWrap.style.cssText = 'position:absolute;bottom:8px;right:10px;z-index:10;display:flex;gap:4px;';
+      srcs.forEach((_, i) => {
+        const d = document.createElement('span');
+        d.style.cssText = `width:5px;height:5px;border-radius:50%;background:${i===0?'#fff':'rgba(255,255,255,0.35)'};transition:background 0.2s;`;
+        dotsWrap.appendChild(d);
       });
-    }
+      card.querySelector('.card-img-wrap').appendChild(dotsWrap);
 
-    document.querySelectorAll('.cnav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.dataset.target;
-        const dir = +btn.dataset.dir;
-        const track = document.getElementById(id);
-        const step = CARD_W() + 20;
-        const max = getMaxPos(id);
-        carouselStates[id].pos = Math.max(0, Math.min(max, carouselStates[id].pos + dir * step));
-        track.style.transform = `translateX(-${carouselStates[id].pos}px)`;
-        updateNavBtns(id);
+      function updateDots() {
+        dotsWrap.querySelectorAll('span').forEach((d, i) => {
+          d.style.background = i === cur ? '#fff' : 'rgba(255,255,255,0.35)';
+        });
+      }
+
+      // Tự động chạy ảnh khi hover
+      let timer;
+      card.addEventListener('mouseenter', () => {
+        timer = setInterval(() => {
+          cur = (cur + 1) % srcs.length;
+          loadImg(srcs[cur]);
+          updateDots();
+        }, 1800);
       });
-    });
+      card.addEventListener('mouseleave', () => {
+        clearInterval(timer);
+        cur = 0;
+        loadImg(srcs[0]);
+        updateDots();
+      });
 
-    // Touch swipe on carousels
-    document.querySelectorAll('.carousel-track-wrap').forEach(wrap => {
-      const track = wrap.querySelector('.carousel-track');
-      const id = track.id;
+      // Vuốt trái/phải trên mobile
       let tx = 0;
-      wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
-      wrap.addEventListener('touchend', e => {
+      card.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+      card.addEventListener('touchend', e => {
         const dx = e.changedTouches[0].clientX - tx;
         if (Math.abs(dx) < 30) return;
-        const step = CARD_W() + 20;
-        const max = getMaxPos(id);
-        carouselStates[id].pos = Math.max(0, Math.min(max, carouselStates[id].pos + (dx < 0 ? step : -step)));
-        track.style.transform = `translateX(-${carouselStates[id].pos}px)`;
-        updateNavBtns(id);
+        cur = dx < 0
+          ? (cur + 1) % srcs.length
+          : (cur - 1 + srcs.length) % srcs.length;
+        loadImg(srcs[cur]);
+        updateDots();
       }, {passive:true});
+    }
+  });
+
+  // ── Carousel ──
+  const carouselStates = {};
+  const CARD_W = () => window.innerWidth <= 720 ? 320 : 400;
+
+  function initCarousel(id) {
+    const track = document.getElementById(id);
+    if (!track) return;
+    carouselStates[id] = { pos: 0 };
+    updateNavBtns(id);
+  }
+
+  function getMaxPos(id) {
+    const track = document.getElementById(id);
+    const wrap = track.parentElement;
+    return Math.max(0, track.scrollWidth - wrap.clientWidth);
+  }
+
+  function updateNavBtns(id) {
+    const state = carouselStates[id];
+    const max = getMaxPos(id);
+    document.querySelectorAll(`[data-target="${id}"]`).forEach(btn => {
+      const dir = +btn.dataset.dir;
+      if (dir === -1) btn.disabled = state.pos <= 0;
+      if (dir === 1) btn.disabled = state.pos >= max;
     });
+  }
 
-    ['c1','c2','c3'].forEach(initCarousel);
+  document.querySelectorAll('.cnav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.target;
+      const dir = +btn.dataset.dir;
+      const track = document.getElementById(id);
+      const step = CARD_W() + 20;
+      const max = getMaxPos(id);
+      carouselStates[id].pos = Math.max(0, Math.min(max, carouselStates[id].pos + dir * step));
+      track.style.transform = `translateX(-${carouselStates[id].pos}px)`;
+      updateNavBtns(id);
+    });
+  });
 
-    // ── Lightbox ──
-    const lb = document.getElementById('lightbox');
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const d = card.dataset;
-        document.getElementById('lbEyebrow').textContent = `${d.company} · ${d.period}${d.value ? ' · ' + d.value : ''}`;
-        document.getElementById('lbTitle').textContent = d.title;
-        document.getElementById('lbRole').textContent = d.role;
-        const tasksEl = document.getElementById('lbTasks');
-        tasksEl.innerHTML = '';
-        d.tasks.split('|').forEach(t => {
-          const div = document.createElement('div');
-          div.className = 'lb-task';
-          div.textContent = t;
-          tasksEl.appendChild(div);
-        });
-        const lbImg = document.getElementById('lbImg');
-        const lbPh = document.getElementById('lbImgPh');
-        document.getElementById('lbImgHint').textContent = d.img || 'Chưa có ảnh';
+  document.querySelectorAll('.carousel-track-wrap').forEach(wrap => {
+    const track = wrap.querySelector('.carousel-track');
+    const id = track.id;
+    let tx = 0;
+    wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+    wrap.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) < 30) return;
+      const step = CARD_W() + 20;
+      const max = getMaxPos(id);
+      carouselStates[id].pos = Math.max(0, Math.min(max, carouselStates[id].pos + (dx < 0 ? step : -step)));
+      track.style.transform = `translateX(-${carouselStates[id].pos}px)`;
+      updateNavBtns(id);
+    }, {passive:true});
+  });
+
+  ['c1','c2','c3'].forEach(initCarousel);
+
+  // ── Lightbox ──
+  const lb = document.getElementById('lightbox');
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const d = card.dataset;
+      document.getElementById('lbEyebrow').textContent = `${d.company} · ${d.period}${d.value ? ' · ' + d.value : ''}`;
+      document.getElementById('lbTitle').textContent = d.title;
+      document.getElementById('lbRole').textContent = d.role;
+      const tasksEl = document.getElementById('lbTasks');
+      tasksEl.innerHTML = '';
+      d.tasks.split('|').forEach(t => {
+        const div = document.createElement('div');
+        div.className = 'lb-task';
+        div.textContent = t;
+        tasksEl.appendChild(div);
+      });
+
+      // Lightbox cũng hiện nhiều ảnh
+      const lbImg = document.getElementById('lbImg');
+      const lbPh = document.getElementById('lbImgPh');
+      const srcs = (d.imgs || d.img || '').split('|').map(s => s.trim()).filter(Boolean);
+      let lbCur = 0;
+
+      function lbLoad(src) {
         const loader = new Image();
-        loader.onload = () => { lbImg.src = d.img; lbImg.style.display = 'block'; lbPh.style.display = 'none'; };
+        loader.onload = () => { lbImg.src = src; lbImg.style.display = 'block'; lbPh.style.display = 'none'; };
         loader.onerror = () => { lbImg.style.display = 'none'; lbPh.style.display = 'flex'; };
-        lbImg.style.display = 'none';
-        lbPh.style.display = 'flex';
-        if (d.img) loader.src = d.img;
-        lb.classList.add('open');
-        document.body.style.overflow = 'hidden';
+        loader.src = src;
+      }
+
+      lbImg.style.display = 'none';
+      lbPh.style.display = 'flex';
+      document.getElementById('lbImgHint').textContent = srcs[0] || 'Chưa có ảnh';
+
+      if (srcs.length) lbLoad(srcs[0]);
+
+      // Nút prev/next trong lightbox nếu có nhiều ảnh
+      const lbArea = document.getElementById('lbImgArea');
+      lbArea.querySelectorAll('.lb-nav').forEach(e => e.remove());
+      if (srcs.length > 1) {
+        ['prev','next'].forEach(dir => {
+          const btn = document.createElement('button');
+          btn.className = 'lb-nav';
+          btn.innerHTML = dir === 'prev' ? '&#8249;' : '&#8250;';
+          btn.style.cssText = `position:absolute;top:50%;transform:translateY(-50%);${dir==='prev'?'left:10px':'right:10px'};z-index:10;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;font-size:1.2rem;line-height:1;display:flex;align-items:center;justify-content:center;`;
+          btn.addEventListener('click', e => {
+            e.stopPropagation();
+            lbCur = dir === 'next' ? (lbCur+1)%srcs.length : (lbCur-1+srcs.length)%srcs.length;
+            lbLoad(srcs[lbCur]);
+          });
+          lbArea.appendChild(btn);
+        });
+
+        // Dots trong lightbox
+        lbArea.querySelectorAll('.lb-dots').forEach(e => e.remove());
+        const lbDots = document.createElement('div');
+        lbDots.className = 'lb-dots';
+        lbDots.style.cssText = 'position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:10;';
+        srcs.forEach((_, i) => {
+          const d2 = document.createElement('span');
+          d2.style.cssText = `width:6px;height:6px;border-radius:50%;background:${i===0?'#fff':'rgba(255,255,255,0.4)'};`;
+          lbDots.appendChild(d2);
+        });
+        lbArea.appendChild(lbDots);
+      }
+
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+  function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+
+  // ── Filter ──
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.project-card').forEach(card => {
+        card.style.display = f === 'all' || card.dataset.category === f ? '' : 'none';
+      });
+      document.querySelectorAll('.carousel-section').forEach(sec => {
+        const visible = sec.querySelectorAll('.project-card:not([style*="display: none"])').length;
+        sec.style.display = visible === 0 ? 'none' : '';
+      });
+      ['c1','c2','c3'].forEach(id => {
+        if (carouselStates[id]) {
+          carouselStates[id].pos = 0;
+          const t = document.getElementById(id);
+          if (t) t.style.transform = 'translateX(0)';
+          updateNavBtns(id);
+        }
       });
     });
-
-    document.getElementById('lbClose').addEventListener('click', closeLb);
-    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
-    function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
-
-    // ── Filter ──
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const f = btn.dataset.filter;
-        document.querySelectorAll('.project-card').forEach(card => {
-          const show = f === 'all' || card.dataset.category === f;
-          card.style.display = show ? '' : 'none';
-        });
-        document.querySelectorAll('.carousel-section').forEach(sec => {
-          const visible = sec.querySelectorAll('.project-card:not([style*="display: none"])').length;
-          sec.style.display = visible === 0 ? 'none' : '';
-        });
-        ['c1','c2','c3'].forEach(id => {
-          if (carouselStates[id]) {
-            carouselStates[id].pos = 0;
-            const t = document.getElementById(id);
-            if (t) t.style.transform = 'translateX(0)';
-            updateNavBtns(id);
-          }
-        });
-      });
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
