@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+  <title>Dự án — Trần Văn Duẩn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0b;
+      --surface: #161614;
+      --surface2: #1e1e1b;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text: #f0ede8;
+      --muted: rgba(240,237,232,0.5);
+      --muted2: rgba(240,237,232,0.3);
+      --accent: #888888;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Be Vietnam Pro', sans-serif;
+      --card-w: 380px;
+      --card-h: 520px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem; height: 60px;
+      background: rgba(13,13,11,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-left { display: flex; align-items: center; gap: 2rem; }
+    .nav-back {
+      display: flex; align-items: center; gap: 0.5rem;
+      text-decoration: none; color: var(--muted);
+      font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-name {
+      font-family: var(--serif); font-size: 1rem; color: var(--text);
+      text-decoration: none;
+    }
+    .nav-label {
+      font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 140px 3rem 60px;
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .hero-left {}
+    .hero-eyebrow {
+      font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem; font-weight: 500;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.05; color: var(--text);
+      margin-bottom: 1.2rem;
+    }
+    .hero-title em { font-style: italic; color: var(--muted); }
+    .hero-desc {
+      color: var(--muted); font-size: 0.9rem; max-width: 460px;
+      line-height: 1.85;
+    }
+    .hero-stats {
+      display: flex; gap: 2.5rem; align-items: flex-end;
+      flex-shrink: 0;
+    }
+    .hero-stat { text-align: right; }
+    .hero-stat-num {
+      font-family: var(--serif); font-size: 2.8rem; color: var(--text);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 0.69rem; color: var(--muted); letter-spacing: 0.06em;
+      text-transform: uppercase; margin-top: 4px;
+    }
+    .hero-divider { width: 1px; height: 60px; background: var(--border2); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      padding: 0 3rem 2rem;
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 0.4rem 1.1rem;
+      background: transparent;
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 0.75rem; letter-spacing: 0.05em;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
+    .filter-btn.active {
+      background: var(--text); color: var(--bg);
+      border-color: var(--text); font-weight: 500;
+    }
+
+    /* ── CAROUSEL SECTION ── */
+    .carousel-section { margin-bottom: 4rem; }
+    .carousel-header {
+      padding: 0 3rem;
+      max-width: 1200px; margin: 0 auto 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .carousel-company {
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500;
+    }
+    .carousel-nav { display: flex; gap: 8px; }
+    .cnav-btn {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--muted); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .cnav-btn:hover { background: var(--surface); color: var(--text); border-color: rgba(255,255,255,0.25); }
+    .cnav-btn:disabled { opacity: 0.25; cursor: default; }
+
+    .carousel-track-wrap {
+      overflow: hidden;
+      padding: 0 3rem;
+      position: relative;
+    }
+    .carousel-track {
+      display: flex; gap: 20px;
+      transition: transform 0.55s cubic-bezier(.4,0,.2,1);
+      will-change: transform;
+    }
+
+    /* ── CARD ── */
+    .project-card {
+      flex-shrink: 0;
+      width: var(--card-w);
+      height: var(--card-h);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .project-card:hover { border-color: var(--border2); transform: translateY(-4px); }
+    .project-card:hover .card-img-wrap img { transform: scale(1.04); }
+
+    .card-img-wrap {
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+    .card-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: none;
+      transition: transform 0.6s ease;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+    .card-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 16px;
+      background: var(--surface2);
+    }
+    .card-placeholder-icon {
+      width: 64px; height: 64px; border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-placeholder-hint {
+      font-size: 0.68rem; color: var(--muted2);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+
+    .card-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.88) 0%,
+        rgba(0,0,0,0.4) 45%,
+        rgba(0,0,0,0.05) 100%
+      );
+    }
+
+    .card-content {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 28px 26px;
+    }
+    .card-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 10px; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.65rem; color: rgba(255,255,255,0.65);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .card-tag-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .card-title {
+      font-family: var(--serif);
+      font-size: 1.25rem; color: #fff;
+      line-height: 1.25; margin-bottom: 6px;
+    }
+    .card-role {
+      font-size: 0.72rem; color: rgba(255,255,255,0.5);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .card-tasks {
+      display: flex; flex-direction: column; gap: 5px;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.4s ease;
+      opacity: 0;
+    }
+    .project-card:hover .card-tasks {
+      max-height: 200px; opacity: 1;
+    }
+    .card-task {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 0.78rem; color: rgba(255,255,255,0.6);
+      line-height: 1.5;
+    }
+    .card-task::before {
+      content: '—'; color: var(--accent); flex-shrink: 0; font-size: 0.72rem;
+    }
+
+    .card-value {
+      position: absolute; top: 20px; right: 20px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.68rem; color: rgba(255,255,255,0.7);
+      letter-spacing: 0.04em;
+    }
+
+    .card-number {
+      position: absolute; top: 20px; left: 20px;
+      font-family: var(--serif); font-size: 0.75rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(20px);
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lb-inner {
+      max-width: 720px; width: 90%;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      animation: lbIn 0.3s ease;
+    }
+    @keyframes lbIn { from { opacity:0; transform:scale(0.95) translateY(10px); } to { opacity:1; transform:none; } }
+    .lb-img-area {
+      height: 280px; background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .lb-img-area img { width:100%;height:100%;object-fit:cover;display:none; }
+    .lb-img-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .lb-img-placeholder span {
+      font-size: 0.7rem; color: var(--muted2); letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .lb-body { padding: 28px 32px 32px; }
+    .lb-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 8px; font-weight: 500;
+    }
+    .lb-title {
+      font-family: var(--serif); font-size: 1.6rem;
+      color: var(--text); margin-bottom: 4px;
+    }
+    .lb-role {
+      font-size: 0.75rem; color: var(--muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .lb-tasks { display: flex; flex-direction: column; gap: 8px; }
+    .lb-task {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.86rem; color: var(--muted); line-height: 1.65;
+    }
+    .lb-task::before { content: '—'; color: var(--accent); flex-shrink: 0; }
+    .lb-close {
+      position: absolute; top: 14px; right: 14px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.08); border: 1px solid var(--border2);
+      color: var(--muted); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.15); color: var(--text); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: 0.74rem; color: var(--muted2); }
+    .footer-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 1.3rem;
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      color: var(--muted); text-decoration: none;
+      font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .footer-back:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      nav { padding: 0 1.25rem; }
+      .hero { padding: 120px 1.25rem 50px; }
+      .hero-stats { gap: 1.5rem; }
+      .hero-stat-num { font-size: 2rem; }
+      .filter-bar { padding: 0 1.25rem 1.5rem; }
+      .carousel-header { padding: 0 1.25rem; }
+      .carousel-track-wrap { padding: 0 1.25rem; }
+      :root { --card-w: 300px; --card-h: 440px; }
+      footer { padding: 2rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-left">
+      <a href="index.html" class="nav-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Về CV
+      </a>
+      <span style="color:var(--border2)">|</span>
+      <a href="index.html" class="nav-name">Trần Văn Duẩn</a>
+    </div>
+    <span class="nav-label">Portfolio dự án</span>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Kỹ sư xây dựng & QA/QC</p>
+      <h1 class="hero-title">Các dự án<br/><em>đã thực hiện</em></h1>
+      <p class="hero-desc">
+        Tổng hợp các công trình giao thông trọng điểm tham gia trong 8+ năm kinh nghiệm — từ cảng biển, đường đô thị đến các tuyến cao tốc quốc gia.
+      </p>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">10+</div>
+        <div class="hero-stat-label">Dự án</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">30K+</div>
+        <div class="hero-stat-label">Tỷ VNĐ</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">8+</div>
+        <div class="hero-stat-label">Năm</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">Tất cả</button>
+    <button class="filter-btn" data-filter="caotoc">Cao tốc</button>
+    <button class="filter-btn" data-filter="duongdo">Đường đô thị</button>
+    <button class="filter-btn" data-filter="hatang">Hạ tầng KCN</button>
+    <button class="filter-btn" data-filter="cang">Cảng biển</button>
+  </div>
+
+  <!-- Carousel 1: 194 CIC -->
+  <div class="carousel-section" data-company="194cic">
+    <div class="carousel-header">
+      <span class="carousel-company">194 C.I.C Corp &nbsp;·&nbsp; 05/2020 — Nay</span>
+      <div class="carousel-nav">
+        <button class="cnav-btn" data-dir="-1" data-target="c1" disabled>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="cnav-btn" data-dir="1" data-target="c1">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="carousel-track-wrap">
+      <div class="carousel-track" id="c1">
+
+        <div class="project-card" data-category="caotoc" data-index="1" data-title="Cao tốc Phan Thiết – Dầu Giây" data-role="Kỹ sư hiện trường" data-period="2020–2022" data-value="~12.500 tỷ VNĐ" data-company="194 C.I.C Corp" data-tasks="Quản lý đội thi công cống|Lập hồ sơ quản lý chất lượng (KCS)|Các công việc khác theo chỉ đạo của CHT" data-img="cao-toc-phan-thiet-dau-giay-1.jpg">
+          <div class="card-img-wrap">
+            <img alt="Cao tốc Phan Thiết – Dầu Giây" />
+            <div class="card-placeholder">
+              <div class="card-placeholder-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round"><path d="M3 17l2-8h14l2 8"/><path d="M1 17h22"/><path d="M7 17V9"/><path d="M17 17V9"/></svg>
+              </div>
+              <span class="card-placeholder-hint">cao-toc-phan-thiet-dau-giay-1.jpg</span>
+            </div>
+          </div>
+          <div class="card-gradient"></div>
+          <span class="card-number">01</span>
+          <span class="card-value">~12.500 tỷ</span>
+          <div class="card-content">
+            <div class="card-tag"><span class="card-tag-dot"></span>Cao tốc</div>
+            <div class="card-title">Cao tốc Phan Thiết – Dầu Giây</div>
+            <div class="card-role">Kỹ sư hiện trường · 2020–2022</div>
+            <div class="card-tasks">
+              <div class="card-task">Quản lý đội thi công cống</div>
+              <div class="card-task">Lập hồ sơ quản lý chất lượng (KCS)</div>
+              <div class="card-task">Các công việc theo chỉ đạo của CHT</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="caotoc" data-index="2" data-title="Cao tốc Cam Lâm – Vĩnh Hảo" data-role="Phụ trách Phòng Kỹ thuật" data-period="2022–2024" data-value="~8.000 tỷ VNĐ" data-company="194 C.I.C Corp" data-tasks="Quản lý công tác lập thiết kế, phê duyệt TKTC, điều chỉnh TKTC|Làm việc với CQNNCTQ, Kiểm toán, HĐKTNN, Thanh tra BGTVT và Cục đường bộ|Bóc tách, duyệt đề xuất khối lượng vật tư|Quản lý và lập hồ sơ KCS, BPTC, Hoàn công|Đề xuất phương án thiết kế tiết kiệm, đảm bảo kỹ thuật và an toàn|Điều chỉnh các phương án đảm bảo ATGT trong quá trình khai thác" data-img="cao-toc-cam-lam-vinh-hao-1.jpg">
+          <div class="card-img-wrap">
+            <img alt="Cao tốc Cam Lâm – Vĩnh Hảo" />
+            <div class="card-placeholder">
+              <div class="card-placeholder-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round"><path d="M3 17l2-8h14l2 8"/><path d="M1 17h22"/><path d="M7 17V9"/><path d="M17 17V9"/></svg>
+              </div>
+              <span class="card-placeholder-hint">cao-toc-cam-lam-vinh-hao-1.jpg</span>
+            </div>
+          </div>
+          <div class="card-gradient"></div>
+          <span class="card-number">02</span>
+          <span class="card-value">~8.000 tỷ</span>
+          <div class="card-content">
+            <div class="card-tag"><span class="card-tag-dot"></span>Cao tốc</div>
+            <div class="card-title">Cao tốc Cam Lâm – Vĩnh Hảo</div>
+            <div class="card-role">Phụ trách Phòng Kỹ thuật · 2022–2024</div>
+            <div class="card-tasks">
+              <div class="card-task">Quản lý lập thiết kế, phê duyệt & điều chỉnh TKTC</div>
+              <div class="card-task">Làm việc với Kiểm toán, HĐKTNN, Thanh tra BGTVT</div>
+              <div class="card-task">Lập hồ sơ KCS, BPTC, Hoàn công</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="caotoc" data-index="3" data-title="Cao tốc Hồ Chí Minh – Mộc Bài" data-role="Phụ trách Phòng Kỹ thuật" data-period="2024–Nay" data-value="~10.000 tỷ VNĐ" data-company="194 C.I.C Corp" data-tasks="Lập hồ sơ quan tâm, hồ sơ đấu thầu dự án|Phụ trách trưởng ban giám sát CĐT trong giai đoạn lập TKKT|Rà soát thiết kế, đề xuất các giải pháp tiết kiệm chi phí tại bước TKKT|Lập, chuẩn bị thủ tục khởi công dự án" data-img="cao-toc-hcm-moc-bai-1.jpg">
+          <div class="card-img-wrap">
+            <img alt="Cao tốc HCM – Mộc Bài" />
+            <div class="card-placeholder">
+              <div class="card-placeholder-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round"><path d="M3 17l2-8h14l2 8"/><path d="M1 17h22"/><path d="M7 17V9"/><path d="M17 17V9"/></svg>
+              </div>
+              <span class="card-placeholder-hint">cao-toc-hcm-moc-bai-1.jpg</span>
+            </div>
+          </div>
+          <div class="card-gradient"></div>
+          <span class="card-number">03</span>
+          <span class="card-value">~10.000 tỷ</span>
+          <div class="card-content">
+            <div class="card-tag"><span class="card-tag-dot"></span>Cao tốc</div>
+            <div class="card-title">Cao tốc Hồ Chí Minh – Mộc Bài</div>
+            <div class="card-role">Phụ trách Phòng Kỹ thuật · 2024–Nay</div>
+            <div class="card-tasks">
+              <div class="card-task">Lập hồ sơ quan tâm, hồ sơ đấu thầu dự án</div>
+              <div class="card-task">Trưởng ban giám sát CĐT giai đoạn TKKT</div>
+              <div class="card-task">Rà soát thiết kế, đề xuất giải pháp tiết kiệm</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="caotoc" data-index="4" data-title="Các dự án đấu thầu khác" data-role="Phụ trách Phòng Kỹ thuật" data-period="2020–Nay" data-value="" data-company="194 C.I.C Corp" data-tasks="Metro số 5 – Khảo sát, đề xuất hướng tuyến, thuyết trình với Ban đường sắt|Khu DV dầu khí & logistic Cần Giờ – lập HSĐX, làm việc với Sở Tài chính|Vành đai 4 (5 dự án TP), QL13, QL1, Đường trục Bắc Nam, QL22" data-img="du-an-khac.jpg">
+          <div class="card-img-wrap">
+            <img alt="Các dự án khác" />
+            <div class="card-placeholder">
+              <div class="card-placeholder-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              </div>
+              <span class="card-placeholder-hint">du-an-khac.jpg</span>
+            </div>
+          </div>
+          <div class="card-gradient"></div>
+          <span class="card-number">04</span>
+          <div class="card-content">
+            <div class="card-tag"><span class="card-tag-dot"></span>Đấu thầu</div>
+            <div class="card-title">Các dự án chuẩn bị đấu thầu</div>
+            <div class="card-role">Phụ trách Phòng Kỹ thuật · 2020–Nay</div>
+            <div class="card-tasks">
+              <div class="card-task">Metro số 5 – Hướng tuyến, thuyết trình</div>
+              <div class="card-task">Khu DV dầu khí & logistic Cần Giờ</div>
+              <div class="card-task">Vành đai 4, QL13, QL1, QL22...</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Carousel 2: AHCV -->
+  <div class="carousel-section" data-company="ahcv">
+    <div class="carousel-header">
+      <span class="carousel-company">AHCV – IDICO CONAC &nbsp;·&nbsp; 06/2018 — 05/2020</span>
+      <div class="carousel-nav">
+        <button class="cnav-btn" data-dir="-1" data-target="c2" disabled>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="cnav-btn" data-dir="1" data-target="c2">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="carousel-track-wrap">
+      <div class="carousel-track" id="c2">
+
+        <div class="project-card" data-category="duongdo" data-index="5" data-title="Đường Nguyễn Ảnh Thủ nối dài" data-role="Kỹ sư QA-QC" data-period="2018–2019" data-value="" data-company="AHCV – IDICO CONAC" data-tasks="Quản lý – theo dõi thi công tại công trường|Lập hồ sơ BPTC, tiến độ thi công|Lập hồ sơ quản lý chất lượng (KCS)|Báo cáo sản lượng tuần, tháng, quý|Đăng ký sản lượng, làm hồ sơ thanh toán với Chủ đầu tư" data-img="nguyen-anh-thu-1.jpg">
+          <div class="card-img-wrap">
+            <img alt="Đường Nguyễn Ảnh Thủ nối dài" />
+            <div class="card-placeholder">
+              <div class="card-placeholder-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/></svg>
+              </div>
+              <span class="card-placeholder-hint">nguyen-anh-thu-1.jpg</span>
+            </div>
+          </div>
+          <div class="card-gradient"></div>
+          <span class="card-number">05</span>
+          <div class="card-content">
+            <div class="card-tag"><span class="card-tag-dot"></span>Đường đô thị</div>
+            <div class="card-title">Đường Nguyễn Ảnh Thủ nối dài</div>
+            <div class="card-role">Kỹ sư QA-QC · 2018–2019</div>
+            <div class="card-tasks">
+              <div class="card-task">Quản lý – theo dõi thi công tại công trường</div>
+              <div class="card-task">Lập hồ sơ BPTC, tiến độ thi công, KCS</div>
+              <div class="card-task">Hồ sơ thanh toán với Chủ đầu tư</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="duongdo" data-index="6" data-title="Nâng cấp, mở rộng đường Lã Xuân Oai" data-role="Kỹ sư QA-QC" data-period="2019" data-value="" data-company="AHCV – IDICO CONAC" data-tasks="Tham gia đấu thầu dự án|Lập hồ sơ BPTC, tiến độ thi công|Lập hồ sơ quản lý chất lượng (KCS)" data-img="la-xuan-oai-1.jpg">
+          <div class="card-img-wrap">
+            <img alt="Đường Lã Xuân Oai" />
+            <div class="card-placeholder">
+              <div class="card-placeholder-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/></svg>
+              </div>
+              <span class="card-placeholder-hint">la-xuan-oai-1.jpg</span>
+            </div>
+          </div>
+          <div class="card-gradient"></div>
+          <span class="card-number">06</span>
+          <div class="card-content">
+            <div class="card-tag"><span class="card-tag-dot"></span>Đường đô thị</div>
+            <div class="card-title">Nâng cấp, mở rộng đường Lã Xuân Oai</div>
+            <div class="card-role">Kỹ sư QA-QC · 2019</div>
+            <div class="card-tasks">
+              <div class="card-task">Tham gia đấu thầu dự án</div>
+              <div class="card-task">Lập hồ sơ BPTC, tiến độ thi công</div>
+              <div class="card-task">Lập hồ sơ quản lý chất lượng (KCS)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="hatang" data-index="7" data-title="Hạ tầng KCN Thủ Thừa" data-role="Kỹ sư QA-QC" data-period="2019–2020" data-value="" data-company="AHCV – IDICO CONAC" data-tasks="Lập hồ sơ BPTC, tiến độ thi công|Lập hồ sơ quản lý chất lượng (KCS)|Làm hồ sơ thanh toán với Chủ đầu tư" data-img="khu-cn-thu-thua-1.jpg">
+          <div class="card-img-wrap">
+            <img alt="KCN Thủ Thừa" />
+            <div class="card-placeholder">
+              <div class="card-placeholder-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+              </div>
+              <span class="card-placeholder-hint">khu-cn-thu-thua-1.jpg</span>
+            </div>
+          </div>
+          <div class="card-gradient"></div>
+          <span class="card-number">07</span>
+          <div class="card-content">
+            <div class="card-tag"><span class="card-tag-dot"></span>Hạ tầng KCN</div>
+            <div class="card-title">Đầu tư hạ tầng KCN Thủ Thừa</div>
+            <div class="card-role">Kỹ sư QA-QC · 2019–2020</div>
+            <div class="card-tasks">
+              <div class="card-task">Lập hồ sơ BPTC, tiến độ thi công</div>
+              <div class="card-task">Lập hồ sơ quản lý chất lượng (KCS)</div>
+              <div class="card-task">Hồ sơ thanh toán với Chủ đầu tư</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Carousel 3: Xí nghiệp -->
+  <div class="carousel-section" data-company="xinghiep">
+    <div class="carousel-header">
+      <span class="carousel-company">Xí nghiệp DV & Thi công cơ giới Miền Nam &nbsp;·&nbsp; 03 — 06/2018</span>
+      <div class="carousel-nav">
+        <button class="cnav-btn" data-dir="-1" data-target="c3" disabled>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="cnav-btn" data-dir="1" data-target="c3" disabled>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="carousel-track-wrap">
+      <div class="carousel-track" id="c3">
+
+        <div class="project-card" data-category="cang" data-index="8" data-title="Nạo vét cảng Phú Mỹ" data-role="Kỹ sư QC" data-period="03–06/2018" data-value="" data-company="Xí nghiệp cơ giới Miền Nam" data-tasks="Lập hồ sơ quản lý chất lượng (KCS)|Báo cáo công việc hàng tuần|Làm và theo dõi tiến độ thi công" data-img="cang-phu-my-1.jpg">
+          <div class="card-img-wrap">
+            <img alt="Cảng Phú Mỹ" />
+            <div class="card-placeholder">
+              <div class="card-placeholder-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round"><path d="M2 20h20M6 20V10l6-7 6 7v10"/><path d="M12 20v-6"/></svg>
+              </div>
+              <span class="card-placeholder-hint">cang-phu-my-1.jpg</span>
+            </div>
+          </div>
+          <div class="card-gradient"></div>
+          <span class="card-number">08</span>
+          <div class="card-content">
+            <div class="card-tag"><span class="card-tag-dot"></span>Cảng biển</div>
+            <div class="card-title">Nạo vét cảng Phú Mỹ</div>
+            <div class="card-role">Kỹ sư QC · 03–06/2018</div>
+            <div class="card-tasks">
+              <div class="card-task">Lập hồ sơ quản lý chất lượng (KCS)</div>
+              <div class="card-task">Báo cáo công việc hàng tuần</div>
+              <div class="card-task">Theo dõi tiến độ thi công</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <div class="lb-inner" id="lbInner">
+      <div class="lb-img-area" id="lbImgArea">
+        <img id="lbImg" alt="" />
+        <div class="lb-img-placeholder" id="lbImgPh">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          <span id="lbImgHint">Chưa có ảnh</span>
+        </div>
+      </div>
+      <div class="lb-body">
+        <p class="lb-eyebrow" id="lbEyebrow"></p>
+        <h2 class="lb-title" id="lbTitle"></h2>
+        <p class="lb-role" id="lbRole"></p>
+        <div class="lb-tasks" id="lbTasks"></div>
+      </div>
+      <button class="lb-close" id="lbClose">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-copy">© 2026 Trần Văn Duẩn · Kỹ Sư Xây Dựng & QA/QC · TP. Hồ Chí Minh</span>
+    <a href="index.html" class="footer-back">← Về trang CV</a>
+  </footer>
+
+  <script>
+    // ── Load ảnh ──
+    document.querySelectorAll('.project-card').forEach(card => {
+      const src = card.dataset.img;
+      if (!src) return;
+      const imgEl = card.querySelector('.card-img-wrap img');
+      const ph = card.querySelector('.card-placeholder');
+      const loader = new Image();
+      loader.onload = () => {
+        imgEl.src = src;
+        imgEl.style.display = 'block';
+        if (ph) ph.style.display = 'none';
+      };
+      loader.onerror = () => {};
+      loader.src = src;
+    });
+
+    // ── Carousel ──
+    const carouselStates = {};
+    const CARD_W = () => window.innerWidth <= 720 ? 320 : 400;
+
+    function initCarousel(id) {
+      const track = document.getElementById(id);
+      if (!track) return;
+      carouselStates[id] = { pos: 0 };
+      updateNavBtns(id);
+    }
+
+    function getMaxPos(id) {
+      const track = document.getElementById(id);
+      const wrap = track.parentElement;
+      const total = track.scrollWidth;
+      const visible = wrap.clientWidth;
+      return Math.max(0, total - visible);
+    }
+
+    function updateNavBtns(id) {
+      const state = carouselStates[id];
+      const max = getMaxPos(id);
+      document.querySelectorAll(`[data-target="${id}"]`).forEach(btn => {
+        const dir = +btn.dataset.dir;
+        if (dir === -1) btn.disabled = state.pos <= 0;
+        if (dir === 1) btn.disabled = state.pos >= max;
+      });
+    }
+
+    document.querySelectorAll('.cnav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.target;
+        const dir = +btn.dataset.dir;
+        const track = document.getElementById(id);
+        const step = CARD_W() + 20;
+        const max = getMaxPos(id);
+        carouselStates[id].pos = Math.max(0, Math.min(max, carouselStates[id].pos + dir * step));
+        track.style.transform = `translateX(-${carouselStates[id].pos}px)`;
+        updateNavBtns(id);
+      });
+    });
+
+    // Touch swipe on carousels
+    document.querySelectorAll('.carousel-track-wrap').forEach(wrap => {
+      const track = wrap.querySelector('.carousel-track');
+      const id = track.id;
+      let tx = 0;
+      wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+      wrap.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - tx;
+        if (Math.abs(dx) < 30) return;
+        const step = CARD_W() + 20;
+        const max = getMaxPos(id);
+        carouselStates[id].pos = Math.max(0, Math.min(max, carouselStates[id].pos + (dx < 0 ? step : -step)));
+        track.style.transform = `translateX(-${carouselStates[id].pos}px)`;
+        updateNavBtns(id);
+      }, {passive:true});
+    });
+
+    ['c1','c2','c3'].forEach(initCarousel);
+
+    // ── Lightbox ──
+    const lb = document.getElementById('lightbox');
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const d = card.dataset;
+        document.getElementById('lbEyebrow').textContent = `${d.company} · ${d.period}${d.value ? ' · ' + d.value : ''}`;
+        document.getElementById('lbTitle').textContent = d.title;
+        document.getElementById('lbRole').textContent = d.role;
+        const tasksEl = document.getElementById('lbTasks');
+        tasksEl.innerHTML = '';
+        d.tasks.split('|').forEach(t => {
+          const div = document.createElement('div');
+          div.className = 'lb-task';
+          div.textContent = t;
+          tasksEl.appendChild(div);
+        });
+        const lbImg = document.getElementById('lbImg');
+        const lbPh = document.getElementById('lbImgPh');
+        document.getElementById('lbImgHint').textContent = d.img || 'Chưa có ảnh';
+        const loader = new Image();
+        loader.onload = () => { lbImg.src = d.img; lbImg.style.display = 'block'; lbPh.style.display = 'none'; };
+        loader.onerror = () => { lbImg.style.display = 'none'; lbPh.style.display = 'flex'; };
+        lbImg.style.display = 'none';
+        lbPh.style.display = 'flex';
+        if (d.img) loader.src = d.img;
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    document.getElementById('lbClose').addEventListener('click', closeLb);
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+    function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+
+    // ── Filter ──
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        document.querySelectorAll('.project-card').forEach(card => {
+          const show = f === 'all' || card.dataset.category === f;
+          card.style.display = show ? '' : 'none';
+        });
+        document.querySelectorAll('.carousel-section').forEach(sec => {
+          const visible = sec.querySelectorAll('.project-card:not([style*="display: none"])').length;
+          sec.style.display = visible === 0 ? 'none' : '';
+        });
+        ['c1','c2','c3'].forEach(id => {
+          if (carouselStates[id]) {
+            carouselStates[id].pos = 0;
+            const t = document.getElementById(id);
+            if (t) t.style.transform = 'translateX(0)';
+            updateNavBtns(id);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
