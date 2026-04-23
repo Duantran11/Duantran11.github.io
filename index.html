@@ -145,27 +145,28 @@
 
     /* Mobile nav drawer */
     .mobile-menu {
-      display: none; position: fixed; top: 60px; right: 1.25rem; left: auto; z-index: 99;
-      background: rgba(255,255,255,0.5);
+      display: none; position: fixed; top: 68px; right: 1.25rem; left: auto; z-index: 99;
+      background: rgba(255,255,255,0.65);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border); border-radius: 12px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-      padding: 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+      padding: 0; margin: 0;
       flex-direction: column; gap: 0;
       min-width: 210px;
       overflow: hidden;
-      transition: var(--transition-theme);
+      height: auto; max-height: none;
     }
-    html[data-theme="dark"] .mobile-menu { background: rgba(17,17,16,0.5); }
-    .mobile-menu.open { display: flex; }
+    html[data-theme="dark"] .mobile-menu { background: rgba(17,17,16,0.65); }
+    .mobile-menu.open { display: flex !important; flex-direction: column; }
     .mobile-menu a {
       text-decoration: none; color: var(--text);
       font-size: 0.82rem; letter-spacing: 0.07em;
       text-transform: uppercase; font-weight: 400;
-      padding: 0.8rem 1.3rem;
+      padding: 0.85rem 1.3rem;
       border-bottom: 1px solid var(--border);
       transition: background 0.15s, color 0.15s;
+      display: block; width: 100%; flex-shrink: 0;
     }
     .mobile-menu a:last-child { border-bottom: none; }
     .mobile-menu a:hover { background: rgba(0,0,0,0.06); }
@@ -522,7 +523,7 @@
   </nav>
 
   <!-- Mobile drawer -->
-  <nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="navigation">
     <a href="#education"  class="mobile-link">Học vấn</a>
     <a href="#experience" class="mobile-link">Kinh nghiệm</a>
     <a href="#projects"   class="mobile-link">Dự án</a>
@@ -530,7 +531,7 @@
     <a href="#about"      class="mobile-link">Về tôi</a>
     <a href="#contact"    class="mobile-link">Liên hệ</a>
     <a href="projects.html">Hình ảnh</a>
-  </nav>
+  </div>
 
   <main>
 
