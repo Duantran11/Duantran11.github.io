@@ -800,36 +800,16 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     })();
   </script>
   <script>
-  // Chặn chuột phải
-  document.addEventListener('contextmenu', e => e.preventDefault());
-
-  // Chặn F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-  document.addEventListener('keydown', e => {
-    if (
-      e.key === 'F12' ||
-      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) ||
-      (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j')) ||
-      (e.ctrlKey && (e.key === 'u' || e.key === 'U'))
-    ) {
-      e.preventDefault();
-      return false;
-    }
-  });
-</script>
-
-<script>
-  // Chặn Ctrl+C, Ctrl+A
-  document.addEventListener('keydown', e => {
-    if (
-      (e.ctrlKey && (e.key === 'c' || e.key === 'C')) ||
-      (e.ctrlKey && (e.key === 'a' || e.key === 'A'))
-    ) {
-      e.preventDefault();
-    }
-  });
-
-  // Chặn copy event
-  document.addEventListener('copy', e => e.preventDefault());
-</script>
+    /* ── Chống copy / chuột phải / F12 ── */
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)) ||
+        (e.ctrlKey && ['u','U','a','A','c','C','s','S'].includes(e.key))
+      ) e.preventDefault();
+    });
+  </script>
 </body>
 </html>
