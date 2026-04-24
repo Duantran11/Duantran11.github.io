@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="avatar.jpg" fetchpriority="high" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="favicon.png" />
   <!-- Google tag (gtag.js) -->
@@ -221,7 +222,7 @@
       transition: var(--transition-theme);
     }
     .avatar img {
-      width: 100%; height: 100%; object-fit: cover; display: none;
+      width: 100%; height: 100%; object-fit: cover; display: block;
       image-rendering: auto;
       transform: translateZ(0);
       -webkit-backface-visibility: hidden;
@@ -552,7 +553,7 @@
       </div>
       <div class="hero-image-wrap fade-in" style="transition-delay:.15s">
         <div class="avatar">
-          <img src="avatar.jpg" alt="Trần Văn Duẩn" id="avatar-img" oncontextmenu="return false;" draggable="false" />
+          <img src="avatar.jpg" alt="Trần Văn Duẩn" id="avatar-img" loading="eager" fetchpriority="high" oncontextmenu="return false;" draggable="false" />
           <div class="avatar-placeholder" id="avatar-placeholder">
             <svg width="56" height="56" viewBox="0 0 64 64" fill="none" opacity=".3">
               <circle cx="32" cy="24" r="12" stroke="#6b6960" stroke-width="1.5"/>
@@ -1003,8 +1004,13 @@
 
     /* ── Avatar ── */
     const img = document.getElementById('avatar-img');
-    img.addEventListener('load',  () => { document.getElementById('avatar-placeholder').style.display = 'none'; img.style.display = 'block'; });
-    img.addEventListener('error', () => { img.style.display = 'none'; });
+    const placeholder = document.getElementById('avatar-placeholder');
+    if (img.complete && img.naturalWidth > 0) {
+      placeholder.style.display = 'none';
+    } else {
+      img.addEventListener('load', () => { placeholder.style.display = 'none'; });
+      img.addEventListener('error', () => { img.style.display = 'none'; placeholder.style.display = 'flex'; });
+    }
 
     /* ── Hamburger / mobile menu ── */
     const hamburger  = document.getElementById('hamburger');
@@ -1080,5 +1086,17 @@
     })();
   </script>
 
+  <script>
+    /* ── Chống copy / chuột phải / F12 ── */
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)) ||
+        (e.ctrlKey && ['u','U','a','A','c','C','s','S'].includes(e.key))
+      ) e.preventDefault();
+    });
+  </script>
 </body>
 </html>
