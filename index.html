@@ -1097,5 +1097,20 @@
     }
   });
 </script>
+
+<script>
+  // Chặn Ctrl+C, Ctrl+A
+  document.addEventListener('keydown', e => {
+    if (
+      (e.ctrlKey && (e.key === 'c' || e.key === 'C')) ||
+      (e.ctrlKey && (e.key === 'a' || e.key === 'A'))
+    ) {
+      e.preventDefault();
+    }
+  });
+
+  // Chặn copy event
+  document.addEventListener('copy', e => e.preventDefault());
+</script>
 </body>
 </html>
