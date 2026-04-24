@@ -1080,17 +1080,5 @@
     })();
   </script>
 
-  <script>
-    /* ── Chống copy / chuột phải / F12 ── */
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('copy', e => e.preventDefault());
-    document.addEventListener('keydown', e => {
-      if (
-        e.key === 'F12' ||
-        (e.ctrlKey && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)) ||
-        (e.ctrlKey && ['u','U','a','A','c','C','s','S'].includes(e.key))
-      ) e.preventDefault();
-    });
-  </script>
 </body>
 </html>
