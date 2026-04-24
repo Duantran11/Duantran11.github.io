@@ -778,26 +778,5 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 </script>
 
-<script>
-    (function() {
-      const fab   = document.getElementById('qbFab');
-      const panel = document.getElementById('qbPanel');
-      fab.addEventListener('click', function(e) {
-        e.stopPropagation();
-        panel.classList.toggle('open');
-      });
-      document.addEventListener('click', function(e) {
-        if (!document.getElementById('qbWrap').contains(e.target)) panel.classList.remove('open');
-      });
-      document.getElementById('qbSaveContact').addEventListener('click', function() {
-        const vcard = 'BEGIN:VCARD\r\nVERSION:3.0\r\nFN:Duẩn Trần\r\nN:Trần;Văn Duẩn;;;\r\nTITLE:Kỹ sư QA-QC\r\nTEL;TYPE=CELL:+84342973333\r\nEND:VCARD';
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(new Blob([vcard], {type:'text/vcard;charset=utf-8'}));
-        a.download = 'Duan-Tran-QAQC.vcf';
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        panel.classList.remove('open');
-      });
-    })();
-  </script>
 </body>
 </html>
