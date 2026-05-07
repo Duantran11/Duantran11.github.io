@@ -1,174 +1,648 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sát Hạch BQLDA Hạng III</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-sans);color:var(--color-text-primary);background:transparent;font-size:15px;line-height:1.6}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
-.screen{display:none}.screen.active{display:block}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:12px}
-button{font-family:var(--font-sans);cursor:pointer;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary);padding:8px 16px;font-size:14px;transition:background .15s,transform .1s}
-button:hover{background:var(--color-background-secondary)}
-button:active{transform:scale(0.98)}
-button:disabled{opacity:0.4;cursor:not-allowed}
-.btn-primary{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
-.btn-primary:hover{opacity:0.88;background:var(--color-text-primary)}
-.btn-danger{color:#a32d2d;border-color:#f09595}
-.btn-danger:hover{background:#fcebeb}
-.btn-sm{padding:5px 12px;font-size:13px}
-.tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:0.5px solid var(--color-border-tertiary)}
-.tab{padding:8px 14px;border-radius:var(--border-radius-md) var(--border-radius-md) 0 0;border:0.5px solid transparent;font-size:13px;cursor:pointer;color:var(--color-text-secondary);background:transparent;border-bottom:none;transition:background .15s}
-.tab.active{border-color:var(--color-border-secondary);border-bottom:2px solid var(--color-text-primary);color:var(--color-text-primary);font-weight:500;background:var(--color-background-primary)}
-.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:500}
-.badge-cm{background:#e6f1fb;color:#0c447c}
-.badge-plc{background:#faeeda;color:#633806}
-.badge-plr{background:#fbeaf0;color:#4b1528}
-.badge-pass{background:#eaf3de;color:#27500a}
-.badge-fail{background:#fcebeb;color:#791f1f}
-.option{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px;cursor:pointer;transition:border-color .15s,background .15s}
-.option:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
-.option.selected{border-color:#378add;background:#e6f1fb}
-.option.correct{border-color:#3b6d11;background:#eaf3de}
-.option.wrong{border-color:#a32d2d;background:#fcebeb}
-.option.highlight{border-color:#3b6d11;background:#eaf3de}
-.opt-key{min-width:26px;height:26px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0;margin-top:1px}
-.option.selected .opt-key{background:#b5d4f4;border-color:#378add;color:#0c447c}
-.option.correct .opt-key{background:#c0dd97;border-color:#3b6d11;color:#27500a}
-.option.wrong .opt-key{background:#f7c1c1;border-color:#a32d2d;color:#791f1f}
-.option.highlight .opt-key{background:#c0dd97;border-color:#3b6d11;color:#27500a}
-.opt-text{font-size:14px;line-height:1.5}
-.progress-track{height:4px;background:var(--color-background-secondary);border-radius:4px;overflow:hidden;margin:8px 0}
-.progress-fill{height:100%;background:var(--color-text-primary);border-radius:4px;transition:width .3s}
-.dots{display:flex;flex-wrap:wrap;gap:5px;margin:12px 0}
-.dot{width:28px;height:28px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;font-weight:500;color:var(--color-text-secondary)}
-.dot.answered{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
-.dot.current{outline:2px solid var(--color-text-primary);outline-offset:2px}
-.timer{font-size:22px;font-weight:500;font-variant-numeric:tabular-nums}
-.timer.urgent{color:#a32d2d}
-.topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px}
-.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
-.score-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px;text-align:center}
-.score-val{font-size:26px;font-weight:500}
-.score-lbl{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
-.history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px;cursor:pointer}
-.history-item:hover{background:var(--color-background-secondary)}
-.section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
-.section-btn{padding:16px;text-align:left;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);cursor:pointer}
-.section-btn:hover{border-color:var(--color-border-primary);background:var(--color-background-secondary)}
-.explain-box{background:#eaf3de;border:0.5px solid #639922;border-radius:var(--border-radius-md);padding:10px 14px;margin-top:8px;font-size:13px;color:#27500a}
-.wrong-explain{background:#fcebeb;border:0.5px solid #a32d2d;border-radius:var(--border-radius-md);padding:10px 14px;margin-top:8px;font-size:13px;color:#791f1f}
-.meta-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:16px}
-.meta-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center}
-.meta-val{font-size:20px;font-weight:500}
-.meta-lbl{font-size:11px;color:var(--color-text-secondary)}
+:root {
+  --bg: #f4f1ec;
+  --bg2: #eae7e0;
+  --surface: #ffffff;
+  --border: #d8d4cc;
+  --border2: #c8c4bc;
+  --text: #1a1714;
+  --text2: #6b665e;
+  --text3: #9e9990;
+  --accent: #2d5a27;
+  --accent-light: #e8f0e6;
+  --accent2: #8b3a1a;
+  --accent2-light: #f5e8e3;
+  --warn: #c4a020;
+  --warn-light: #fdf7e2;
+  --red: #a32d2d;
+  --red-light: #fbeaea;
+  --blue: #1a4a7c;
+  --blue-light: #e6eef7;
+  --gold: #c9a227;
+  --shadow: 0 2px 12px rgba(26,23,20,0.08);
+  --shadow-lg: 0 8px 32px rgba(26,23,20,0.14);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* Background texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b8b0a0' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+/* Header */
+.site-header {
+  text-align: center;
+  padding: 32px 0 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+}
+.site-header .eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.site-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+.site-header .sub {
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 6px;
+}
+
+/* Screens */
+.screen { display: none; }
+.screen.active { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.card-sm { padding: 14px 18px; }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  background: var(--bg2);
+  padding: 4px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.tab {
+  flex: 1;
+  padding: 9px 14px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--text2);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+}
+.tab:hover { color: var(--text); }
+.tab.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+/* Buttons */
+button {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all .18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+button:hover { background: var(--bg2); border-color: var(--border2); }
+button:active { transform: scale(0.98); }
+button:disabled { opacity: 0.38; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--text);
+  color: var(--surface);
+  border-color: var(--text);
+}
+.btn-primary:hover { background: #2e2a26; }
+
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.btn-accent:hover { background: #245020; }
+
+.btn-danger {
+  color: var(--red);
+  border-color: #e8a8a8;
+}
+.btn-danger:hover { background: var(--red-light); }
+
+.btn-sm { padding: 6px 13px; font-size: 12px; }
+.btn-xs { padding: 4px 10px; font-size: 11px; }
+
+/* Meta stats grid */
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+@media (max-width: 500px) { .meta-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.meta-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 10px;
+  text-align: center;
+}
+.meta-val { font-size: 22px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+.meta-lbl { font-size: 11px; color: var(--text2); margin-top: 2px; font-weight: 500; }
+
+/* Scoring rule pills */
+.rule-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent-light);
+  border: 1px solid #b8d4b0;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 3px 3px 3px 0;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.badge-cm { background: var(--blue-light); color: var(--blue); border: 1px solid #b0c8e8; }
+.badge-pl { background: var(--warn-light); color: #7a5a08; border: 1px solid #dfc870; }
+.badge-pass { background: var(--accent-light); color: var(--accent); border: 1px solid #b8d4b0; }
+.badge-fail { background: var(--red-light); color: var(--red); border: 1px solid #e8a8a8; }
+
+/* Section buttons */
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.section-btn {
+  padding: 20px;
+  text-align: left;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all .2s;
+  box-shadow: var(--shadow);
+}
+.section-btn:hover {
+  border-color: var(--border2);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+.section-btn .s-count { font-size: 20px; font-weight: 700; margin-top: 8px; }
+.section-btn .s-lbl { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+/* Quiz options */
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all .16s;
+  background: var(--surface);
+}
+.option:hover { border-color: var(--border2); background: var(--bg2); }
+.option.selected { border-color: var(--blue); background: var(--blue-light); }
+.option.correct { border-color: var(--accent); background: var(--accent-light); }
+.option.wrong { border-color: var(--red); background: var(--red-light); }
+.option.highlight { border-color: var(--accent); background: var(--accent-light); }
+
+.opt-key {
+  min-width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.option.selected .opt-key { background: var(--blue); border-color: var(--blue); color: #fff; }
+.option.correct .opt-key { background: var(--accent); border-color: var(--accent); color: #fff; }
+.option.wrong .opt-key { background: var(--red); border-color: var(--red); color: #fff; }
+.option.highlight .opt-key { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.opt-text { font-size: 14px; line-height: 1.55; }
+
+/* Progress */
+.progress-track {
+  height: 3px;
+  background: var(--bg2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: width .35s ease;
+}
+
+/* Dots nav */
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.dot {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text2);
+  transition: all .15s;
+}
+.dot:hover { border-color: var(--border2); }
+.dot.answered { background: var(--text); color: var(--surface); border-color: var(--text); }
+.dot.current { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Timer */
+.timer {
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.timer.urgent { color: var(--red); animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+
+/* Top bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Score grid */
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 18px 0;
+}
+.score-card {
+  background: var(--bg2);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.score-val { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.score-lbl { font-size: 11px; color: var(--text2); margin-top: 3px; font-weight: 500; }
+
+/* History */
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all .18s;
+  background: var(--surface);
+}
+.history-item:hover { background: var(--bg2); border-color: var(--border2); }
+
+/* Explain boxes */
+.explain-box {
+  background: var(--accent-light);
+  border: 1px solid #b8d4b0;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #245020;
+}
+.wrong-explain {
+  background: var(--red-light);
+  border: 1px solid #e8a8a8;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--red);
+}
+
+/* Result emoji */
+.result-emoji {
+  font-size: 52px;
+  margin-bottom: 8px;
+  display: block;
+  line-height: 1;
+}
+
+/* Divider */
+.divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+/* Wrong panel */
+.wrong-card {
+  border-color: #e8a8a8 !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+/* Responsive */
+@media (max-width: 520px) {
+  .site-header h1 { font-size: 22px; }
+  .topbar { padding: 10px 12px; }
+  .card { padding: 16px; }
+}
+
+/* Info note */
+.info-note {
+  background: var(--warn-light);
+  border: 1px solid #dfc870;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #5a4208;
+  margin-bottom: 14px;
+}
+
+/* Question number in study */
+.q-num-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.action-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+hr.divider { margin: 16px 0; }
+
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+
+/* Scoring breakdown bar */
+.score-bar-wrap { margin: 4px 0 16px; }
+.score-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+.score-bar-label { min-width: 120px; color: var(--text2); font-weight: 500; }
+.score-bar-track { flex: 1; height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+.score-bar-fill { height: 100%; border-radius: 4px; transition: width .5s ease; }
+.score-bar-val { min-width: 50px; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
 </style>
+</head>
+<body>
+<div class="app-wrap">
+  <header class="site-header">
+    <div class="eyebrow">Ôn thi chứng chỉ hành nghề</div>
+    <h1>BQLDA Hạng III</h1>
+    <p class="sub">Quản lý dự án đầu tư xây dựng</p>
+  </header>
 
-<div style="padding:0.75rem 0">
-<h2 class="sr-only">Ứng dụng ôn thi chứng chỉ hành nghề BQLDA Hạng III — thi thử và ôn đề cương</h2>
+  <!-- HOME -->
+  <div class="screen active" id="s-home">
+    <div class="tabs">
+      <button class="tab active" id="tab-btn-thi" onclick="switchTab('thi')">Thi sát hạch</button>
+      <button class="tab" id="tab-btn-on" onclick="switchTab('on')">Ôn theo chủ đề</button>
+      <button class="tab" id="tab-btn-sai" onclick="switchTab('sai')">Câu làm sai</button>
+    </div>
 
-<div class="screen active" id="s-home">
-  <div style="margin-bottom:16px">
-    <h2 style="font-size:18px;font-weight:500">Chứng chỉ BQLDA Hạng III</h2>
-    <p style="font-size:13px;color:var(--color-text-secondary)">Quản lý dự án đầu tư xây dựng</p>
-  </div>
-  <div class="tabs">
-    <button class="tab active" id="tab-btn-thi" onclick="switchTab('thi')">Thi thử</button>
-    <button class="tab" id="tab-btn-on" onclick="switchTab('on')">Ôn đề cương</button>
-    <button class="tab" id="tab-btn-sai" onclick="switchTab('sai')">Câu sai</button>
-  </div>
-  <div id="tab-thi">
-    <div class="card">
-      <div class="meta-row">
-        <div class="meta-card"><div class="meta-val">25</div><div class="meta-lbl">Câu hỏi</div></div>
-        <div class="meta-card"><div class="meta-val">30'</div><div class="meta-lbl">Thời gian</div></div>
-        <div class="meta-card"><div class="meta-val">≥80</div><div class="meta-lbl">Điểm đạt</div></div>
-        <div class="meta-card"><div class="meta-val">≥16</div><div class="meta-lbl">Điểm pháp luật</div></div>
+    <!-- Tab thi -->
+    <div id="tab-thi">
+      <div class="card">
+        <div class="meta-grid">
+          <div class="meta-card">
+            <div class="meta-val">30</div>
+            <div class="meta-lbl">Tổng câu hỏi</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-val">30'</div>
+            <div class="meta-lbl">Thời gian</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-val">30đ</div>
+            <div class="meta-lbl">Điểm tối đa</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-val">≥21</div>
+            <div class="meta-lbl">Tổng đạt</div>
+          </div>
+        </div>
+        <div style="margin-bottom:14px">
+          <span class="rule-pill">20 câu chuyên môn → tối đa 20đ</span>
+          <span class="rule-pill">10 câu pháp luật → tối đa 10đ</span>
+          <span class="rule-pill">PL ≥ 7đ để đạt</span>
+          <span class="rule-pill">Tổng ≥ 21đ để đạt</span>
+        </div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Mỗi câu đúng = 1 điểm (mỗi phần tính riêng). Đề mới không lặp câu của đề trước cho đến khi hết ngân hàng.</p>
+        <div class="action-row">
+          <button class="btn-accent" onclick="startExam()">▶ Bắt đầu sát hạch</button>
+          <button class="btn-danger btn-sm" onclick="resetAll()">↺ Đặt lại tất cả</button>
+        </div>
       </div>
-      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:6px">20 câu chuyên môn + 3 câu pháp luật chung + 2 câu pháp luật riêng, chọn ngẫu nhiên.</p>
-      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px">Đề sau không lặp câu của đề trước cho đến khi hết ngân hàng.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn-primary" onclick="startExam()"><i class="ti ti-player-play" aria-hidden="true"></i> Bắt đầu thi</button>
-        <button class="btn-danger" onclick="resetAll()"><i class="ti ti-refresh" aria-hidden="true"></i> Đặt lại tất cả</button>
+
+      <div id="history-section" style="display:none">
+        <p style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Lịch sử thi</p>
+        <div id="history-list"></div>
       </div>
     </div>
-    <div id="history-section" style="display:none">
-      <p style="font-size:14px;font-weight:500;margin-bottom:10px"><i class="ti ti-history" aria-hidden="true"></i> Lịch sử thi</p>
-      <div id="history-list"></div>
-    </div>
-  </div>
-  <div id="tab-on" style="display:none">
-    <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px">Chọn chủ đề để ôn. Đáp án hiện ngay sau khi chọn.</p>
-    <div class="section-grid" id="section-grid"></div>
-  </div>
-  <div id="tab-sai" style="display:none">
-    <div id="wrong-panel"></div>
-  </div>
-</div>
 
-<div class="screen" id="s-quiz">
-  <div class="topbar">
-    <div style="display:flex;align-items:center;gap:12px">
-      <span style="font-size:13px;color:var(--color-text-secondary)" id="q-counter">1/25</span>
-      <span style="font-size:13px;color:var(--color-text-secondary)">Đã trả lời: <b id="q-answered">0</b></span>
+    <!-- Tab ôn -->
+    <div id="tab-on" style="display:none">
+      <div class="info-note">💡 Chọn đáp án để xem kết quả ngay. Câu sai sẽ được ghi lại vào tab "Câu làm sai".</div>
+      <div class="section-grid" id="section-grid"></div>
     </div>
-    <div id="timer" class="timer">30:00</div>
-    <button class="btn-primary btn-sm" onclick="submitExam()"><i class="ti ti-send" aria-hidden="true"></i> Nộp bài</button>
-  </div>
-  <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
-  <div id="quiz-area"></div>
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:10px">
-    <button onclick="nav(-1)" id="btn-prev"><i class="ti ti-arrow-left" aria-hidden="true"></i> Trước</button>
-    <div class="dots" id="q-dots"></div>
-    <button onclick="nav(1)" id="btn-next">Sau <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
-  </div>
-</div>
 
-<div class="screen" id="s-result">
-  <div class="card" style="text-align:center">
-    <div style="font-size:40px;margin-bottom:4px" id="r-emoji">🏆</div>
-    <div style="font-size:22px;font-weight:500;margin-bottom:4px" id="r-verdict"></div>
-    <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:12px" id="r-sub"></div>
-    <div class="score-grid">
-      <div class="score-card"><div class="score-val" id="r-total"></div><div class="score-lbl">Tổng điểm / 100</div></div>
-      <div class="score-card"><div class="score-val" id="r-pl"></div><div class="score-lbl">Điểm pháp luật / 20</div></div>
-      <div class="score-card"><div class="score-val" id="r-cm"></div><div class="score-lbl">Điểm chuyên môn / 80</div></div>
-      <div class="score-card"><div class="score-val" id="r-correct"></div><div class="score-lbl">Câu đúng / 25</div></div>
-    </div>
-    <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px" id="r-note"></div>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn-primary" onclick="showReview()"><i class="ti ti-eye" aria-hidden="true"></i> Xem đáp án</button>
-      <button onclick="goHome()"><i class="ti ti-home" aria-hidden="true"></i> Trang chủ</button>
-      <button class="btn-primary" onclick="startExam()"><i class="ti ti-refresh" aria-hidden="true"></i> Thi lại</button>
+    <!-- Tab sai -->
+    <div id="tab-sai" style="display:none">
+      <div id="wrong-panel"></div>
     </div>
   </div>
-</div>
 
-<div class="screen" id="s-review">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-    <div>
-      <p style="font-weight:500">Xem lại đáp án</p>
-      <p style="font-size:12px;color:var(--color-text-secondary)"><span style="color:#3b6d11">Xanh = đúng</span> &nbsp;|&nbsp; <span style="color:#a32d2d">Đỏ = sai chọn</span></p>
+  <!-- QUIZ -->
+  <div class="screen" id="s-quiz">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="font-size:13px;font-weight:600;color:var(--text2)" id="q-counter">1/30</span>
+        <span style="font-size:13px;color:var(--text2)">Đã trả lời: <b id="q-answered">0</b>/30</span>
+      </div>
+      <div id="timer" class="timer">30:00</div>
+      <button class="btn-primary btn-sm" onclick="submitExam()">Nộp bài ✓</button>
     </div>
-    <button onclick="show('s-result')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Kết quả</button>
+    <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    <div id="quiz-area"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:10px">
+      <button onclick="nav(-1)" id="btn-prev">← Trước</button>
+      <div class="dots" id="q-dots"></div>
+      <button onclick="nav(1)" id="btn-next">Sau →</button>
+    </div>
   </div>
-  <div id="review-area"></div>
-</div>
 
-<div class="screen" id="s-stu">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-    <div>
-      <p style="font-weight:500" id="stu-title"></p>
-      <p style="font-size:12px;color:var(--color-text-secondary)" id="stu-sub"></p>
+  <!-- RESULT -->
+  <div class="screen" id="s-result">
+    <div class="card" style="text-align:center;padding:28px 24px">
+      <span class="result-emoji" id="r-emoji">🏆</span>
+      <div style="font-size:24px;font-weight:700;margin-bottom:4px" id="r-verdict"></div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:20px" id="r-sub"></div>
+
+      <div class="score-grid">
+        <div class="score-card">
+          <div class="score-val" id="r-total" style="color:var(--text)">0</div>
+          <div class="score-lbl">Tổng điểm / 30</div>
+        </div>
+        <div class="score-card">
+          <div class="score-val" id="r-cm">0</div>
+          <div class="score-lbl">Điểm chuyên môn / 20</div>
+        </div>
+        <div class="score-card">
+          <div class="score-val" id="r-pl">0</div>
+          <div class="score-lbl">Điểm pháp luật / 10</div>
+        </div>
+        <div class="score-card">
+          <div class="score-val" id="r-correct">0/30</div>
+          <div class="score-lbl">Câu đúng</div>
+        </div>
+      </div>
+
+      <div class="score-bar-wrap">
+        <div class="score-bar-row">
+          <span class="score-bar-label">Chuyên môn</span>
+          <div class="score-bar-track"><div class="score-bar-fill" id="bar-cm" style="width:0%;background:var(--blue)"></div></div>
+          <span class="score-bar-val" id="bar-cm-txt">0/20</span>
+        </div>
+        <div class="score-bar-row">
+          <span class="score-bar-label">Pháp luật</span>
+          <div class="score-bar-track"><div class="score-bar-fill" id="bar-pl" style="width:0%;background:var(--warn)"></div></div>
+          <span class="score-bar-val" id="bar-pl-txt">0/10</span>
+        </div>
+      </div>
+
+      <div style="font-size:13px;color:var(--text2);margin-bottom:18px;padding:12px;background:var(--bg2);border-radius:var(--radius-sm);border:1px solid var(--border)" id="r-note"></div>
+
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn-primary" onclick="showReview()">👁 Xem đáp án</button>
+        <button onclick="goHome()">⌂ Trang chủ</button>
+        <button class="btn-accent" onclick="startExam()">↺ Thi lại</button>
+      </div>
     </div>
-    <button onclick="goHome()"><i class="ti ti-arrow-left" aria-hidden="true"></i> Quay lại</button>
   </div>
-  <div id="stu-area"></div>
-</div>
+
+  <!-- REVIEW -->
+  <div class="screen" id="s-review">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+      <div>
+        <p style="font-weight:600;font-size:16px">Xem lại đáp án</p>
+        <p style="font-size:12px;color:var(--text2)"><span style="color:var(--accent)">● Xanh = đúng</span> &nbsp;|&nbsp; <span style="color:var(--red)">● Đỏ = bạn chọn sai</span></p>
+      </div>
+      <button onclick="show('s-result')">← Kết quả</button>
+    </div>
+    <div id="review-area"></div>
+  </div>
+
+  <!-- STUDY -->
+  <div class="screen" id="s-stu">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+      <div>
+        <p style="font-weight:600;font-size:16px" id="stu-title"></p>
+        <p style="font-size:12px;color:var(--text2)" id="stu-sub"></p>
+      </div>
+      <button onclick="goHome()">← Quay lại</button>
+    </div>
+    <div id="stu-area"></div>
+  </div>
 </div>
 
 <script>
+/* ============================
+   QUESTION BANKS
+   ============================ */
 const CM = [
   {q:"Một dự án có thời gian thực hiện là 5 năm, thời gian thi công xây dựng là 3 năm. Dự phòng phí cho yếu tố trượt giá trong tổng dự toán được phân bổ trong thời gian là:",opts:["3 năm.","5 năm.","2 năm.","Theo yêu cầu của chủ đầu tư."],ans:0},
   {q:"Tổng mức đầu tư xây dựng được xác định theo các phương pháp sau:",opts:["Theo thiết kế cơ sở và các yêu cầu cần thiết khác của dự án; theo suất đầu tư xây dựng.","Dữ liệu về chi phí của các dự án, công trình tương tự đã thực hiện.","Kết hợp các phương pháp ở câu a và b.","Câu a, b và c."],ans:3},
@@ -311,7 +785,8 @@ const CM = [
   {q:"Khi giám sát chạy thử thiết bị công nghệ cần thực hiện công việc kiểm tra nào dưới đây?",opts:["Kiểm tra tổng thể thiết bị trước khi chạy thử;","Kiểm tra quy trình, tiêu chuẩn áp dụng, trình tự chạy thử;","Kiểm tra lệnh chạy thử","Tất cả các nội dung nêu tại a, b và c."],ans:3}
 ];
 
-const PLC = [
+// Combined PL pool (PLC + PLR merged for 10-question draw)
+const PL = [
   {q:"Hoạt động xây dựng phải tuân thủ theo luật nào sau đây? a. Luật Xây dựng; luật Đấu thầu.",opts:["","Luật Quy hoạch; luật Kiến trúc.","Câu a và b.","Câu a hoặc b."],ans:2},
   {q:"Hành vi nào không bị nghiêm cấm trong hoạt động xây dựng:",opts:["Khởi công xây dựng công trình khi chưa đủ điều kiện khởi công theo quy định của pháp luật.","Nhà thầu tham gia hoạt động xây dựng khi không đủ điều kiện năng lực để thực hiện hoạt động xây dựng.","Xây dựng công trình tuân thủ tiêu chuẩn, quy chuẩn kỹ thuật được lựa chọn áp dụng cho công trình.","Chủ đầu tư lựa chọn nhà thầu không đủ điều kiện năng lực để thực hiện hoạt động xây dựng."],ans:2},
   {q:"Căn cứ mức độ quan trọng và quy mô, dự án đầu tư xây dựng được phân loại: a. Dự án quan trọng quốc gia, nhóm A, B và C.",opts:["","Dự án quan trọng quốc gia, nhóm A, B, C và D.","Nhóm A, B và C.","Nhóm A, B, C và D."],ans:0},
@@ -504,9 +979,7 @@ const PLC = [
   {q:"Theo quy định của pháp luật xây dựng, cá nhân khi thực hiện các hoạt động xây dựng nào sau đây không cần phải có chứng chỉ hành nghề ?",opts:["Thiết kế, giám sát hệ thống thông tin liên lạc, viễn thông trong công trình b. Thiết kế, giám sát thi công hệ thống kết cấu công trình xây dựng","","Không nội dung nào ở trên","Cả a và b đúng"],ans:0},
   {q:"Tổ chức hoạt động xây dựng mới được thành lập có những cá nhân có chứng chỉ hành nghề hạng 1 phù hợp với lĩnh vực mà tổ chức đề nghị cấp chứng chỉ năng lực hoạt động xây dựng, nhưng chưa ký hợp đồng để thực hiện bất kể",opts:["Có","Không","Có, nhưng chỉ được xem cấp chứng chỉ hành năng lực cho lĩnh vực định giá xây dựng","Có, nhưng chỉ được xem cấp chứng chỉ hành năng lực cho các lĩnh vực giám sát thi công xây dựng, kiểm định xây dựng"],ans:1},
   {q:"Bước thiết kế công trình xây dựng nào mới đủ điều kiện để khởi công xây dựng công trình?",opts:["Thiết kế cơ sở","Thiết kế kỹ thuật","Thiết kế bản vẽ thi công","Một trong ba bước thiết kế trên đều được"],ans:2}
-];
-
-const PLR = [
+  // PLR questions
   {q:"Nội dung nào sau đây thuộc nội dung chủ yếu trong quyết định phê duyệt dự án đầu tư xây dựng?",opts:["Mục tiêu, quy mô đầu tư xây dựng.","Loại, nhóm dự án; loại, cấp công trình chính; thời hạn sử dụng theo thiết kế của công trình chính.","Tổng mức đầu tư; giá trị các khoản mục chi phí trong tổng mức đầu tư.","Tổ chức tư vấn lập thiết kế - dự toán."],ans:3},
   {q:"Hệ thống chỉ số giá xây dựng được công bố theo quy định hiện hành bao gồm: a. Chỉ số giá xây dựng quốc gia, chỉ số giá xây dựng theo loại công trình.",opts:["","Chỉ số giá xây dựng quốc gia, chỉ số giá xây dựng theo loại công trình, theo cơ cấu chi phí.","Chỉ số giá xây dựng quốc gia, chỉ số giá xây dựng theo loại công trình, theo cơ cấu chi phí, theo yếu tố chi phí.","Chỉ số giá xây dựng quốc gia, chỉ số giá xây dựng theo loại công trình, theo cơ cấu chi phí, theo yếu tố chi phí, chỉ số giá vật liệu."],ans:2},
   {q:"Điều kiện để được khởi công xây dựng công trình là:",opts:["Có thiết kế bản vẽ thi công đã được phê duyệt.","Có giấy phép xây dựng đối với công trình theo qui định phải có giấy phép xây dựng .","Có mặt bằng xây dựng để bàn giao toàn bộ hoặc từng phần theo tiến độ xây dựng.","Cả 3 câu a, b và c."],ans:3},
@@ -553,24 +1026,23 @@ const PLR = [
 ];
 
 const SECTIONS_DEF = [
-  {name:"Chuyên môn",type:"cm",pool:CM,badge:"badge-cm"},
-  {name:"Pháp luật chung",type:"plc",pool:PLC,badge:"badge-plc"},
-  {name:"Pháp luật riêng",type:"plr",pool:PLR,badge:"badge-plr"}
+  {name:"Chuyên môn (CM)",type:"cm",pool:CM,badgeCls:"badge-cm"},
+  {name:"Pháp luật (PL)",type:"pl",pool:PL,badgeCls:"badge-pl"}
 ];
 
-function badgeLabel(type){
-  if(type==='cm') return '<span class="badge badge-cm">Chuyên môn</span>';
-  if(type==='plc') return '<span class="badge badge-plc">Pháp luật chung</span>';
-  return '<span class="badge badge-plr">Pháp luật riêng</span>';
-}
-
+/* ============================
+   STATE
+   ============================ */
 let state = {
-  usedCM:[],usedPLC:[],usedPLR:[],
+  usedCM:[],usedPL:[],
   exam:[],curQ:0,secLeft:1800,timerInt:null,isDone:false,
   wrongItems:[],history:[],
   stuQuestions:[],stuAnswered:{}
 };
 
+/* ============================
+   HELPERS
+   ============================ */
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -601,15 +1073,22 @@ function pickQ(pool,usedArr,n){
   return chosen;
 }
 
+function badgeHtml(type){
+  if(type==='cm') return '<span class="badge badge-cm">Chuyên môn</span>';
+  return '<span class="badge badge-pl">Pháp luật</span>';
+}
+
+/* ============================
+   EXAM
+   ============================ */
 function startExam(){
   clearInterval(state.timerInt);
+  // 20 CM + 10 PL = 30 questions
   const cmIdx=pickQ(CM,state.usedCM,20);
-  const plcIdx=pickQ(PLC,state.usedPLC,3);
-  const plrIdx=pickQ(PLR,state.usedPLR,2);
+  const plIdx=pickQ(PL,state.usedPL,10);
   state.exam=shuffle([
     ...cmIdx.map(i=>({...CM[i],type:'cm',idx:i,userAns:null})),
-    ...plcIdx.map(i=>({...PLC[i],type:'plc',idx:i,userAns:null})),
-    ...plrIdx.map(i=>({...PLR[i],type:'plr',idx:i,userAns:null}))
+    ...plIdx.map(i=>({...PL[i],type:'pl',idx:i,userAns:null}))
   ]);
   state.curQ=0;state.secLeft=1800;state.isDone=false;
   show('s-quiz');renderQ();startTimer();
@@ -617,8 +1096,13 @@ function startExam(){
 
 function startTimer(){
   clearInterval(state.timerInt);updateTimer();
-  state.timerInt=setInterval(()=>{state.secLeft--;updateTimer();if(state.secLeft<=0){clearInterval(state.timerInt);submitExam(true);}},1000);
+  state.timerInt=setInterval(()=>{
+    state.secLeft--;
+    updateTimer();
+    if(state.secLeft<=0){clearInterval(state.timerInt);submitExam(true);}
+  },1000);
 }
+
 function updateTimer(){
   const m=String(Math.floor(state.secLeft/60)).padStart(2,'0');
   const s=String(state.secLeft%60).padStart(2,'0');
@@ -637,9 +1121,9 @@ function renderQ(){
   if(prog) prog.style.width=Math.round(ans/state.exam.length*100)+'%';
   const opts=q.opts.map((o,i)=>`<div class="option${q.userAns===i?' selected':''}" onclick="selectAns(${i})"><span class="opt-key">${keys[i]}</span><span class="opt-text">${o}</span></div>`).join('');
   const area=document.getElementById('quiz-area');
-  if(area) area.innerHTML=`<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badgeLabel(q.type)}<span style="font-size:13px;color:var(--color-text-secondary)">Câu ${state.curQ+1}</span></div><p style="font-size:15px;margin-bottom:14px;line-height:1.6">${q.q}</p>${opts}</div>`;
-  const dots=state.exam.map((x,i)=>`<div class="dot${x.userAns!==null?' answered':''}${i===state.curQ?' current':''}" onclick="jumpTo(${i})">${i+1}</div>`).join('');
-  const dotsEl=document.getElementById('q-dots');if(dotsEl)dotsEl.innerHTML=dots;
+  if(area) area.innerHTML=`<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">${badgeHtml(q.type)}<span style="font-size:12px;color:var(--text2);font-weight:500">Câu ${state.curQ+1} / ${state.exam.length}</span></div><p style="font-size:15px;margin-bottom:16px;line-height:1.65;font-weight:500">${q.q}</p>${opts}</div>`;
+  const dotsEl=document.getElementById('q-dots');
+  if(dotsEl) dotsEl.innerHTML=state.exam.map((x,i)=>`<div class="dot${x.userAns!==null?' answered':''}${i===state.curQ?' current':''}" onclick="jumpTo(${i})">${i+1}</div>`).join('');
   const prev=document.getElementById('btn-prev');const next=document.getElementById('btn-next');
   if(prev)prev.disabled=state.curQ===0;if(next)next.disabled=state.curQ===state.exam.length-1;
 }
@@ -654,59 +1138,98 @@ function submitExam(auto=false){
     if(u>0&&!confirm(`Còn ${u} câu chưa trả lời. Xác nhận nộp bài?`))return;
   }
   clearInterval(state.timerInt);state.isDone=true;
-  let cCM=0,cPLC=0,cPLR=0;
+
+  // Score calculation:
+  // 20 CM questions: each correct = 1 point → max 20
+  // 10 PL questions: each correct = 1 point → max 10
+  // Total max = 30
+  // Pass condition: PL >= 7 AND total >= 21
+  let cCM=0,cPL=0;
   state.exam.forEach(q=>{
     if(q.userAns!==null&&q.userAns!==q.ans){
       state.wrongItems=state.wrongItems.filter(w=>!(w.type===q.type&&w.idx===q.idx));
       state.wrongItems.unshift({q:q.q,opts:q.opts,ans:q.ans,type:q.type,idx:q.idx,date:new Date().toLocaleDateString('vi-VN')});
     }
     if(q.type==='cm'&&q.userAns===q.ans)cCM++;
-    else if(q.type==='plc'&&q.userAns===q.ans)cPLC++;
-    else if(q.type==='plr'&&q.userAns===q.ans)cPLR++;
+    else if(q.type==='pl'&&q.userAns===q.ans)cPL++;
   });
   if(state.wrongItems.length>50)state.wrongItems.length=50;
-  const sCM=cCM*4,sPL=(cPLC+cPLR)*4,sTotal=sCM+sPL,cAll=cCM+cPLC+cPLR;
-  const passed=sTotal>=80&&sPL>=16;
-  state.history.unshift({date:new Date().toLocaleString('vi-VN'),sTotal,sCM,sPL,cAll,passed,cCM,cPLC,cPLR,exam:state.exam.map(q=>({...q}))});
+
+  const sCM=cCM; // 1 pt each, max 20
+  const sPL=cPL; // 1 pt each, max 10
+  const sTotal=sCM+sPL;
+  const cAll=cCM+cPL;
+  const passed=(sPL>=7)&&(sTotal>=21);
+
+  state.history.unshift({date:new Date().toLocaleString('vi-VN'),sTotal,sCM,sPL,cAll,passed,cCM,cPL,exam:state.exam.map(q=>({...q}))});
   if(state.history.length>20)state.history.length=20;
-  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+
+  // Render result
   document.getElementById('r-emoji').textContent=passed?'🏆':'📚';
-  document.getElementById('r-verdict').innerHTML=passed?'<span style="color:#27500a">Đạt yêu cầu</span>':'<span style="color:#791f1f">Chưa đạt</span>';
+  document.getElementById('r-verdict').innerHTML=passed?'<span style="color:var(--accent)">Đạt yêu cầu</span>':'<span style="color:var(--red)">Chưa đạt</span>';
+
   let sub='';
-  if(sTotal<80&&sPL<16)sub='Tổng điểm chưa đủ 80 và điểm pháp luật chưa đủ 16';
-  else if(sTotal<80)sub='Tổng điểm chưa đủ 80 điểm';
-  else if(sPL<16)sub='Điểm pháp luật chưa đủ 16 điểm';
-  else sub='Chúc mừng bạn đã hoàn thành xuất sắc!';
+  const failReasons=[];
+  if(sTotal<21)failReasons.push('tổng điểm chưa đủ 21/30');
+  if(sPL<7)failReasons.push('điểm pháp luật chưa đủ 7/10');
+  sub=passed?'Chúc mừng! Bạn đã vượt qua kỳ sát hạch.':'Chưa đạt: '+failReasons.join(' và ')+'.' ;
   document.getElementById('r-sub').textContent=sub;
-  set('r-total',sTotal);set('r-pl',sPL);set('r-cm',sCM);set('r-correct',cAll+'/25');
-  document.getElementById('r-note').innerHTML=`Chuyên môn: ${cCM}/20 câu = ${sCM}đ &nbsp;|&nbsp; PL chung: ${cPLC}/3 câu &nbsp;|&nbsp; PL riêng: ${cPLR}/2 câu &nbsp;|&nbsp; Tổng PL: ${sPL}đ`;
+
+  document.getElementById('r-total').textContent=sTotal;
+  document.getElementById('r-total').style.color=sTotal>=21?'var(--accent)':'var(--red)';
+  document.getElementById('r-cm').textContent=sCM;
+  document.getElementById('r-pl').textContent=sPL;
+  document.getElementById('r-pl').style.color=sPL>=7?'var(--accent)':'var(--red)';
+  document.getElementById('r-correct').textContent=cAll+'/30';
+
+  // Bars
+  const barCM=document.getElementById('bar-cm');
+  const barPL=document.getElementById('bar-pl');
+  if(barCM) setTimeout(()=>{barCM.style.width=Math.round(sCM/20*100)+'%';},100);
+  if(barPL) setTimeout(()=>{barPL.style.width=Math.round(sPL/10*100)+'%';barPL.style.background=sPL>=7?'var(--accent)':'var(--red)';},150);
+  document.getElementById('bar-cm-txt').textContent=sCM+'/20';
+  document.getElementById('bar-pl-txt').textContent=sPL+'/10';
+
+  document.getElementById('r-note').innerHTML=
+    `Chuyên môn: ${cCM}/20 câu đúng = <b>${sCM} điểm</b> &nbsp;|&nbsp; Pháp luật: ${cPL}/10 câu đúng = <b>${sPL} điểm</b><br>
+     <span style="font-size:12px;margin-top:4px;display:inline-block">Đạt yêu cầu khi: PL ≥ 7 điểm VÀ Tổng ≥ 21 điểm</span>`;
   show('s-result');
 }
 
+/* ============================
+   REVIEW
+   ============================ */
 function renderReview(){
   const keys=['A','B','C','D'];
   const html=state.exam.map((q,qi)=>{
     const icon=q.userAns===null?'—':(q.userAns===q.ans?'✓':'✗');
-    const ic=q.userAns===null?'var(--color-text-secondary)':(q.userAns===q.ans?'#3b6d11':'#a32d2d');
+    const ic=q.userAns===null?'var(--text2)':(q.userAns===q.ans?'var(--accent)':'var(--red)');
     const opts=q.opts.map((o,i)=>{
       let cls='option';
       if(i===q.ans)cls+=' correct';
       else if(i===q.userAns&&q.userAns!==q.ans)cls+=' wrong';
       return `<div class="${cls}"><span class="opt-key">${keys[i]}</span><span class="opt-text">${o}</span></div>`;
     }).join('');
-    return `<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badgeLabel(q.type)}<span style="font-size:13px;color:var(--color-text-secondary)">Câu ${qi+1}</span><span style="margin-left:auto;color:${ic};font-weight:500">${icon}</span></div><p style="font-size:14px;margin-bottom:12px;line-height:1.6">${q.q}</p>${opts}</div>`;
+    return `<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badgeHtml(q.type)}<span style="font-size:12px;color:var(--text2)">Câu ${qi+1}</span><span style="margin-left:auto;color:${ic};font-weight:700;font-size:16px">${icon}</span></div><p style="font-size:14px;margin-bottom:12px;line-height:1.6;font-weight:500">${q.q}</p>${opts}</div>`;
   }).join('');
   const area=document.getElementById('review-area');if(area)area.innerHTML=html;
 }
 
+/* ============================
+   HISTORY
+   ============================ */
 function renderHistory(){
   const sec=document.getElementById('history-section');const list=document.getElementById('history-list');
   if(!sec||!list)return;
   if(state.history.length===0){sec.style.display='none';return;}
   sec.style.display='block';
-  list.innerHTML=state.history.slice(0,8).map((r,i)=>`
+  list.innerHTML=`<p style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Lịch sử thi</p>`+
+    state.history.slice(0,8).map((r,i)=>`
     <div class="history-item" onclick="viewHistory(${i})">
-      <div><div style="font-weight:500;font-size:14px">${r.sTotal} điểm — Đúng ${r.cAll}/25</div><div style="font-size:12px;color:var(--color-text-secondary)">${r.date}</div></div>
+      <div>
+        <div style="font-weight:600;font-size:14px">${r.sTotal}/30 điểm — Đúng ${r.cAll}/30 câu</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px">${r.date} &nbsp;·&nbsp; CM: ${r.cCM}/20 &nbsp;|&nbsp; PL: ${r.cPL}/10</div>
+      </div>
       <span class="badge ${r.passed?'badge-pass':'badge-fail'}">${r.passed?'Đạt':'Chưa đạt'}</span>
     </div>`).join('');
 }
@@ -715,21 +1238,33 @@ function viewHistory(i){
   const r=state.history[i];if(!r)return;
   state.exam=r.exam.map(q=>({...q}));state.isDone=true;
   document.getElementById('r-emoji').textContent=r.passed?'🏆':'📚';
-  document.getElementById('r-verdict').innerHTML=r.passed?'<span style="color:#27500a">Đạt yêu cầu</span>':'<span style="color:#791f1f">Chưa đạt</span>';
+  document.getElementById('r-verdict').innerHTML=r.passed?'<span style="color:var(--accent)">Đạt yêu cầu</span>':'<span style="color:var(--red)">Chưa đạt</span>';
   document.getElementById('r-sub').textContent=r.date;
-  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-  set('r-total',r.sTotal);set('r-pl',r.sPL);set('r-cm',r.sCM);set('r-correct',r.cAll+'/25');
-  document.getElementById('r-note').innerHTML=`Chuyên môn: ${r.cCM||0}/20 câu = ${r.sCM}đ &nbsp;|&nbsp; PL chung: ${r.cPLC||0}/3 câu &nbsp;|&nbsp; PL riêng: ${r.cPLR||0}/2 câu &nbsp;|&nbsp; Tổng PL: ${r.sPL}đ`;
+  document.getElementById('r-total').textContent=r.sTotal;
+  document.getElementById('r-cm').textContent=r.sCM;
+  document.getElementById('r-pl').textContent=r.sPL;
+  document.getElementById('r-correct').textContent=r.cAll+'/30';
+  document.getElementById('r-note').innerHTML=
+    `Chuyên môn: ${r.cCM||0}/20 câu = <b>${r.sCM} điểm</b> &nbsp;|&nbsp; Pháp luật: ${r.cPL||0}/10 câu = <b>${r.sPL} điểm</b>`;
+  const barCM=document.getElementById('bar-cm');
+  const barPL=document.getElementById('bar-pl');
+  if(barCM) barCM.style.width=Math.round(r.sCM/20*100)+'%';
+  if(barPL) barPL.style.width=Math.round(r.sPL/10*100)+'%';
+  document.getElementById('bar-cm-txt').textContent=r.sCM+'/20';
+  document.getElementById('bar-pl-txt').textContent=r.sPL+'/10';
   renderReview();show('s-result');
 }
 
+/* ============================
+   STUDY MODE
+   ============================ */
 function renderSections(){
   const grid=document.getElementById('section-grid');if(!grid)return;
   grid.innerHTML=SECTIONS_DEF.map((s,si)=>`
     <button class="section-btn" onclick="startStudy(${si})">
-      <span class="badge ${s.badge}" style="margin-bottom:6px">${s.name}</span>
-      <div style="font-size:14px;font-weight:500;margin-top:4px">${s.pool.length} câu hỏi</div>
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Ôn luyện ngay</div>
+      <span class="badge ${s.badgeCls}">${s.name}</span>
+      <div class="s-count">${s.pool.length}</div>
+      <div class="s-lbl">câu hỏi · Ôn luyện ngay</div>
     </button>`).join('');
 }
 
@@ -756,10 +1291,10 @@ function renderStudy(){
     let exp='';
     if(hasPicked){
       const ok=picked===q.ans;
-      exp=ok?`<div class="explain-box"><b>Đúng!</b> Đáp án: <b>${keys[q.ans]}. ${q.opts[q.ans]}</b></div>`
-             :`<div class="wrong-explain"><b>Sai!</b> Đáp án đúng: <b>${keys[q.ans]}. ${q.opts[q.ans]}</b></div>`;
+      exp=ok?`<div class="explain-box">✓ <b>Chính xác!</b> Đáp án: <b>${keys[q.ans]}. ${q.opts[q.ans]}</b></div>`
+             :`<div class="wrong-explain">✗ <b>Sai!</b> Đáp án đúng: <b>${keys[q.ans]}. ${q.opts[q.ans]}</b></div>`;
     }
-    return `<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badgeLabel(q.type)}<span style="font-size:13px;color:var(--color-text-secondary)">Câu ${qi+1}</span></div><p style="font-size:14px;margin-bottom:12px;line-height:1.6">${q.q}</p>${opts}${exp}</div>`;
+    return `<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badgeHtml(q.type)}<span style="font-size:12px;color:var(--text2)">Câu ${qi+1}</span></div><p style="font-size:14px;margin-bottom:12px;line-height:1.6;font-weight:500">${q.q}</p>${opts}${exp}</div>`;
   }).join('');
   const area=document.getElementById('stu-area');if(area)area.innerHTML=html;
 }
@@ -773,24 +1308,52 @@ function pickStudy(qi,i){
     state.wrongItems.unshift({q:q.q,opts:q.opts,ans:q.ans,type:q.type,idx:q.idx,date:new Date().toLocaleDateString('vi-VN')});
     if(state.wrongItems.length>50)state.wrongItems.length=50;
   }
-  renderStudy();
+  // Re-render just the single card for performance
+  const area=document.getElementById('stu-area');
+  if(!area)return;
+  const keys=['A','B','C','D'];
+  const cards=area.querySelectorAll('.card');
+  if(cards[qi]){
+    const q2=state.stuQuestions[qi];
+    const picked2=state.stuAnswered[qi];
+    const opts2=q2.opts.map((o,ii)=>{
+      let cls='option';
+      if(ii===q2.ans)cls+=' highlight';else if(ii===picked2)cls+=' wrong';
+      return `<div class="${cls}"><span class="opt-key">${keys[ii]}</span><span class="opt-text">${o}</span></div>`;
+    }).join('');
+    const ok=picked2===q2.ans;
+    const exp=ok?`<div class="explain-box">✓ <b>Chính xác!</b> Đáp án: <b>${keys[q2.ans]}. ${q2.opts[q2.ans]}</b></div>`
+                :`<div class="wrong-explain">✗ <b>Sai!</b> Đáp án đúng: <b>${keys[q2.ans]}. ${q2.opts[q2.ans]}</b></div>`;
+    cards[qi].innerHTML=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badgeHtml(q2.type)}<span style="font-size:12px;color:var(--text2)">Câu ${qi+1}</span></div><p style="font-size:14px;margin-bottom:12px;line-height:1.6;font-weight:500">${q2.q}</p>${opts2}${exp}`;
+  }
 }
 
+/* ============================
+   WRONG PANEL
+   ============================ */
 function renderWrongPanel(){
   const panel=document.getElementById('wrong-panel');if(!panel)return;
   if(state.wrongItems.length===0){
-    panel.innerHTML='<div style="text-align:center;padding:32px;color:var(--color-text-secondary)"><i class="ti ti-mood-happy" style="font-size:32px;display:block;margin-bottom:8px" aria-hidden="true"></i>Chưa có câu sai nào được ghi lại.<br><span style="font-size:13px">Hãy thi thử hoặc ôn theo đề cương để bắt đầu.</span></div>';
+    panel.innerHTML=`<div style="text-align:center;padding:40px 20px;color:var(--text2)">
+      <div style="font-size:40px;margin-bottom:10px">🎯</div>
+      <div style="font-weight:600;margin-bottom:6px">Chưa có câu sai nào</div>
+      <div style="font-size:13px">Hãy thi thử hoặc ôn theo chủ đề để bắt đầu.</div>
+    </div>`;
     return;
   }
   const keys=['A','B','C','D'];
-  let html=`<p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:12px">${state.wrongItems.length} câu đã làm sai gần nhất:</p>`;
+  let html=`<p style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em">${state.wrongItems.length} câu đã làm sai gần nhất</p>`;
   html+=state.wrongItems.map((w,wi)=>`
-    <div class="card" style="border-color:#f09595">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">${badgeLabel(w.type)}<span style="font-size:12px;color:var(--color-text-secondary)">${w.date||''}</span><button class="btn-sm" onclick="removeWrong(${wi})" style="margin-left:auto;font-size:11px;padding:3px 8px;color:var(--color-text-secondary)" aria-label="Xóa câu này"><i class="ti ti-x" aria-hidden="true"></i></button></div>
-      <p style="font-size:14px;margin-bottom:10px;line-height:1.6">${w.q}</p>
-      <div style="background:#eaf3de;border:0.5px solid #639922;border-radius:var(--border-radius-md);padding:8px 12px;font-size:13px;color:#27500a"><b>Đáp án đúng:</b> ${keys[w.ans]}. ${w.opts[w.ans]}</div>
+    <div class="card wrong-card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        ${badgeHtml(w.type)}
+        <span style="font-size:11px;color:var(--text3)">${w.date||''}</span>
+        <button class="btn-xs" onclick="removeWrong(${wi})" style="margin-left:auto;color:var(--text2)" aria-label="Xóa">✕</button>
+      </div>
+      <p style="font-size:14px;margin-bottom:10px;line-height:1.6;font-weight:500">${w.q}</p>
+      <div style="background:var(--accent-light);border:1px solid #b8d4b0;border-radius:var(--radius-sm);padding:9px 13px;font-size:13px;color:var(--accent)"><b>Đáp án đúng:</b> ${keys[w.ans]}. ${w.opts[w.ans]}</div>
     </div>`).join('');
-  html+=`<button class="btn-danger btn-sm" onclick="clearWrong()" style="margin-top:8px"><i class="ti ti-trash" aria-hidden="true"></i> Xóa tất cả</button>`;
+  html+=`<button class="btn-danger btn-sm" onclick="clearWrong()" style="margin-top:6px">🗑 Xóa tất cả</button>`;
   panel.innerHTML=html;
 }
 
@@ -800,13 +1363,15 @@ function clearWrong(){if(confirm('Xóa toàn bộ danh sách câu sai?')){state.
 function resetAll(){
   if(!confirm('Đặt lại tất cả? Lịch sử thi và câu đã dùng sẽ bị xóa.'))return;
   clearInterval(state.timerInt);
-  state.usedCM=[];state.usedPLC=[];state.usedPLR=[];
+  state.usedCM=[];state.usedPL=[];
   state.history=[];state.wrongItems=[];state.exam=[];state.isDone=false;
   renderHistory();renderWrongPanel();renderSections();show('s-home');
 }
 
+/* ============================
+   INIT
+   ============================ */
 renderHistory();renderSections();renderWrongPanel();
 </script>
-
 </body>
 </html>
