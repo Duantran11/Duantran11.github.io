@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-sans);color:var(--color-text-primary);background:transparent;font-size:15px;line-height:1.6}
@@ -11,30 +12,32 @@ body{font-family:var(--font-sans);color:var(--color-text-primary);background:tra
 button{font-family:var(--font-sans);cursor:pointer;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary);padding:8px 16px;font-size:14px;transition:background .15s,transform .1s}
 button:hover{background:var(--color-background-secondary)}
 button:active{transform:scale(0.98)}
+button:disabled{opacity:0.4;cursor:not-allowed}
 .btn-primary{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
 .btn-primary:hover{opacity:0.88;background:var(--color-text-primary)}
-.btn-danger{color:var(--color-text-danger);border-color:var(--color-border-danger)}
-.btn-danger:hover{background:var(--color-background-danger)}
+.btn-danger{color:#a32d2d;border-color:#f09595}
+.btn-danger:hover{background:#fcebeb}
 .btn-sm{padding:5px 12px;font-size:13px}
-.tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:0.5px solid var(--color-border-tertiary);padding-bottom:0}
-.tab{padding:8px 16px;border-radius:var(--border-radius-md) var(--border-radius-md) 0 0;border:0.5px solid transparent;font-size:14px;cursor:pointer;color:var(--color-text-secondary);background:transparent;border-bottom:none}
+.tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.tab{padding:8px 14px;border-radius:var(--border-radius-md) var(--border-radius-md) 0 0;border:0.5px solid transparent;font-size:13px;cursor:pointer;color:var(--color-text-secondary);background:transparent;border-bottom:none;transition:background .15s}
 .tab.active{border-color:var(--color-border-secondary);border-bottom:2px solid var(--color-text-primary);color:var(--color-text-primary);font-weight:500;background:var(--color-background-primary)}
 .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:500}
-.badge-cm{background:var(--color-background-info);color:var(--color-text-info)}
-.badge-pl{background:var(--color-background-warning);color:var(--color-text-warning)}
-.badge-pass{background:var(--color-background-success);color:var(--color-text-success)}
-.badge-fail{background:var(--color-background-danger);color:var(--color-text-danger)}
+.badge-cm{background:#e6f1fb;color:#0c447c}
+.badge-plc{background:#faeeda;color:#633806}
+.badge-plr{background:#fbeaf0;color:#4b1528}
+.badge-pass{background:#eaf3de;color:#27500a}
+.badge-fail{background:#fcebeb;color:#791f1f}
 .option{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px;cursor:pointer;transition:border-color .15s,background .15s}
 .option:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
-.option.selected{border-color:var(--color-border-info);background:var(--color-background-info)}
-.option.correct{border-color:var(--color-border-success);background:var(--color-background-success)}
-.option.wrong{border-color:var(--color-border-danger);background:var(--color-background-danger)}
-.option.highlight{border-color:var(--color-border-success);background:var(--color-background-success)}
+.option.selected{border-color:#378add;background:#e6f1fb}
+.option.correct{border-color:#3b6d11;background:#eaf3de}
+.option.wrong{border-color:#a32d2d;background:#fcebeb}
+.option.highlight{border-color:#3b6d11;background:#eaf3de}
 .opt-key{min-width:26px;height:26px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0;margin-top:1px}
-.option.selected .opt-key{background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info)}
-.option.correct .opt-key{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
-.option.wrong .opt-key{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
-.option.highlight .opt-key{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
+.option.selected .opt-key{background:#b5d4f4;border-color:#378add;color:#0c447c}
+.option.correct .opt-key{background:#c0dd97;border-color:#3b6d11;color:#27500a}
+.option.wrong .opt-key{background:#f7c1c1;border-color:#a32d2d;color:#791f1f}
+.option.highlight .opt-key{background:#c0dd97;border-color:#3b6d11;color:#27500a}
 .opt-text{font-size:14px;line-height:1.5}
 .progress-track{height:4px;background:var(--color-background-secondary);border-radius:4px;overflow:hidden;margin:8px 0}
 .progress-fill{height:100%;background:var(--color-text-primary);border-radius:4px;transition:width .3s}
@@ -42,10 +45,8 @@ button:active{transform:scale(0.98)}
 .dot{width:28px;height:28px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;font-weight:500;color:var(--color-text-secondary)}
 .dot.answered{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
 .dot.current{outline:2px solid var(--color-text-primary);outline-offset:2px}
-.dot.correct{background:var(--color-background-success);color:var(--color-text-success);border-color:var(--color-border-success)}
-.dot.wrong{background:var(--color-background-danger);color:var(--color-text-danger);border-color:var(--color-border-danger)}
 .timer{font-size:22px;font-weight:500;font-variant-numeric:tabular-nums}
-.timer.urgent{color:var(--color-text-danger)}
+.timer.urgent{color:#a32d2d}
 .topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px}
 .score-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
 .score-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px;text-align:center}
@@ -53,56 +54,40 @@ button:active{transform:scale(0.98)}
 .score-lbl{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
 .history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px;cursor:pointer}
 .history-item:hover{background:var(--color-background-secondary)}
-.section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
-.section-btn{padding:16px;text-align:left;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.section-btn{padding:16px;text-align:left;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);cursor:pointer}
 .section-btn:hover{border-color:var(--color-border-primary);background:var(--color-background-secondary)}
-.section-btn.done{border-color:var(--color-border-success);background:var(--color-background-success)}
-.wrong-list{margin-top:12px}
-.wrong-item{border:0.5px solid var(--color-border-danger);border-radius:var(--border-radius-md);padding:10px 14px;margin-bottom:8px;background:var(--color-background-danger)}
-.explain-box{background:var(--color-background-success);border:0.5px solid var(--color-border-success);border-radius:var(--border-radius-md);padding:10px 14px;margin-top:8px;font-size:13px;color:var(--color-text-success)}
+.explain-box{background:#eaf3de;border:0.5px solid #639922;border-radius:var(--border-radius-md);padding:10px 14px;margin-top:8px;font-size:13px;color:#27500a}
+.wrong-explain{background:#fcebeb;border:0.5px solid #a32d2d;border-radius:var(--border-radius-md);padding:10px 14px;margin-top:8px;font-size:13px;color:#791f1f}
+.meta-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:16px}
+.meta-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center}
+.meta-val{font-size:20px;font-weight:500}
+.meta-lbl{font-size:11px;color:var(--color-text-secondary)}
 </style>
-</head>
-<body>
-<h2 class="sr-only">Ứng dụng ôn thi chứng chỉ hành nghề BQLDA Hạng III - hai chế độ thi thử và ôn đề cương</h2>
 
-<div style="padding:1rem 0">
+<div style="padding:0.75rem 0">
+<h2 class="sr-only">Ứng dụng ôn thi chứng chỉ hành nghề BQLDA Hạng III — thi thử và ôn đề cương</h2>
 
-<!-- HOME -->
 <div class="screen active" id="s-home">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-    <div>
-      <h2 style="font-size:18px;font-weight:500">Chứng chỉ BQLDA Hạng III</h2>
-      <p style="font-size:13px;color:var(--color-text-secondary)">Quản lý dự án đầu tư xây dựng</p>
-    </div>
+  <div style="margin-bottom:16px">
+    <h2 style="font-size:18px;font-weight:500">Chứng chỉ BQLDA Hạng III</h2>
+    <p style="font-size:13px;color:var(--color-text-secondary)">Quản lý dự án đầu tư xây dựng</p>
   </div>
   <div class="tabs">
-    <button class="tab active" onclick="switchHomeTab('thi')">Thi thử</button>
-    <button class="tab" onclick="switchHomeTab('on')">Ôn theo đề cương</button>
-    <button class="tab" onclick="switchHomeTab('sai')">Câu sai của tôi</button>
+    <button class="tab active" id="tab-btn-thi" onclick="switchTab('thi')">Thi thử</button>
+    <button class="tab" id="tab-btn-on" onclick="switchTab('on')">Ôn đề cương</button>
+    <button class="tab" id="tab-btn-sai" onclick="switchTab('sai')">Câu sai</button>
   </div>
-
-  <!-- TAB THI -->
   <div id="tab-thi">
-    <div class="card" style="margin-bottom:12px">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px">
-        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center">
-          <div style="font-size:22px;font-weight:500">25</div>
-          <div style="font-size:12px;color:var(--color-text-secondary)">Câu hỏi</div>
-        </div>
-        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center">
-          <div style="font-size:22px;font-weight:500">30'</div>
-          <div style="font-size:12px;color:var(--color-text-secondary)">Thời gian</div>
-        </div>
-        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center">
-          <div style="font-size:22px;font-weight:500">&ge;80</div>
-          <div style="font-size:12px;color:var(--color-text-secondary)">Điểm đạt</div>
-        </div>
-        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center">
-          <div style="font-size:22px;font-weight:500">&ge;16</div>
-          <div style="font-size:12px;color:var(--color-text-secondary)">Điểm pháp luật</div>
-        </div>
+    <div class="card">
+      <div class="meta-row">
+        <div class="meta-card"><div class="meta-val">25</div><div class="meta-lbl">Câu hỏi</div></div>
+        <div class="meta-card"><div class="meta-val">30'</div><div class="meta-lbl">Thời gian</div></div>
+        <div class="meta-card"><div class="meta-val">≥80</div><div class="meta-lbl">Điểm đạt</div></div>
+        <div class="meta-card"><div class="meta-val">≥16</div><div class="meta-lbl">Điểm pháp luật</div></div>
       </div>
-      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px">Mỗi đề thi gồm 20 câu chuyên môn + 5 câu pháp luật, chọn ngẫu nhiên. Đề sau không lặp câu của đề trước (cho đến khi hết ngân hàng).</p>
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:6px">20 câu chuyên môn + 3 câu pháp luật chung + 2 câu pháp luật riêng, chọn ngẫu nhiên.</p>
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px">Đề sau không lặp câu của đề trước cho đến khi hết ngân hàng.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn-primary" onclick="startExam()"><i class="ti ti-player-play" aria-hidden="true"></i> Bắt đầu thi</button>
         <button class="btn-danger" onclick="resetAll()"><i class="ti ti-refresh" aria-hidden="true"></i> Đặt lại tất cả</button>
@@ -113,20 +98,15 @@ button:active{transform:scale(0.98)}
       <div id="history-list"></div>
     </div>
   </div>
-
-  <!-- TAB ON -->
   <div id="tab-on" style="display:none">
     <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px">Chọn chủ đề để ôn. Đáp án hiện ngay sau khi chọn.</p>
     <div class="section-grid" id="section-grid"></div>
   </div>
-
-  <!-- TAB SAI -->
   <div id="tab-sai" style="display:none">
     <div id="wrong-panel"></div>
   </div>
 </div>
 
-<!-- QUIZ -->
 <div class="screen" id="s-quiz">
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:12px">
@@ -145,12 +125,11 @@ button:active{transform:scale(0.98)}
   </div>
 </div>
 
-<!-- RESULT -->
 <div class="screen" id="s-result">
   <div class="card" style="text-align:center">
-    <div style="font-size:40px;margin-bottom:4px" id="r-emoji"></div>
+    <div style="font-size:40px;margin-bottom:4px" id="r-emoji">🏆</div>
     <div style="font-size:22px;font-weight:500;margin-bottom:4px" id="r-verdict"></div>
-    <div style="font-size:13px;color:var(--color-text-secondary)" id="r-sub"></div>
+    <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:12px" id="r-sub"></div>
     <div class="score-grid">
       <div class="score-card"><div class="score-val" id="r-total"></div><div class="score-lbl">Tổng điểm / 100</div></div>
       <div class="score-card"><div class="score-val" id="r-pl"></div><div class="score-lbl">Điểm pháp luật / 20</div></div>
@@ -159,41 +138,38 @@ button:active{transform:scale(0.98)}
     </div>
     <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px" id="r-note"></div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn-primary" onclick="show('s-review')"><i class="ti ti-eye" aria-hidden="true"></i> Xem đáp án</button>
-      <button onclick="show('s-home');renderHistory();"><i class="ti ti-home" aria-hidden="true"></i> Trang chủ</button>
+      <button class="btn-primary" onclick="showReview()"><i class="ti ti-eye" aria-hidden="true"></i> Xem đáp án</button>
+      <button onclick="goHome()"><i class="ti ti-home" aria-hidden="true"></i> Trang chủ</button>
       <button class="btn-primary" onclick="startExam()"><i class="ti ti-refresh" aria-hidden="true"></i> Thi lại</button>
     </div>
   </div>
 </div>
 
-<!-- REVIEW -->
 <div class="screen" id="s-review">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
     <div>
       <p style="font-weight:500">Xem lại đáp án</p>
-      <p style="font-size:12px;color:var(--color-text-secondary)"><span style="color:var(--color-text-success)">Xanh = đúng</span> &nbsp; <span style="color:var(--color-text-danger)">Đỏ = sai chọn</span></p>
+      <p style="font-size:12px;color:var(--color-text-secondary)"><span style="color:#3b6d11">Xanh = đúng</span> &nbsp;|&nbsp; <span style="color:#a32d2d">Đỏ = sai chọn</span></p>
     </div>
     <button onclick="show('s-result')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Kết quả</button>
   </div>
   <div id="review-area"></div>
 </div>
 
-<!-- ON CHU DE -->
 <div class="screen" id="s-stu">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
     <div>
       <p style="font-weight:500" id="stu-title"></p>
       <p style="font-size:12px;color:var(--color-text-secondary)" id="stu-sub"></p>
     </div>
-    <button onclick="show('s-home')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Quay lại</button>
+    <button onclick="goHome()"><i class="ti ti-arrow-left" aria-hidden="true"></i> Quay lại</button>
   </div>
   <div id="stu-area"></div>
 </div>
-
 </div>
 
 <script>
-const CHUYEN_MON = [
+const CM = [
   {q:"Một dự án có thời gian thực hiện là 5 năm, thời gian thi công xây dựng là 3 năm. Dự phòng phí cho yếu tố trượt giá trong tổng dự toán được phân bổ trong thời gian là:",opts:["3 năm.","5 năm.","2 năm.","Theo yêu cầu của chủ đầu tư."],ans:0},
   {q:"Tổng mức đầu tư xây dựng được xác định theo các phương pháp sau:",opts:["Theo thiết kế cơ sở và các yêu cầu cần thiết khác của dự án; theo suất đầu tư xây dựng.","Dữ liệu về chi phí của các dự án, công trình tương tự đã thực hiện.","Kết hợp các phương pháp ở câu a và b.","Câu a, b và c."],ans:3},
   {q:"Tổ chức nào phải chịu chi phí thí nghiệm vật liệu xây dựng, cấu kiện và bán thành phẩm trong quá trình thi công:",opts:["Đơn vị tư vấn giám sát phải chịu vì thực hiện theo yêu cầu của cán bộ giám sát thi công.","Đơn vị thi công phải chịu để được ký nghiệm thu công việc.","Đơn vị thi công phải chịu vì đã được tính vào chi phí chung trong dự toán xây dựng công trình.","Đơn vị thi công phải chịu vì đã được tính vào đơn giá vật liệu trong dự toán xây dựng công trình."],ans:2},
@@ -335,8 +311,7 @@ const CHUYEN_MON = [
   {q:"Khi giám sát chạy thử thiết bị công nghệ cần thực hiện công việc kiểm tra nào dưới đây?",opts:["Kiểm tra tổng thể thiết bị trước khi chạy thử;","Kiểm tra quy trình, tiêu chuẩn áp dụng, trình tự chạy thử;","Kiểm tra lệnh chạy thử","Tất cả các nội dung nêu tại a, b và c."],ans:3}
 ];
 
-
-const PHAP_LUAT_CHUNG = [
+const PLC = [
   {q:"Hoạt động xây dựng phải tuân thủ theo luật nào sau đây? a. Luật Xây dựng; luật Đấu thầu.",opts:["","Luật Quy hoạch; luật Kiến trúc.","Câu a và b.","Câu a hoặc b."],ans:2},
   {q:"Hành vi nào không bị nghiêm cấm trong hoạt động xây dựng:",opts:["Khởi công xây dựng công trình khi chưa đủ điều kiện khởi công theo quy định của pháp luật.","Nhà thầu tham gia hoạt động xây dựng khi không đủ điều kiện năng lực để thực hiện hoạt động xây dựng.","Xây dựng công trình tuân thủ tiêu chuẩn, quy chuẩn kỹ thuật được lựa chọn áp dụng cho công trình.","Chủ đầu tư lựa chọn nhà thầu không đủ điều kiện năng lực để thực hiện hoạt động xây dựng."],ans:2},
   {q:"Căn cứ mức độ quan trọng và quy mô, dự án đầu tư xây dựng được phân loại: a. Dự án quan trọng quốc gia, nhóm A, B và C.",opts:["","Dự án quan trọng quốc gia, nhóm A, B, C và D.","Nhóm A, B và C.","Nhóm A, B, C và D."],ans:0},
@@ -531,8 +506,7 @@ const PHAP_LUAT_CHUNG = [
   {q:"Bước thiết kế công trình xây dựng nào mới đủ điều kiện để khởi công xây dựng công trình?",opts:["Thiết kế cơ sở","Thiết kế kỹ thuật","Thiết kế bản vẽ thi công","Một trong ba bước thiết kế trên đều được"],ans:2}
 ];
 
-
-const PHAP_LUAT_RIENG = [
+const PLR = [
   {q:"Nội dung nào sau đây thuộc nội dung chủ yếu trong quyết định phê duyệt dự án đầu tư xây dựng?",opts:["Mục tiêu, quy mô đầu tư xây dựng.","Loại, nhóm dự án; loại, cấp công trình chính; thời hạn sử dụng theo thiết kế của công trình chính.","Tổng mức đầu tư; giá trị các khoản mục chi phí trong tổng mức đầu tư.","Tổ chức tư vấn lập thiết kế - dự toán."],ans:3},
   {q:"Hệ thống chỉ số giá xây dựng được công bố theo quy định hiện hành bao gồm: a. Chỉ số giá xây dựng quốc gia, chỉ số giá xây dựng theo loại công trình.",opts:["","Chỉ số giá xây dựng quốc gia, chỉ số giá xây dựng theo loại công trình, theo cơ cấu chi phí.","Chỉ số giá xây dựng quốc gia, chỉ số giá xây dựng theo loại công trình, theo cơ cấu chi phí, theo yếu tố chi phí.","Chỉ số giá xây dựng quốc gia, chỉ số giá xây dựng theo loại công trình, theo cơ cấu chi phí, theo yếu tố chi phí, chỉ số giá vật liệu."],ans:2},
   {q:"Điều kiện để được khởi công xây dựng công trình là:",opts:["Có thiết kế bản vẽ thi công đã được phê duyệt.","Có giấy phép xây dựng đối với công trình theo qui định phải có giấy phép xây dựng .","Có mặt bằng xây dựng để bàn giao toàn bộ hoặc từng phần theo tiến độ xây dựng.","Cả 3 câu a, b và c."],ans:3},
@@ -578,169 +552,159 @@ const PHAP_LUAT_RIENG = [
   {q:"Trên cơ sở đảm bảo phù hợp trình tự, thủ tục theo quy định của pháp luật về đất đai, việc bồi thường, hỗ trợ, tái định cư được thực hiện tại giai đoạn nào của dự án?",opts:["Tại giai đoạn chuẩn bị dự án;","Tại giai đoạn thực hiện dự án;","Đáp án a hoặc đáp án b;","Tại giai đoạn kết thúc xây dựng."],ans:2}
 ];
 
-
-const SECTIONS = [
-  {
-    name: "Chuyên môn",
-    type: "cm",
-    ids: Array.from({length: CHUYEN_MON.length}, (_, i) => i)
-  },
-  {
-    name: "Pháp luật chung",
-    type: "pl_chung",
-    ids: Array.from({length: PHAP_LUAT_CHUNG.length}, (_, i) => i)
-  },
-  {
-    name: "Pháp luật riêng",
-    type: "pl_rieng",
-    ids: Array.from({length: PHAP_LUAT_RIENG.length}, (_, i) => i)
-  }
+const SECTIONS_DEF = [
+  {name:"Chuyên môn",type:"cm",pool:CM,badge:"badge-cm"},
+  {name:"Pháp luật chung",type:"plc",pool:PLC,badge:"badge-plc"},
+  {name:"Pháp luật riêng",type:"plr",pool:PLR,badge:"badge-plr"}
 ];
 
-let usedCM=new Set(),usedPL=new Set();
-let exam=[],curQ=0,secLeft=1800,timerInt=null,done=false;
-let wrongItems=[];
-let stuQuestions=[],stuTitle="",stuAnswered={};
-let history=[];
-
-function ls(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch{return d}}
-function ss(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
-
-function init(){
-  usedCM=new Set(ls('bq_usedCM',[]));
-  usedPL=new Set(ls('bq_usedPL',[]));
-  wrongItems=ls('bq_wrong',[]);
-  history=ls('bq_history',[]);
-  renderHistory();
-  renderSections();
-  renderWrongPanel();
+function badgeLabel(type){
+  if(type==='cm') return '<span class="badge badge-cm">Chuyên môn</span>';
+  if(type==='plc') return '<span class="badge badge-plc">Pháp luật chung</span>';
+  return '<span class="badge badge-plr">Pháp luật riêng</span>';
 }
+
+let state = {
+  usedCM:[],usedPLC:[],usedPLR:[],
+  exam:[],curQ:0,secLeft:1800,timerInt:null,isDone:false,
+  wrongItems:[],history:[],
+  stuQuestions:[],stuAnswered:{}
+};
 
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo({top:0});
+}
+function goHome(){ renderHistory();renderSections();renderWrongPanel();show('s-home'); }
+function showReview(){ renderReview();show('s-review'); }
+
+function switchTab(t){
+  ['thi','on','sai'].forEach(tab=>{
+    document.getElementById('tab-btn-'+tab).classList.toggle('active',tab===t);
+    document.getElementById('tab-'+tab).style.display=tab===t?'block':'none';
+  });
+  if(t==='sai') renderWrongPanel();
+  if(t==='on') renderSections();
 }
 
-function switchHomeTab(t){
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('tab-thi').style.display=t==='thi'?'block':'none';
-  document.getElementById('tab-on').style.display=t==='on'?'block':'none';
-  document.getElementById('tab-sai').style.display=t==='sai'?'block':'none';
+function shuffle(a){
+  const b=[...a];
+  for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}
+  return b;
 }
 
-function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
-
-function pickQ(pool,used,n){
-  let avail=pool.map((_,i)=>i).filter(i=>!used.has(i));
-  if(avail.length<n){used.clear();avail=pool.map((_,i)=>i)}
+function pickQ(pool,usedArr,n){
+  let avail=pool.map((_,i)=>i).filter(i=>!usedArr.includes(i));
+  if(avail.length<n){usedArr.length=0;avail=pool.map((_,i)=>i);}
   const chosen=shuffle(avail).slice(0,n);
-  chosen.forEach(i=>used.add(i));
+  chosen.forEach(i=>{if(!usedArr.includes(i))usedArr.push(i);});
   return chosen;
 }
 
 function startExam(){
-  const cmIdx=pickQ(CM,usedCM,20);
-  const plIdx=pickQ(PL,usedPL,5);
-  ss('bq_usedCM',[...usedCM]);ss('bq_usedPL',[...usedPL]);
-  exam=shuffle([
+  clearInterval(state.timerInt);
+  const cmIdx=pickQ(CM,state.usedCM,20);
+  const plcIdx=pickQ(PLC,state.usedPLC,3);
+  const plrIdx=pickQ(PLR,state.usedPLR,2);
+  state.exam=shuffle([
     ...cmIdx.map(i=>({...CM[i],type:'cm',idx:i,userAns:null})),
-    ...plIdx.map(i=>({...PL[i],type:'pl',idx:i,userAns:null})),
+    ...plcIdx.map(i=>({...PLC[i],type:'plc',idx:i,userAns:null})),
+    ...plrIdx.map(i=>({...PLR[i],type:'plr',idx:i,userAns:null}))
   ]);
-  curQ=0;secLeft=1800;done=false;
+  state.curQ=0;state.secLeft=1800;state.isDone=false;
   show('s-quiz');renderQ();startTimer();
 }
 
 function startTimer(){
-  clearInterval(timerInt);updateTimer();
-  timerInt=setInterval(()=>{secLeft--;updateTimer();if(secLeft<=0){clearInterval(timerInt);submitExam(true)}},1000);
+  clearInterval(state.timerInt);updateTimer();
+  state.timerInt=setInterval(()=>{state.secLeft--;updateTimer();if(state.secLeft<=0){clearInterval(state.timerInt);submitExam(true);}},1000);
 }
 function updateTimer(){
-  const m=String(Math.floor(secLeft/60)).padStart(2,'0'),s=String(secLeft%60).padStart(2,'0');
-  const el=document.getElementById('timer');el.textContent=m+':'+s;
-  el.classList.toggle('urgent',secLeft<=300);
+  const m=String(Math.floor(state.secLeft/60)).padStart(2,'0');
+  const s=String(state.secLeft%60).padStart(2,'0');
+  const el=document.getElementById('timer');
+  if(el){el.textContent=m+':'+s;el.classList.toggle('urgent',state.secLeft<=300);}
 }
 
 function renderQ(){
-  const q=exam[curQ],keys=['A','B','C','D'];
-  const ans=exam.filter(x=>x.userAns!==null).length;
-  document.getElementById('q-counter').textContent=(curQ+1)+'/'+exam.length;
-  document.getElementById('q-answered').textContent=ans;
-  document.getElementById('prog').style.width=Math.round(ans/exam.length*100)+'%';
-  const badge=q.type==='pl'?'<span class="badge badge-pl">Pháp luật</span>':'<span class="badge badge-cm">Chuyên môn</span>';
-  const opts=q.opts.map((o,i)=>{
-    const cls='option'+(q.userAns===i?' selected':'');
-    return `<div class="${cls}" onclick="selectAns(${i})"><span class="opt-key">${keys[i]}</span><span class="opt-text">${o}</span></div>`;
-  }).join('');
-  document.getElementById('quiz-area').innerHTML=`<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badge}<span style="font-size:13px;color:var(--color-text-secondary)">Câu ${curQ+1}</span></div><p style="font-size:15px;margin-bottom:14px;line-height:1.6">${q.q}</p>${opts}</div>`;
-  const dots=exam.map((x,i)=>`<div class="dot${x.userAns!==null?' answered':''}${i===curQ?' current':''}" onclick="jumpTo(${i})">${i+1}</div>`).join('');
-  document.getElementById('q-dots').innerHTML=dots;
-  document.getElementById('btn-prev').disabled=curQ===0;
-  document.getElementById('btn-next').disabled=curQ===exam.length-1;
+  const q=state.exam[state.curQ];
+  const keys=['A','B','C','D'];
+  const ans=state.exam.filter(x=>x.userAns!==null).length;
+  const g=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  g('q-counter',(state.curQ+1)+'/'+state.exam.length);
+  g('q-answered',ans);
+  const prog=document.getElementById('prog');
+  if(prog) prog.style.width=Math.round(ans/state.exam.length*100)+'%';
+  const opts=q.opts.map((o,i)=>`<div class="option${q.userAns===i?' selected':''}" onclick="selectAns(${i})"><span class="opt-key">${keys[i]}</span><span class="opt-text">${o}</span></div>`).join('');
+  const area=document.getElementById('quiz-area');
+  if(area) area.innerHTML=`<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badgeLabel(q.type)}<span style="font-size:13px;color:var(--color-text-secondary)">Câu ${state.curQ+1}</span></div><p style="font-size:15px;margin-bottom:14px;line-height:1.6">${q.q}</p>${opts}</div>`;
+  const dots=state.exam.map((x,i)=>`<div class="dot${x.userAns!==null?' answered':''}${i===state.curQ?' current':''}" onclick="jumpTo(${i})">${i+1}</div>`).join('');
+  const dotsEl=document.getElementById('q-dots');if(dotsEl)dotsEl.innerHTML=dots;
+  const prev=document.getElementById('btn-prev');const next=document.getElementById('btn-next');
+  if(prev)prev.disabled=state.curQ===0;if(next)next.disabled=state.curQ===state.exam.length-1;
 }
 
-function selectAns(i){if(done)return;exam[curQ].userAns=i;renderQ()}
-function nav(d){if(curQ+d>=0&&curQ+d<exam.length){curQ+=d;renderQ()}}
-function jumpTo(i){curQ=i;renderQ()}
+function selectAns(i){if(state.isDone)return;state.exam[state.curQ].userAns=i;renderQ();}
+function nav(d){const n=state.curQ+d;if(n>=0&&n<state.exam.length){state.curQ=n;renderQ();}}
+function jumpTo(i){state.curQ=i;renderQ();}
 
 function submitExam(auto=false){
-  if(!auto){const u=exam.filter(x=>x.userAns===null).length;if(u>0&&!confirm(`Còn ${u} câu chưa trả lời. Xác nhận nộp bài?`))return}
-  clearInterval(timerInt);done=true;
-  let cCM=0,cPL=0,tCM=0,tPL=0;
-  exam.forEach(q=>{
-    if(q.type==='cm'){tCM++;if(q.userAns===q.ans)cCM++}
-    else{tPL++;if(q.userAns===q.ans)cPL++}
+  if(!auto){
+    const u=state.exam.filter(x=>x.userAns===null).length;
+    if(u>0&&!confirm(`Còn ${u} câu chưa trả lời. Xác nhận nộp bài?`))return;
+  }
+  clearInterval(state.timerInt);state.isDone=true;
+  let cCM=0,cPLC=0,cPLR=0;
+  state.exam.forEach(q=>{
     if(q.userAns!==null&&q.userAns!==q.ans){
-      wrongItems=wrongItems.filter(w=>!(w.type===q.type&&w.idx===q.idx));
-      wrongItems.unshift({q:q.q,opts:q.opts,ans:q.ans,type:q.type,idx:q.idx,date:new Date().toLocaleDateString('vi-VN')});
+      state.wrongItems=state.wrongItems.filter(w=>!(w.type===q.type&&w.idx===q.idx));
+      state.wrongItems.unshift({q:q.q,opts:q.opts,ans:q.ans,type:q.type,idx:q.idx,date:new Date().toLocaleDateString('vi-VN')});
     }
+    if(q.type==='cm'&&q.userAns===q.ans)cCM++;
+    else if(q.type==='plc'&&q.userAns===q.ans)cPLC++;
+    else if(q.type==='plr'&&q.userAns===q.ans)cPLR++;
   });
-  ss('bq_wrong',wrongItems.slice(0,50));
-  const sCM=cCM*4,sPL=cPL*4,sTotal=sCM+sPL,cAll=cCM+cPL;
-  const pT=sTotal>=80,pPL=sPL>=16,passed=pT&&pPL;
-  const rec={date:new Date().toLocaleString('vi-VN'),sTotal,sCM,sPL,cAll,passed,exam:exam.map(q=>({q:q.q,opts:q.opts,ans:q.ans,userAns:q.userAns,type:q.type,idx:q.idx}))};
-  history.unshift(rec);ss('bq_history',history.slice(0,20));
+  if(state.wrongItems.length>50)state.wrongItems.length=50;
+  const sCM=cCM*4,sPL=(cPLC+cPLR)*4,sTotal=sCM+sPL,cAll=cCM+cPLC+cPLR;
+  const passed=sTotal>=80&&sPL>=16;
+  state.history.unshift({date:new Date().toLocaleString('vi-VN'),sTotal,sCM,sPL,cAll,passed,cCM,cPLC,cPLR,exam:state.exam.map(q=>({...q}))});
+  if(state.history.length>20)state.history.length=20;
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
   document.getElementById('r-emoji').textContent=passed?'🏆':'📚';
-  document.getElementById('r-verdict').innerHTML=passed?'<span style="color:var(--color-text-success)">Đạt yêu cầu</span>':'<span style="color:var(--color-text-danger)">Chưa đạt</span>';
+  document.getElementById('r-verdict').innerHTML=passed?'<span style="color:#27500a">Đạt yêu cầu</span>':'<span style="color:#791f1f">Chưa đạt</span>';
   let sub='';
-  if(!pT&&!pPL)sub='Tổng điểm chưa đủ 80 và điểm pháp luật chưa đủ 16';
-  else if(!pT)sub='Tổng điểm chưa đủ 80 điểm';
-  else if(!pPL)sub='Điểm pháp luật chưa đủ 16 điểm';
+  if(sTotal<80&&sPL<16)sub='Tổng điểm chưa đủ 80 và điểm pháp luật chưa đủ 16';
+  else if(sTotal<80)sub='Tổng điểm chưa đủ 80 điểm';
+  else if(sPL<16)sub='Điểm pháp luật chưa đủ 16 điểm';
   else sub='Chúc mừng bạn đã hoàn thành xuất sắc!';
   document.getElementById('r-sub').textContent=sub;
-  document.getElementById('r-total').textContent=sTotal;
-  document.getElementById('r-pl').textContent=sPL;
-  document.getElementById('r-cm').textContent=sCM;
-  document.getElementById('r-correct').textContent=cAll+'/25';
-  document.getElementById('r-note').innerHTML=`Chuyên môn: ${cCM}/${tCM} câu = ${sCM}đ &nbsp;|&nbsp; Pháp luật: ${cPL}/${tPL} câu = ${sPL}đ`;
-  renderReview();renderHistory();renderWrongPanel();renderSections();
+  set('r-total',sTotal);set('r-pl',sPL);set('r-cm',sCM);set('r-correct',cAll+'/25');
+  document.getElementById('r-note').innerHTML=`Chuyên môn: ${cCM}/20 câu = ${sCM}đ &nbsp;|&nbsp; PL chung: ${cPLC}/3 câu &nbsp;|&nbsp; PL riêng: ${cPLR}/2 câu &nbsp;|&nbsp; Tổng PL: ${sPL}đ`;
   show('s-result');
 }
 
 function renderReview(){
   const keys=['A','B','C','D'];
-  const html=exam.map((q,qi)=>{
-    const badge=q.type==='pl'?'<span class="badge badge-pl">Pháp luật</span>':'<span class="badge badge-cm">Chuyên môn</span>';
+  const html=state.exam.map((q,qi)=>{
     const icon=q.userAns===null?'—':(q.userAns===q.ans?'✓':'✗');
-    const iconColor=q.userAns===null?'var(--color-text-secondary)':(q.userAns===q.ans?'var(--color-text-success)':'var(--color-text-danger)');
+    const ic=q.userAns===null?'var(--color-text-secondary)':(q.userAns===q.ans?'#3b6d11':'#a32d2d');
     const opts=q.opts.map((o,i)=>{
       let cls='option';
       if(i===q.ans)cls+=' correct';
       else if(i===q.userAns&&q.userAns!==q.ans)cls+=' wrong';
       return `<div class="${cls}"><span class="opt-key">${keys[i]}</span><span class="opt-text">${o}</span></div>`;
     }).join('');
-    return `<div class="card" style="margin-bottom:10px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badge}<span style="font-size:13px;color:var(--color-text-secondary)">Câu ${qi+1}</span><span style="margin-left:auto;color:${iconColor};font-weight:500">${icon}</span></div><p style="font-size:14px;margin-bottom:12px;line-height:1.6">${q.q}</p>${opts}</div>`;
+    return `<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badgeLabel(q.type)}<span style="font-size:13px;color:var(--color-text-secondary)">Câu ${qi+1}</span><span style="margin-left:auto;color:${ic};font-weight:500">${icon}</span></div><p style="font-size:14px;margin-bottom:12px;line-height:1.6">${q.q}</p>${opts}</div>`;
   }).join('');
-  document.getElementById('review-area').innerHTML=html;
+  const area=document.getElementById('review-area');if(area)area.innerHTML=html;
 }
 
 function renderHistory(){
-  const section=document.getElementById('history-section');
-  const list=document.getElementById('history-list');
-  if(history.length===0){section.style.display='none';return}
-  section.style.display='block';
-  list.innerHTML=history.slice(0,8).map((r,i)=>`
+  const sec=document.getElementById('history-section');const list=document.getElementById('history-list');
+  if(!sec||!list)return;
+  if(state.history.length===0){sec.style.display='none';return;}
+  sec.style.display='block';
+  list.innerHTML=state.history.slice(0,8).map((r,i)=>`
     <div class="history-item" onclick="viewHistory(${i})">
       <div><div style="font-weight:500;font-size:14px">${r.sTotal} điểm — Đúng ${r.cAll}/25</div><div style="font-size:12px;color:var(--color-text-secondary)">${r.date}</div></div>
       <span class="badge ${r.passed?'badge-pass':'badge-fail'}">${r.passed?'Đạt':'Chưa đạt'}</span>
@@ -748,111 +712,101 @@ function renderHistory(){
 }
 
 function viewHistory(i){
-  const r=history[i];if(!r)return;
-  exam=r.exam;done=true;renderReview();
+  const r=state.history[i];if(!r)return;
+  state.exam=r.exam.map(q=>({...q}));state.isDone=true;
   document.getElementById('r-emoji').textContent=r.passed?'🏆':'📚';
-  document.getElementById('r-verdict').innerHTML=r.passed?'<span style="color:var(--color-text-success)">Đạt yêu cầu</span>':'<span style="color:var(--color-text-danger)">Chưa đạt</span>';
+  document.getElementById('r-verdict').innerHTML=r.passed?'<span style="color:#27500a">Đạt yêu cầu</span>':'<span style="color:#791f1f">Chưa đạt</span>';
   document.getElementById('r-sub').textContent=r.date;
-  document.getElementById('r-total').textContent=r.sTotal;
-  document.getElementById('r-pl').textContent=r.sPL;
-  document.getElementById('r-cm').textContent=r.sCM;
-  document.getElementById('r-correct').textContent=r.cAll+'/25';
-  document.getElementById('r-note').innerHTML=`Chuyên môn: ${r.sCM}đ &nbsp;|&nbsp; Pháp luật: ${r.sPL}đ`;
-  show('s-result');
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  set('r-total',r.sTotal);set('r-pl',r.sPL);set('r-cm',r.sCM);set('r-correct',r.cAll+'/25');
+  document.getElementById('r-note').innerHTML=`Chuyên môn: ${r.cCM||0}/20 câu = ${r.sCM}đ &nbsp;|&nbsp; PL chung: ${r.cPLC||0}/3 câu &nbsp;|&nbsp; PL riêng: ${r.cPLR||0}/2 câu &nbsp;|&nbsp; Tổng PL: ${r.sPL}đ`;
+  renderReview();show('s-result');
 }
 
 function renderSections(){
-  const grid=document.getElementById('section-grid');
-  grid.innerHTML=SECTIONS.map((s,si)=>{
-    const pool=s.type==='cm'?CM:PL;
-    const qs=s.ids.map(i=>pool[i]).filter(Boolean);
-    const badge=s.type==='cm'?'badge-cm':'badge-pl';
-    return `<button class="section-btn" onclick="startStudy(${si})">
-      <span class="badge ${badge}" style="margin-bottom:6px">${s.type==='cm'?'Chuyên môn':'Pháp luật'}</span>
-      <div style="font-size:14px;font-weight:500;margin-top:4px">${s.name.replace(/^(Chuyên môn|Pháp luật) — /,'')}</div>
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-top:4px">${qs.length} câu</div>
-    </button>`;
-  }).join('');
+  const grid=document.getElementById('section-grid');if(!grid)return;
+  grid.innerHTML=SECTIONS_DEF.map((s,si)=>`
+    <button class="section-btn" onclick="startStudy(${si})">
+      <span class="badge ${s.badge}" style="margin-bottom:6px">${s.name}</span>
+      <div style="font-size:14px;font-weight:500;margin-top:4px">${s.pool.length} câu hỏi</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Ôn luyện ngay</div>
+    </button>`).join('');
 }
 
 function startStudy(si){
-  const s=SECTIONS[si];
-  const pool=s.type==='cm'?CM:PL;
-  stuQuestions=shuffle(s.ids.map(i=>({...pool[i],type:s.type,idx:i})).filter(Boolean));
-  stuAnswered={};
-  stuTitle=s.name;
+  const s=SECTIONS_DEF[si];
+  state.stuQuestions=shuffle(s.pool.map((q,i)=>({...q,type:s.type,idx:i})));
+  state.stuAnswered={};
   document.getElementById('stu-title').textContent=s.name;
-  document.getElementById('stu-sub').textContent=stuQuestions.length+' câu — chọn đáp án để xem kết quả ngay';
-  renderStudy();
-  show('s-stu');
+  document.getElementById('stu-sub').textContent=state.stuQuestions.length+' câu — chọn đáp án để xem kết quả ngay';
+  renderStudy();show('s-stu');
 }
 
 function renderStudy(){
   const keys=['A','B','C','D'];
-  const html=stuQuestions.map((q,qi)=>{
-    const badge=q.type==='pl'?'<span class="badge badge-pl">Pháp luật</span>':'<span class="badge badge-cm">Chuyên môn</span>';
-    const picked=stuAnswered[qi];
+  const html=state.stuQuestions.map((q,qi)=>{
+    const picked=state.stuAnswered[qi];
+    const hasPicked=picked!==undefined;
     const opts=q.opts.map((o,i)=>{
       let cls='option';
-      if(picked===undefined){cls+=''}
-      else if(i===q.ans){cls+=' highlight'}
-      else if(i===picked){cls+=' wrong'}
-      const click=picked===undefined?`onclick="pickStudy(${qi},${i})"`:''
+      if(hasPicked){if(i===q.ans)cls+=' highlight';else if(i===picked)cls+=' wrong';}
+      const click=!hasPicked?`onclick="pickStudy(${qi},${i})"`:'';
       return `<div class="${cls}" ${click}><span class="opt-key">${keys[i]}</span><span class="opt-text">${o}</span></div>`;
     }).join('');
-    let explainHTML='';
-    if(picked!==undefined){
+    let exp='';
+    if(hasPicked){
       const ok=picked===q.ans;
-      explainHTML=`<div class="${ok?'explain-box':'wrong-item'}" style="margin-top:10px"><b>${ok?'Đúng!':'Sai!'}</b> Đáp án đúng: <b>${keys[q.ans]}. ${q.opts[q.ans]}</b></div>`;
+      exp=ok?`<div class="explain-box"><b>Đúng!</b> Đáp án: <b>${keys[q.ans]}. ${q.opts[q.ans]}</b></div>`
+             :`<div class="wrong-explain"><b>Sai!</b> Đáp án đúng: <b>${keys[q.ans]}. ${q.opts[q.ans]}</b></div>`;
     }
-    return `<div class="card" style="margin-bottom:10px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badge}<span style="font-size:13px;color:var(--color-text-secondary)">Câu ${qi+1}</span></div><p style="font-size:14px;margin-bottom:12px;line-height:1.6">${q.q}</p>${opts}${explainHTML}</div>`;
+    return `<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${badgeLabel(q.type)}<span style="font-size:13px;color:var(--color-text-secondary)">Câu ${qi+1}</span></div><p style="font-size:14px;margin-bottom:12px;line-height:1.6">${q.q}</p>${opts}${exp}</div>`;
   }).join('');
-  document.getElementById('stu-area').innerHTML=html;
+  const area=document.getElementById('stu-area');if(area)area.innerHTML=html;
 }
 
 function pickStudy(qi,i){
-  stuAnswered[qi]=i;
-  if(stuQuestions[qi].userAns===undefined&&i!==stuQuestions[qi].ans){
-    const q=stuQuestions[qi];
-    wrongItems=wrongItems.filter(w=>!(w.type===q.type&&w.idx===q.idx));
-    wrongItems.unshift({q:q.q,opts:q.opts,ans:q.ans,type:q.type,idx:q.idx,date:new Date().toLocaleDateString('vi-VN')});
-    ss('bq_wrong',wrongItems.slice(0,50));
+  if(state.stuAnswered[qi]!==undefined)return;
+  state.stuAnswered[qi]=i;
+  const q=state.stuQuestions[qi];
+  if(i!==q.ans){
+    state.wrongItems=state.wrongItems.filter(w=>!(w.type===q.type&&w.idx===q.idx));
+    state.wrongItems.unshift({q:q.q,opts:q.opts,ans:q.ans,type:q.type,idx:q.idx,date:new Date().toLocaleDateString('vi-VN')});
+    if(state.wrongItems.length>50)state.wrongItems.length=50;
   }
   renderStudy();
 }
 
 function renderWrongPanel(){
-  const panel=document.getElementById('wrong-panel');
-  if(wrongItems.length===0){
+  const panel=document.getElementById('wrong-panel');if(!panel)return;
+  if(state.wrongItems.length===0){
     panel.innerHTML='<div style="text-align:center;padding:32px;color:var(--color-text-secondary)"><i class="ti ti-mood-happy" style="font-size:32px;display:block;margin-bottom:8px" aria-hidden="true"></i>Chưa có câu sai nào được ghi lại.<br><span style="font-size:13px">Hãy thi thử hoặc ôn theo đề cương để bắt đầu.</span></div>';
     return;
   }
   const keys=['A','B','C','D'];
-  let html=`<p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:12px">${wrongItems.length} câu đã làm sai gần nhất:</p>`;
-  html+=wrongItems.map((w,wi)=>{
-    const badge=w.type==='pl'?'<span class="badge badge-pl">Pháp luật</span>':'<span class="badge badge-cm">Chuyên môn</span>';
-    return `<div class="card" style="margin-bottom:10px;border-color:var(--color-border-danger)">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">${badge}<span style="font-size:12px;color:var(--color-text-secondary)">${w.date||''}</span><button class="btn-sm" onclick="removeWrong(${wi})" style="margin-left:auto;font-size:11px;padding:3px 8px;color:var(--color-text-secondary)"><i class="ti ti-x" aria-hidden="true"></i></button></div>
+  let html=`<p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:12px">${state.wrongItems.length} câu đã làm sai gần nhất:</p>`;
+  html+=state.wrongItems.map((w,wi)=>`
+    <div class="card" style="border-color:#f09595">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">${badgeLabel(w.type)}<span style="font-size:12px;color:var(--color-text-secondary)">${w.date||''}</span><button class="btn-sm" onclick="removeWrong(${wi})" style="margin-left:auto;font-size:11px;padding:3px 8px;color:var(--color-text-secondary)" aria-label="Xóa câu này"><i class="ti ti-x" aria-hidden="true"></i></button></div>
       <p style="font-size:14px;margin-bottom:10px;line-height:1.6">${w.q}</p>
-      <div style="background:var(--color-background-success);border:0.5px solid var(--color-border-success);border-radius:var(--border-radius-md);padding:8px 12px;font-size:13px;color:var(--color-text-success)"><b>Đáp án đúng:</b> ${keys[w.ans]}. ${w.opts[w.ans]}</div>
-    </div>`;
-  }).join('');
+      <div style="background:#eaf3de;border:0.5px solid #639922;border-radius:var(--border-radius-md);padding:8px 12px;font-size:13px;color:#27500a"><b>Đáp án đúng:</b> ${keys[w.ans]}. ${w.opts[w.ans]}</div>
+    </div>`).join('');
   html+=`<button class="btn-danger btn-sm" onclick="clearWrong()" style="margin-top:8px"><i class="ti ti-trash" aria-hidden="true"></i> Xóa tất cả</button>`;
   panel.innerHTML=html;
 }
 
-function removeWrong(i){wrongItems.splice(i,1);ss('bq_wrong',wrongItems);renderWrongPanel()}
-function clearWrong(){if(confirm('Xóa toàn bộ danh sách câu sai?')){wrongItems=[];ss('bq_wrong',[]);renderWrongPanel()}}
+function removeWrong(i){state.wrongItems.splice(i,1);renderWrongPanel();}
+function clearWrong(){if(confirm('Xóa toàn bộ danh sách câu sai?')){state.wrongItems=[];renderWrongPanel();}}
 
 function resetAll(){
   if(!confirm('Đặt lại tất cả? Lịch sử thi và câu đã dùng sẽ bị xóa.'))return;
-  usedCM=new Set();usedPL=new Set();history=[];wrongItems=[];
-  ss('bq_usedCM',[]);ss('bq_usedPL',[]);ss('bq_history',[]);ss('bq_wrong',[]);
-  clearInterval(timerInt);renderHistory();renderWrongPanel();renderSections();
-  show('s-home');
+  clearInterval(state.timerInt);
+  state.usedCM=[];state.usedPLC=[];state.usedPLR=[];
+  state.history=[];state.wrongItems=[];state.exam=[];state.isDone=false;
+  renderHistory();renderWrongPanel();renderSections();show('s-home');
 }
 
-init();
+renderHistory();renderSections();renderWrongPanel();
 </script>
+
 </body>
 </html>
