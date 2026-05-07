@@ -1372,6 +1372,59 @@ function resetAll(){
    INIT
    ============================ */
 renderHistory();renderSections();renderWrongPanel();
+/* ============================
+   PERSISTENCE - localStorage
+   ============================ */
+
+// Key lưu dữ liệu
+const STORAGE_KEY = 'bqlDaH3_data';
+
+// Load dữ liệu khi khởi động
+function loadFromStorage() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    const data = JSON.parse(saved);
+    state.usedCM = data.usedCM || [];
+    state.usedPL = data.usedPL || [];
+    state.wrongItems = data.wrongItems || [];
+    state.history = data.history || [];
+  }
+}
+
+// Lưu dữ liệu
+function saveToStorage() {
+  const data = {
+    usedCM: state.usedCM,
+    usedPL: state.usedPL,
+    wrongItems: state.wrongItems,
+    history: state.history
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// Gọi load ngay khi script chạy
+loadFromStorage();
+
+// Tự động lưu sau mỗi lần thi xong, và khi có thay đổi câu sai
+const originalSubmitExam = submitExam;
+submitExam = function(auto = false) {
+  originalSubmitExam.call(this, auto);
+  saveToStorage();           // ← lưu sau khi nộp bài
+};
+
+const originalPickStudy = pickStudy;
+pickStudy = function(qi, i) {
+  originalPickStudy.call(this, qi, i);
+  saveToStorage();           // ← lưu khi làm sai trong chế độ ôn
+};
+
+// Thêm nút xóa toàn bộ dữ liệu (tùy chọn)
+function clearAllData() {
+  if (confirm('Bạn có chắc muốn xóa HẾT dữ liệu (lịch sử, câu sai, câu đã dùng)?')) {
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  }
+}
 </script>
 </body>
 </html>
