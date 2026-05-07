@@ -544,7 +544,8 @@ hr.divider { margin: 16px 0; }
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
         <button class="btn-primary" onclick="showReview()">👁 Xem đáp án</button>
         <button onclick="goHome()">⌂ Trang chủ</button>
-        <button class="btn-accent" onclick="startExam()">↺ Thi lại</button>
+        <button class="btn-accent" onclick="retryExam()">↺ Thi lại đề này</button>
+        <button onclick="startExam()">🔀 Đề mới</button>
       </div>
     </div>
   </div>
@@ -595,7 +596,7 @@ hr.divider { margin: 16px 0; }
    QUESTION BANKS
    ============================ */
 const CM = [
-  {q:"Một dự án có thời gian thực hiện là 5 năm, thời gian thi công xây dựng là 3 năm. Dự phòng phí cho yếu tố trượt giá trong tổng dự toán được phân bổ trong thời gian là:",opts:["3 năm.","5 năm.","2 năm.","Theo yêu cầu của chủ đầu tư."],ans:0},
+ {q:"Một dự án có thời gian thực hiện là 5 năm, thời gian thi công xây dựng là 3 năm. Dự phòng phí cho yếu tố trượt giá trong tổng dự toán được phân bổ trong thời gian là:",opts:["3 năm.","5 năm.","2 năm.","Theo yêu cầu của chủ đầu tư."],ans:0},
   {q:"Tổng mức đầu tư xây dựng được xác định theo các phương pháp sau:",opts:["Theo thiết kế cơ sở và các yêu cầu cần thiết khác của dự án; theo suất đầu tư xây dựng.","Dữ liệu về chi phí của các dự án, công trình tương tự đã thực hiện.","Kết hợp các phương pháp ở câu a và b.","Câu a, b và c."],ans:3},
   {q:"Tổ chức nào phải chịu chi phí thí nghiệm vật liệu xây dựng, cấu kiện và bán thành phẩm trong quá trình thi công:",opts:["Đơn vị tư vấn giám sát phải chịu vì thực hiện theo yêu cầu của cán bộ giám sát thi công.","Đơn vị thi công phải chịu để được ký nghiệm thu công việc.","Đơn vị thi công phải chịu vì đã được tính vào chi phí chung trong dự toán xây dựng công trình.","Đơn vị thi công phải chịu vì đã được tính vào đơn giá vật liệu trong dự toán xây dựng công trình."],ans:2},
   {q:"Lãi định mức của nhà thầu thi công xây dựng đã được tính trong dự toán xây dựng công trình hay chưa?",opts:["Chưa.","Đã tính trong phần chi phí chung.","Đã tính trong phần thu nhập chịu thuế tính trước.","Do nhà thầu tiết kiệm chi phí trong quá trình thi công."],ans:2},
@@ -1040,10 +1041,13 @@ function startExam(){
   clearInterval(state.timerInt);
   const cmIdx=pickQ(CM,state.usedCM,20);
   const plIdx=pickQ(PL,state.usedPL,10);
-  state.exam=shuffle([
+  const questions=shuffle([
     ...cmIdx.map(i=>({...CM[i],type:'cm',idx:i,userAns:null})),
     ...plIdx.map(i=>({...PL[i],type:'pl',idx:i,userAns:null}))
   ]);
+  // Lưu lại danh sách câu hỏi (chỉ câu, không có userAns) để thi lại
+  state.lastExamQuestions=questions.map(q=>({...q,userAns:null}));
+  state.exam=questions;
   state.curQ=0;state.secLeft=1800;state.isDone=false;
   state.examMode='normal';
 
@@ -1054,6 +1058,21 @@ function startExam(){
 
   show('s-quiz');renderQ();startTimer();
   saveToStorage();
+}
+
+// Làm lại đúng đề vừa thi (reset đáp án, giữ nguyên danh sách câu)
+function retryExam(){
+  if(!state.lastExamQuestions||state.lastExamQuestions.length===0){startExam();return;}
+  clearInterval(state.timerInt);
+  state.exam=state.lastExamQuestions.map(q=>({...q,userAns:null}));
+  state.curQ=0;state.secLeft=1800;state.isDone=false;
+  state.examMode='normal';
+
+  document.getElementById('timer').style.display='';
+  document.getElementById('btn-submit').style.display='';
+  document.getElementById('btn-exit').textContent='✕ Kết thúc';
+
+  show('s-quiz');renderQ();startTimer();
 }
 
 function startTimer(){
