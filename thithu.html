@@ -1152,7 +1152,7 @@ function submitExam(auto=false){
   const passed=(sPL>=7)&&(sTotal>=21);
 
   state.history.unshift({date:new Date().toLocaleString('vi-VN'),sTotal,sCM,sPL,cAll,passed,cCM,cPL,exam:state.exam.map(q=>({...q}))});
-  if(state.history.length>20)state.history.length=20;
+  if(state.history.length>50)state.history.length=50;
 
   document.getElementById('r-emoji').textContent=passed?'🏆':'📚';
   document.getElementById('r-verdict').innerHTML=passed?'<span style="color:var(--accent)">Đạt yêu cầu</span>':'<span style="color:var(--red)">Chưa đạt</span>';
@@ -1274,7 +1274,7 @@ function renderHistory(){
   if(state.history.length===0){sec.style.display='none';return;}
   sec.style.display='block';
   list.innerHTML=`<p style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Lịch sử thi</p>`+
-    state.history.slice(0,8).map((r,i)=>`
+    state.history.slice(0,30).map((r,i)=>`
     <div class="history-item" onclick="viewHistory(${i})">
       <div>
         <div style="font-weight:600;font-size:14px">${r.sTotal}/30 điểm — Đúng ${r.cAll}/30 câu</div>
