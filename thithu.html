@@ -1274,7 +1274,7 @@ function renderHistory(){
   if(state.history.length===0){sec.style.display='none';return;}
   sec.style.display='block';
   list.innerHTML=`<p style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Lịch sử thi</p>`+
-    state.history.slice(0,30).map((r,i)=>`
+    state.history.slice(0,50).map((r,i)=>`
     <div class="history-item" onclick="viewHistory(${i})">
       <div>
         <div style="font-weight:600;font-size:14px">${r.sTotal}/30 điểm — Đúng ${r.cAll}/30 câu</div>
