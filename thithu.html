@@ -998,6 +998,11 @@ let state = {
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  // Hiện FAB chỉ khi ở màn ôn tập
+  const fab=document.getElementById('fab-group');
+  if(fab) fab.style.display=(id==='s-stu')?'flex':'none';
+  // Scroll lên đầu khi chuyển màn
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 function goHome(){ renderHistory();renderSections();renderWrongPanel();show('s-home'); }
 function showReview(){
@@ -1463,5 +1468,9 @@ renderHistory();renderSections();renderWrongPanel();
 <footer style="text-align:center;padding:24px 0 0;border-top:1px solid var(--border);margin-top:24px">
   <p style="font-size:12px;color:var(--text3)">Duantran @2026</p>
 </footer>
+  <div id="fab-group" style="display:none;position:fixed;bottom:28px;right:20px;z-index:9999;flex-direction:column;gap:10px;align-items:center;">
+  <button onclick="goHome()" title="Thoát về trang chính" style="width:46px;height:46px;padding:0;border-radius:50%;background:#1a1714;color:#fff;border:none;box-shadow:0 4px 18px rgba(0,0,0,0.25);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;">⌂</button>
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Lên đầu trang" style="width:46px;height:46px;padding:0;border-radius:50%;background:#2d5a27;color:#fff;border:none;box-shadow:0 4px 18px rgba(0,0,0,0.25);font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;">↑</button>
+</div>
 </body>
 </html>
